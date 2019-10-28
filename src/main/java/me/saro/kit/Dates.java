@@ -14,55 +14,118 @@ import java.util.*;
  */
 public class Dates {
 
-    public static Map<String, DateTimeFormatter> formatters = new HashMap<>();
-    public static Map<String, SimpleDateFormat> simpleDateFormats = new HashMap<>();
+    private static Map<String, DateTimeFormatter> formatters = new HashMap<>();
+    private static Map<String, SimpleDateFormat> simpleDateFormats = new HashMap<>();
 
+    /**
+     *
+     * @param calendar
+     * @return
+     */
     public static ZonedDateTime toZonedDateTime(Calendar calendar) {
         var tz = calendar.getTimeZone();
         return ZonedDateTime.ofInstant(calendar.toInstant(), tz != null ? tz.toZoneId() : ZoneId.systemDefault());
     }
 
+    /**
+     *
+     * @param calendar
+     * @return
+     */
     public static LocalDateTime toLocalDateTime(Calendar calendar) {
         var tz = calendar.getTimeZone();
         return LocalDateTime.ofInstant(calendar.toInstant(), tz != null ? tz.toZoneId() : ZoneId.systemDefault());
     }
 
+    /**
+     *
+     * @param calendar
+     * @return
+     */
     public static LocalDate toLocalDate(Calendar calendar) {
         var tz = calendar.getTimeZone();
         return LocalDate.ofInstant(calendar.toInstant(), tz != null ? tz.toZoneId() : ZoneId.systemDefault());
     }
 
+    /**
+     *
+     * @param calendar
+     * @return
+     */
     public static LocalTime toLocalTime(Calendar calendar) {
         var tz = calendar.getTimeZone();
         return LocalTime.ofInstant(calendar.toInstant(), tz != null ? tz.toZoneId() : ZoneId.systemDefault());
     }
 
+    /**
+     *
+     * @param date
+     * @param format
+     * @param zone
+     * @return
+     */
     public static ZonedDateTime parseZonedDateTime(String date, String format, ZoneId zone) {
         return ZonedDateTime.parse(date, toFormatter(format).withZone(zone));
     }
 
+    /**
+     *
+     * @param date
+     * @param format
+     * @return
+     */
     public static ZonedDateTime parseZonedDateTime(String date, String format) {
         return ZonedDateTime.parse(date, toFormatter(format));
     }
 
+    /**
+     *
+     * @param date
+     * @param format
+     * @return
+     */
     public static LocalDateTime parseLocalDateTime(String date, String format) {
         return LocalDateTime.parse(date, toFormatter(format));
     }
 
+    /**
+     *
+     * @param date
+     * @param format
+     * @return
+     */
     public static LocalDate parseLocalDate(String date, String format) {
         return LocalDate.parse(date, toFormatter(format));
     }
 
+    /**
+     *
+     * @param date
+     * @param format
+     * @return
+     */
     public static LocalTime parseLocalTime(String date, String format) {
         return LocalTime.parse(date, toFormatter(format));
     }
 
+    /**
+     *
+     * @param date
+     * @param format
+     * @return
+     */
     public static Calendar parseCalendar(String date, String format) {
         var calendar = Calendar.getInstance();
         calendar.setTime(parseDate(date, format));
         return calendar;
     }
 
+    /**
+     *
+     * @param date
+     * @param format
+     * @return
+     */
     public static Date parseDate(String date, String format) {
         try {
             return toSimpleDateFormat(format).parse(date);
@@ -71,6 +134,11 @@ public class Dates {
         }
     }
 
+    /**
+     *
+     * @param format
+     * @return
+     */
     public static synchronized DateTimeFormatter toFormatter(String format) {
         DateTimeFormatter formatter;
         if ((formatter = formatters.get(format)) == null) {
@@ -79,6 +147,11 @@ public class Dates {
         return formatter;
     }
 
+    /**
+     *
+     * @param format
+     * @return
+     */
     public static synchronized SimpleDateFormat toSimpleDateFormat(String format) {
         SimpleDateFormat simpleDateFormat;
         if ((simpleDateFormat = simpleDateFormats.get(format)) == null) {
@@ -89,12 +162,22 @@ public class Dates {
         return (SimpleDateFormat)simpleDateFormat.clone();
     }
 
+    /**
+     *
+     * @param date
+     * @return
+     */
     public static Calendar toCalendar(Date date) {
         var calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar;
     }
 
+    /**
+     *
+     * @param zonedDateTime
+     * @return
+     */
     public static Calendar toCalendar(ZonedDateTime zonedDateTime) {
         var calendar = Calendar.getInstance();
         calendar.clear();
@@ -107,6 +190,11 @@ public class Dates {
         return calendar;
     }
 
+    /**
+     *
+     * @param localDateTime
+     * @return
+     */
     public static Calendar toCalendar(LocalDateTime localDateTime) {
         var calendar = Calendar.getInstance();
         calendar.clear();
@@ -118,6 +206,11 @@ public class Dates {
         return calendar;
     }
 
+    /**
+     *
+     * @param localDate
+     * @return
+     */
     public static Calendar toCalendar(LocalDate localDate) {
         var calendar = Calendar.getInstance();
         calendar.clear();
@@ -125,6 +218,11 @@ public class Dates {
         return calendar;
     }
 
+    /**
+     *
+     * @param localTime
+     * @return
+     */
     public static Calendar toCalendar(LocalTime localTime) {
         var calendar = Calendar.getInstance();
         calendar.clear();
