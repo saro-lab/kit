@@ -12,7 +12,7 @@ import java.util.stream.StreamSupport;
 
 public class IOStreams {
 
-    public static int BUFSIZE = 8192;
+    private static int BUFSIZE = 8192;
 
     /**
      *
