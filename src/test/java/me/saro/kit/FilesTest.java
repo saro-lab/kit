@@ -2,7 +2,7 @@ package me.saro.kit;
 
 import org.junit.jupiter.api.Test;
 
-public class TextKitTest {
+public class FilesTest {
 
     @Test
     public void testLambdas() throws Exception {

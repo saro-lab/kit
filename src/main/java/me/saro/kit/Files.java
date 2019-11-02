@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  * @author		PARK Yong Seo
  * @since		1.0.0
  */
-public class FileKit {
+public class Files {
 
 
     /**
@@ -29,7 +29,7 @@ public class FileKit {
      * @throws Exception
      */
     public static <R> R lines(File file, String charset, ThrowableFunction<Stream<String>, R> process) throws Exception {
-        return IOKit.lines(new FileInputStream(file), charset, process);
+        return Streams.lines(new FileInputStream(file), charset, process);
     }
 
     /**
