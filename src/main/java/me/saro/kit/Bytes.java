@@ -15,9 +15,9 @@ import java.util.stream.IntStream;
  * @author      PARK Yong Seo
  * @since       1.0.0
  */
-public class ByteKit {
+public class Bytes {
     
-    private ByteKit() {
+    private Bytes() {
     }
     
     final static Encoder EN_BASE64 = Base64.getEncoder();
