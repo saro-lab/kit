@@ -12,7 +12,7 @@ import java.util.*;
  * @author		PARK Yong Seo
  * @since		1.0.0
  */
-public class Dates {
+public class DateKit {
 
     private static Map<String, DateTimeFormatter> formatters = new HashMap<>();
     private static Map<String, SimpleDateFormat> simpleDateFormats = new HashMap<>();

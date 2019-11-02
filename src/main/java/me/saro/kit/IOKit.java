@@ -10,7 +10,7 @@ import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public class IOStreams {
+public class IOKit {
 
     private static int BUFSIZE = 8192;
 
