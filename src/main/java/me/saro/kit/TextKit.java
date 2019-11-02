@@ -8,7 +8,7 @@ import java.util.List;
  * @author		PARK Yong Seo
  * @since		1.0.0
  */
-public class Texts {
+public class TextKit {
 
     /**
      *
