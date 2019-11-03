@@ -163,6 +163,16 @@ public class Dates {
     }
 
     /**
+     * format
+     * @param date
+     * @param format
+     * @return
+     */
+    public static synchronized String format(Date date, String format) {
+        return toSimpleDateFormat(format).format(date);
+    }
+
+    /**
      *
      * @param date
      * @return
