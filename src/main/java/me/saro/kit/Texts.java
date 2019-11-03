@@ -73,6 +73,39 @@ public class Texts {
     }
 
     /**
+     *
+     * @param text
+     * @param spaceCharacter
+     * @return
+     */
+    public static String rtrim(String text, char spaceCharacter) {
+        char[] ca = text.toCharArray();
+        for (int i = ca.length - 1 ; i >= 0 ; i--) {
+            if (ca[i] != spaceCharacter) {
+                return new String(ca, 0, i + 1);
+            }
+        }
+        return "";
+    }
+
+    /**
+     *
+     * @param text
+     * @param spaceCharacter
+     * @return
+     */
+    public static String ltrim(String text, char spaceCharacter) {
+        char[] ca = text.toCharArray();
+        int length = ca.length;
+        for (int i = 0; i < length ; i++) {
+            if (ca[i] != spaceCharacter) {
+                return new String(ca, i, length - i);
+            }
+        }
+        return "";
+    }
+
+    /**
      * Null Value Logic
      *
      * @param datas
