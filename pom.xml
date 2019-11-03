@@ -2,12 +2,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.saro</groupId>
-    <artifactId>kit-lite</artifactId>
-    <description>java util kit</description>
+    <artifactId>kit</artifactId>
+    <description>SARO KIT for java</description>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>SARO Kit Lite</name>
+    <name>SARO KIT</name>
     <url>https://saro.me</url>
 
     <organization>
@@ -62,9 +62,9 @@
     </distributionManagement>
 
     <scm>
-        <connection>scm:git:git://github.com/saro-lab/kit-lite.git</connection>
-        <developerConnection>scm:git:git@github.com:saro-lab/kit-lite.git</developerConnection>
-        <url>https://github.com/saro-lab/kit-lite</url>
+        <connection>scm:git:git://github.com/saro-lab/kit.git</connection>
+        <developerConnection>scm:git:git@github.com:saro-lab/kit.git</developerConnection>
+        <url>https://github.com/saro-lab/kit</url>
         <tag>HEAD</tag>
     </scm>
 
