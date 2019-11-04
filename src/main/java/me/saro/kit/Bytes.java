@@ -590,6 +590,19 @@ public class Bytes {
         }
         return data;
     }
+
+    /**
+     *
+     * @param value
+     * @return
+     */
+    public static byte parseByte(String value) {
+        int iv = Integer.parseInt(value);
+        if (iv > 255 || iv < -128) {
+            throw new NumberFormatException("Value out of range. Value:\"" + value + "\" Radix:10");
+        }
+        return (byte)iv;
+    }
     
     /**
      * reverse byte
