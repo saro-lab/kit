@@ -621,4 +621,34 @@ public class Bytes {
         }
         return data;
     }
+
+    /**
+     *
+     * @param b
+     * @param charset
+     * @return
+     */
+    public static String toString(byte[] b, String charset) {
+        try {
+            return new String(b, charset);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("this system does not support encoding for the `"+charset+"`");
+        }
+    }
+
+    /**
+     *
+     * @param b
+     * @param offset
+     * @param length
+     * @param charset
+     * @return
+     */
+    public static String toString(byte[] b, int offset, int length,  String charset) {
+        try {
+            return new String(b, offset, length, charset);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("this system does not support encoding for the `"+charset+"`");
+        }
+    }
 }

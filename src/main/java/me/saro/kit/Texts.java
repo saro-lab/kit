@@ -1,5 +1,7 @@
 package me.saro.kit;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,20 @@ public class Texts {
         }
         rv.add(new String(ca, p, i - p));
         return rv;
+    }
+
+    /**
+     *
+     * @param text
+     * @param charset
+     * @return
+     */
+    public static byte[] getBytes(String text, String charset) {
+        try {
+            return text.getBytes(charset);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("this system does not support encoding for the `"+charset+"`");
+        }
     }
 
     /**

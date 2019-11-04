@@ -20,11 +20,7 @@ public class ByteData {
      * @param charset
      */
     public ByteData(String data, String charset) {
-        try {
-            byteBuffer = ByteBuffer.wrap(data.getBytes(charset));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("this system does not support encoding for the `"+charset+"`");
-        }
+        byteBuffer = ByteBuffer.wrap(Texts.getBytes(data, charset));
         this.charset = charset;
     }
 
@@ -144,11 +140,7 @@ public class ByteData {
      * @return
      */
     public String readString(int size) {
-        try {
-            return new String(readBytes(size), charset);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("this system does not support encoding for the `"+charset+"`");
-        }
+        return Bytes.toString(readBytes(size), charset);
     }
 
     /**
@@ -351,14 +343,10 @@ public class ByteData {
      * @return
      */
     public ByteData writeString(String text) {
-        try {
-            if (text != null) {
-                byteBuffer.put(text.getBytes(charset));
-            }
-            return this;
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("this system does not support encoding for the `"+charset+"`");
+        if (text != null) {
+            byteBuffer.put(Texts.getBytes(text, charset));
         }
+        return this;
     }
 
     /**
@@ -379,22 +367,18 @@ public class ByteData {
      * @return
      */
     public ByteData writeString(String text, int fixedSize, byte fillByte) {
-        try {
-            if (text == null) {
-                text = "";
-            }
-            byte[] bytes = text.getBytes(charset);
-            if (bytes.length > fixedSize) {
-                throw new ArrayIndexOutOfBoundsException("`" + text + "` is over " + fixedSize + " bytes");
-            }
-            byteBuffer.put(bytes);
-            if (bytes.length < fixedSize) {
-                writeRepeatByte(fillByte, fixedSize - bytes.length);
-            }
-            return this;
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("this system does not support encoding for the `"+charset+"`");
+        if (text == null) {
+            text = "";
         }
+        byte[] bytes = Texts.getBytes(text, charset);
+        if (bytes.length > fixedSize) {
+            throw new ArrayIndexOutOfBoundsException("`" + text + "` is over " + fixedSize + " bytes");
+        }
+        byteBuffer.put(bytes);
+        if (bytes.length < fixedSize) {
+            writeRepeatByte(fillByte, fixedSize - bytes.length);
+        }
+        return this;
     }
 
     /**

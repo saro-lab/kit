@@ -25,11 +25,7 @@ public abstract class ClassSerializer<T> {
     }
 
     public String toSerializeString() {
-        try {
-            return new String(toBytes(), charsetByteData());
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("this system does not support `"+charsetByteData()+"` encoding");
-        }
+        return Bytes.toString(toBytes(), charsetByteData());
     }
 
     protected String charsetByteData() {
