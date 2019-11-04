@@ -6,6 +6,9 @@ import me.saro.kit.fd.annotations.DateData;
 import me.saro.kit.fd.annotations.FixedDataClass;
 import me.saro.kit.fd.annotations.TextData;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +51,7 @@ public class FixedMethodUtils {
     
     private static FixedMethod getFixedMethod(FixedDataClass fixedDataClassInfo, final Class<?> clazz, final Field field) {
         int cnt = 0;
-        List<Annotation> annotations = 
+        List<Annotation> annotations =
                 Arrays.asList(field.getDeclaredAnnotation(TextData.class), field.getDeclaredAnnotation(BinaryData.class), field.getDeclaredAnnotation(DateData.class));
         Annotation dataType = null;
         for (Annotation annotation : annotations) {
