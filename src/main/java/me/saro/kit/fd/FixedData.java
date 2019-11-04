@@ -1,6 +1,8 @@
 package me.saro.kit.fd;
 
 
+import me.saro.kit.Bytes;
+import me.saro.kit.Texts;
 import me.saro.kit.fd.annotations.FixedDataClass;
 
 import java.io.IOException;
@@ -77,9 +79,8 @@ public interface FixedData {
      * @param <T>
      * @return
      */
-    @SneakyThrows
     default <T> T toClass(String data) {
-        return toClass(data.getBytes(meta().charset()), 0);
+        return toClass(Texts.getBytes(data, meta().charset()), 0);
     }
 
     /**
@@ -114,9 +115,8 @@ public interface FixedData {
      * @param data
      * @return
      */
-    @SneakyThrows
     default String toString(Object data) {
-        return new String(toBytes(data), meta().charset());
+        return Bytes.toString(toBytes(data), meta().charset());
     }
     
     /**
