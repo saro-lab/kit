@@ -5,6 +5,8 @@ import me.saro.kit.fd.annotations.FixedDataClass;
 import me.saro.kit.function.ThrowableConsumer;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
@@ -68,10 +70,15 @@ class FixedDataImpl implements FixedData {
         return out;
     }
 
-    @Override @SneakyThrows
+    @Override
     public <T> T toClass(byte[] bytes, int offset) {
         @SuppressWarnings("unchecked")
-        T t = (T) constructor.newInstance();
+        T t = null;
+        try {
+            t = (T) constructor.newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getLocalizedMessage(), e);
+        }
         toClassConsumers.parallelStream().forEach(ThrowableConsumer.wrap(e -> e.to(bytes, offset, t)));
         return t;
     }
