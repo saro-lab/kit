@@ -2,6 +2,7 @@ package me.saro.kit;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import java.util.function.Supplier;
 
 /**
  * byte data
@@ -61,6 +62,21 @@ public class ByteData {
      */
     public int position() {
         return this.byteBuffer.position();
+    }
+
+    /**
+     *
+     * @param tempPosition
+     * @param run
+     * @param <R>
+     * @return
+     */
+    private <R> R runOutsidePosition(int tempPosition, Supplier<R> run) {
+        var prevPosition = byteBuffer.position();
+        byteBuffer.position(tempPosition);
+        var value = run.get();
+        byteBuffer.position(prevPosition);
+        return value;
     }
 
     /**
@@ -138,75 +154,96 @@ public class ByteData {
     /**
      *
      * @param size
+     * @return
+     */
+    public String readRtrimString(int size) {
+        return readRtrimString(size, ' ');
+    }
+
+    /**
+     *
+     * @param size
      * @param spaceCharacter
      * @return
      */
-    public String readString(int size, char spaceCharacter) {
+    public String readRtrimString(int size, char spaceCharacter) {
         return Texts.rtrim(readString(size), spaceCharacter);
     }
 
     /**
      *
+     * @return
+     */
+    public byte readByte(int position) {
+        return runOutsidePosition(position, () -> byteBuffer.get());
+    }
+
+    /**
+     *
+     * @return
+     */
+    public short readShort(int position) {
+        return runOutsidePosition(position, () -> byteBuffer.getShort());
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int readInt(int position) {
+        return runOutsidePosition(position, () -> byteBuffer.getInt());
+    }
+
+    /**
+     *
+     * @return
+     */
+    public long readLong(int position) {
+        return runOutsidePosition(position, () -> byteBuffer.getLong());
+    }
+
+    /**
+     *
+     * @return
+     */
+    public float readFloat(int position) {
+        return runOutsidePosition(position, () -> byteBuffer.getFloat());
+    }
+
+    /**
+     *
+     * @return
+     */
+    public double readDouble(int position) {
+        return runOutsidePosition(position, () -> byteBuffer.getDouble());
+    }
+
+    /**
+     *
+     * @param size
+     * @return
+     */
+    public byte[] readBytes(int position, int size) {
+        return runOutsidePosition(position, () -> readBytes(size));
+    }
+
+    /**
+     *
+     * @param size
+     * @return
+     */
+    public String readString(int position, int size) {
+        return runOutsidePosition(position, () -> readString(size));
+    }
+
+    /**
+     *
      * @param size
      * @param spaceCharacter
      * @return
      */
-    public String readStringRightAlign(int size, char spaceCharacter) {
-        return Texts.ltrim(readString(size), spaceCharacter);
-    }
-
-    /**
-     *
-     * @param size
-     * @return
-     */
-    public byte readTextByte(int size) {
-        return Byte.parseByte(readString(size).replaceAll("[^0-9^\\.]+", ""));
-    }
-
-    /**
-     *
-     * @param size
-     * @return
-     */
-    public short readTextShort(int size) {
-        return Short.parseShort(readString(size).replaceAll("[^0-9^\\.]+", ""));
-    }
-
-    /**
-     *
-     * @param size
-     * @return
-     */
-    public int readTextInt(int size) {
-        return Integer.parseInt(readString(size).replaceAll("[^0-9^\\.]+", ""));
-    }
-
-    /**
-     *
-     * @param size
-     * @return
-     */
-    public long readTextLong(int size) {
-        return Long.parseLong(readString(size).replaceAll("[^0-9^\\.]+", ""));
-    }
-
-    /**
-     *
-     * @param size
-     * @return
-     */
-    public float readTextFloat(int size) {
-        return Float.parseFloat(readString(size).replaceAll("[^0-9^\\.]+", ""));
-    }
-
-    /**
-     *
-     * @param size
-     * @return
-     */
-    public double readTextDouble(int size) {
-        return Double.parseDouble(readString(size).replaceAll("[^0-9^\\.]+", ""));
+    public String readRtrimString(int position, int size, char spaceCharacter) {
+        return runOutsidePosition(position, () -> readString(size, spaceCharacter));
     }
 
     /**
@@ -275,7 +312,9 @@ public class ByteData {
      * @return
      */
     public ByteData writeBytes(byte[] bytes) {
-        byteBuffer.put(bytes);
+        if (bytes != null) {
+            byteBuffer.put(bytes);
+        }
         return this;
     }
 
@@ -287,36 +326,22 @@ public class ByteData {
      * @return
      */
     public ByteData writeBytes(byte[] bytes, int offset, int length) {
-        byteBuffer.put(bytes, offset, length);
+        if (bytes != null) {
+            byteBuffer.put(bytes, offset, length);
+        }
         return this;
     }
 
     /**
      *
-     * @param repeatSize
      * @param b
+     * @param repeatSize
      * @return
      */
-    public ByteData writeRepeatByte(int repeatSize, byte b) {
+    public ByteData writeRepeatByte(byte b, int repeatSize) {
         for (int i = 0 ; i < repeatSize ; i++) {
             byteBuffer.put(b);
         }
-        return this;
-    }
-
-    /**
-     * does not move position
-     * @param size
-     * @param b
-     * @return
-     */
-    public ByteData fillByte(int offset, int size, byte b) {
-        var pos = byteBuffer.position();
-        byteBuffer.position(offset);
-        for (int i = offset ; i < size ; i++) {
-            byteBuffer.put(b);
-        }
-        byteBuffer.position(pos);
         return this;
     }
 
@@ -336,29 +361,35 @@ public class ByteData {
         }
     }
 
-    public ByteData writeString(String text, int size) {
-        return writeString(text, size, (byte)' ');
+    /**
+     *
+     * @param text
+     * @param fixedSize
+     * @return
+     */
+    public ByteData writeString(String text, int fixedSize) {
+        return writeString(text, fixedSize, (byte)' ');
     }
 
     /**
      *
      * @param text
-     * @param size
+     * @param fixedSize
      * @param fillByte
      * @return
      */
-    public ByteData writeString(String text, int size, byte fillByte) {
+    public ByteData writeString(String text, int fixedSize, byte fillByte) {
         try {
             if (text == null) {
                 text = "";
             }
             byte[] bytes = text.getBytes(charset);
-            if (bytes.length > size) {
-                throw new ArrayIndexOutOfBoundsException("`" + text + "` is over " + size + " bytes");
+            if (bytes.length > fixedSize) {
+                throw new ArrayIndexOutOfBoundsException("`" + text + "` is over " + fixedSize + " bytes");
             }
             byteBuffer.put(bytes);
-            if (bytes.length < size) {
-                writeRepeatByte(size - bytes.length, fillByte);
+            if (bytes.length < fixedSize) {
+                writeRepeatByte(fillByte, fixedSize - bytes.length);
             }
             return this;
         } catch (UnsupportedEncodingException e) {
@@ -368,28 +399,182 @@ public class ByteData {
 
     /**
      *
+     * @param b
+     * @return
+     */
+    public ByteData insertByte(int position, byte b) {
+        return runOutsidePosition(position, () -> writeByte(b));
+    }
+
+    /**
+     *
+     * @param value
+     * @return
+     */
+    public ByteData insertShort(int position, short value) {
+        return runOutsidePosition(position, () -> writeShort(value));
+    }
+
+    /**
+     *
+     * @param value
+     * @return
+     */
+    public ByteData insertInt(int position, int value) {
+        return runOutsidePosition(position, () -> writeInt(value));
+    }
+
+    /**
+     *
+     * @param value
+     * @return
+     */
+    public ByteData insertLong(int position, long value) {
+        return runOutsidePosition(position, () -> writeLong(value));
+    }
+
+    /**
+     *
+     * @param value
+     * @return
+     */
+    public ByteData insertFloat(int position, float value) {
+        return runOutsidePosition(position, () -> writeFloat(value));
+    }
+
+    /**
+     *
+     * @param value
+     * @return
+     */
+    public ByteData insertDouble(int position, double value) {
+        return runOutsidePosition(position, () -> writeDouble(value));
+    }
+
+    /**
+     *
+     * @param bytes
+     * @return
+     */
+    public ByteData insertBytes(int position, byte[] bytes) {
+        return runOutsidePosition(position, () -> writeBytes(bytes));
+    }
+
+    /**
+     *
+     * @param bytes
+     * @param offset
+     * @param length
+     * @return
+     */
+    public ByteData insertBytes(int position, byte[] bytes, int offset, int length) {
+        return runOutsidePosition(position, () -> writeBytes(bytes, offset, length));
+    }
+
+    /**
+     *
+     * @param b
+     * @param repeatSize
+     * @return
+     */
+    public ByteData writeRepeatByte(int position, byte b, int repeatSize) {
+        return runOutsidePosition(position, () -> writeRepeatByte(b, repeatSize));
+    }
+
+    /**
+     *
      * @param text
-     * @param size
+     * @return
+     */
+    public ByteData insertString(int position, String text) {
+        return runOutsidePosition(position, () -> writeString(text));
+    }
+
+    /**
+     *
+     * @param position
+     * @param text
+     * @param fixedSize
+     * @return
+     */
+    public ByteData insertString(int position, String text, int fixedSize) {
+        return runOutsidePosition(position, () -> writeString(text, fixedSize));
+    }
+
+    /**
+     *
+     * @param position
+     * @param text
+     * @param fixedSize
      * @param fillByte
      * @return
      */
-    public ByteData writeStringAlignRight(String text, int size, byte fillByte) {
-        try {
-            if (text == null) {
-                text = "";
-            }
-            byte[] bytes = text.getBytes(charset);
-            if (bytes.length > size) {
-                throw new ArrayIndexOutOfBoundsException("`" + text + "` is over " + size + " bytes");
-            }
-            if (bytes.length < size) {
-                writeRepeatByte(size - bytes.length, fillByte);
-            }
-            byteBuffer.put(bytes);
-            return this;
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("this system does not support encoding for the `"+charset+"`");
-        }
+    public ByteData insertString(int position, String text, int fixedSize, byte fillByte) {
+        return runOutsidePosition(position, () -> writeString(text, fixedSize, fillByte));
+    }
+
+    /**
+     *
+     * @param size
+     * @return
+     */
+    public byte readTextByte(int size) {
+        return Bytes.parseByte(readString(size).replaceAll("[^0-9^\\.^\\-]+", ""));
+    }
+
+    /**
+     *
+     * @param size
+     * @return
+     */
+    public short readTextShort(int size) {
+        return Short.parseShort(readString(size).replaceAll("[^0-9^\\.^\\-]+", ""));
+    }
+
+    /**
+     *
+     * @param size
+     * @return
+     */
+    public int readTextInt(int size) {
+        return Integer.parseInt(readString(size).replaceAll("[^0-9^\\.^\\-]+", ""));
+    }
+
+    /**
+     *
+     * @param size
+     * @return
+     */
+    public long readTextLong(int size) {
+        return Long.parseLong(readString(size).replaceAll("[^0-9^\\.^\\-]+", ""));
+    }
+
+    /**
+     *
+     * @param size
+     * @return
+     */
+    public float readTextFloat(int size) {
+        return Float.parseFloat(readString(size).replaceAll("[^0-9^\\.^\\-]+", ""));
+    }
+
+    /**
+     *
+     * @param size
+     * @return
+     */
+    public double readTextDouble(int size) {
+        return Double.parseDouble(readString(size).replaceAll("[^0-9^\\.^\\-]+", ""));
+    }
+
+    /**
+     *
+     * @param value
+     * @param size
+     * @return
+     */
+    public ByteData writeTextByte(byte value, int size) {
+        return writeTextByte(value, size, (byte)' ');
     }
 
     /**
@@ -400,8 +585,17 @@ public class ByteData {
      * @return
      */
     public ByteData writeTextByte(byte value, int size, byte fillByte) {
-        writeString(Byte.toString(value), size, fillByte);
-        return this;
+        return writeString(Byte.toString(value), size, fillByte);
+    }
+
+    /**
+     *
+     * @param value
+     * @param size
+     * @return
+     */
+    public ByteData writeTextShort(short value, int size) {
+        return writeTextShort(value, size, (byte)' ');
     }
 
     /**
@@ -412,8 +606,17 @@ public class ByteData {
      * @return
      */
     public ByteData writeTextShort(short value, int size, byte fillByte) {
-        writeString(Short.toString(value), size, fillByte);
-        return this;
+        return writeString(Short.toString(value), size, fillByte);
+    }
+
+    /**
+     *
+     * @param value
+     * @param size
+     * @return
+     */
+    public ByteData writeTextInt(int value, int size) {
+        return writeTextInt(value, size, (byte)' ');
     }
 
     /**
@@ -424,8 +627,17 @@ public class ByteData {
      * @return
      */
     public ByteData writeTextInt(int value, int size, byte fillByte) {
-        writeString(Integer.toString(value), size, fillByte);
-        return this;
+        return writeString(Integer.toString(value), size, fillByte);
+    }
+
+    /**
+     *
+     * @param value
+     * @param size
+     * @return
+     */
+    public ByteData writeTextLong(long value, int size) {
+        return writeTextLong(value, size, (byte)' ');
     }
 
     /**
@@ -436,56 +648,7 @@ public class ByteData {
      * @return
      */
     public ByteData writeTextLong(long value, int size, byte fillByte) {
-        writeString(Long.toString(value), size, fillByte);
-        return this;
-    }
-
-    /**
-     *
-     * @param value
-     * @param size
-     * @param fillByte
-     * @return
-     */
-    public ByteData writeTextByteAlignRight(byte value, int size, byte fillByte) {
-        writeStringAlignRight(Byte.toString(value), size, fillByte);
-        return this;
-    }
-
-    /**
-     *
-     * @param value
-     * @param size
-     * @param fillByte
-     * @return
-     */
-    public ByteData writeTextShortAlignRight(short value, int size, byte fillByte) {
-        writeStringAlignRight(Short.toString(value), size, fillByte);
-        return this;
-    }
-
-    /**
-     *
-     * @param value
-     * @param size
-     * @param fillByte
-     * @return
-     */
-    public ByteData writeTextIntAlignRight(int value, int size, byte fillByte) {
-        writeStringAlignRight(Integer.toString(value), size, fillByte);
-        return this;
-    }
-
-    /**
-     *
-     * @param value
-     * @param size
-     * @param fillByte
-     * @return
-     */
-    public ByteData writeTextLongAlignRight(long value, int size, byte fillByte) {
-        writeStringAlignRight(Long.toString(value), size, fillByte);
-        return this;
+        return writeString(Long.toString(value), size, fillByte);
     }
 
     /**
