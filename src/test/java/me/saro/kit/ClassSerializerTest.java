@@ -1,40 +1,31 @@
 package me.saro.kit;
 
+import me.saro.kit.model.SerialTextData;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ClassSerializerTest {
 
     @Test
-    public void testLambdas() throws Exception {
+    public void textData() throws Exception {
 
-        var a = new Abc().deserialize("asdf      bb        ");
-        System.out.println(a.c);
-        System.out.println(a.b);
-        System.out.println(new String(a.serialize()));
+        var data =
+                "홍길동 "+
+                        "-23       "+
+                        "10        "+
+                        "-312      "+
+                        "9423412347";
+
+        System.out.println(data);
+
+
+        var textData = new SerialTextData().read(data);
+
+        System.out.println(textData);
+        System.out.println(textData.toSerializeString());
+
+        assertEquals(textData.toSerializeString(), data);
     }
-
-    public static class Abc extends ClassSerializer<Abc> {
-
-        String c;
-        String b;
-
-        @Override
-        protected void deserialize(ByteData data) {
-            this.c = data.readString(10);
-            this.b = data.readString(10);
-        }
-
-        @Override
-        protected void serialize(ByteData data) {
-            data.writeString(c, 10);
-            data.writeString(b, 10);
-        }
-
-        @Override
-        protected int limit() {
-            return 20;
-        }
-    }
-
 
 }
