@@ -1,8 +1,10 @@
 package me.saro.kit;
 
-import me.saro.commons.__old.bytes.DateFormat;
 import me.saro.kit.dates.DateFormat;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class DateFormatTest {
 
