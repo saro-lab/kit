@@ -1,4 +1,4 @@
-package me.saro.kit.bytes.fd.annotations;
+package me.saro.kit.bytes.fixed.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

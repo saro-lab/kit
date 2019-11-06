@@ -1,4 +1,4 @@
-package me.saro.kit.bytes.fd.annotations;
+package me.saro.kit.bytes.fixed.annotations;
 
 /**
  *  Text Align

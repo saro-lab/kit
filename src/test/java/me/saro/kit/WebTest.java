@@ -11,7 +11,7 @@ public class WebTest {
     public void test() throws Exception {
         //webTest();
     }
-    
+
     public void webTest() {
         
         printResult("normal", Web.get("https://saro.me").toPlainText());

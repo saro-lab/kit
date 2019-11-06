@@ -1,4 +1,7 @@
-package me.saro.kit.bytes;
+package me.saro.kit.bytes.variable;
+
+import me.saro.kit.bytes.ByteData;
+import me.saro.kit.bytes.Bytes;
 
 /**
  *

@@ -1,10 +1,10 @@
-package me.saro.kit.bytes.fd;
+package me.saro.kit.bytes.fixed;
 
 
 import me.saro.kit.bytes.Bytes;
 import me.saro.kit.Primitive;
-import me.saro.kit.bytes.fd.annotations.BinaryData;
-import me.saro.kit.bytes.fd.annotations.FixedDataClass;
+import me.saro.kit.bytes.fixed.annotations.BinaryData;
+import me.saro.kit.bytes.fixed.annotations.FixedDataClass;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;

@@ -1,10 +1,10 @@
-package me.saro.kit.bytes.fd;
+package me.saro.kit.bytes.fixed;
 
 
 import me.saro.kit.bytes.Bytes;
-import me.saro.kit.bytes.fd.annotations.DateData;
-import me.saro.kit.bytes.fd.annotations.DateDataType;
-import me.saro.kit.bytes.fd.annotations.FixedDataClass;
+import me.saro.kit.bytes.fixed.annotations.DateData;
+import me.saro.kit.bytes.fixed.annotations.DateDataType;
+import me.saro.kit.bytes.fixed.annotations.FixedDataClass;
 
 import java.lang.reflect.Method;
 import java.text.DateFormat;

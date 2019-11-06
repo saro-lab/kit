@@ -1,11 +1,11 @@
-package me.saro.kit.bytes.fd;
+package me.saro.kit.bytes.fixed;
 
 
 import me.saro.kit.bytes.Bytes;
 import me.saro.kit.Texts;
-import me.saro.kit.bytes.fd.annotations.FixedDataClass;
-import me.saro.kit.bytes.fd.annotations.TextData;
-import me.saro.kit.bytes.fd.annotations.TextDataAlign;
+import me.saro.kit.bytes.fixed.annotations.FixedDataClass;
+import me.saro.kit.bytes.fixed.annotations.TextData;
+import me.saro.kit.bytes.fixed.annotations.TextDataAlign;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
