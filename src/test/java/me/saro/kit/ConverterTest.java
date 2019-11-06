@@ -1,6 +1,8 @@
 package me.saro.kit;
 
 import me.saro.commons.__old.bytes.Converter;
+import me.saro.kit.bytes.Bytes;
+import me.saro.kit.hashs.HashAlgorithm;
 import org.junit.jupiter.api.Test;
 
 import java.util.stream.Collectors;

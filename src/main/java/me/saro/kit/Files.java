@@ -1,14 +1,11 @@
 package me.saro.kit;
 
-import me.saro.kit.function.ThrowableFunction;
-import me.saro.kit.function.ThrowablePredicate;
+import me.saro.kit.functions.ThrowableFunction;
+import me.saro.kit.functions.ThrowablePredicate;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -19,6 +16,45 @@ import java.util.stream.Stream;
  */
 public class Files {
 
+    /**
+     *
+     * @param file
+     * @param overwrite
+     * @param inputStream
+     * @throws Exception
+     */
+    public static File createFile(File file, boolean overwrite, InputStream inputStream) throws Exception {
+        if (file.exists()) {
+            if (overwrite) {
+                file.delete();
+            } else {
+                throw new IOException("create file error : already exists file : " + file.getAbsolutePath());
+            }
+        } else {
+            File parent = file.getParentFile();
+            if (!parent.exists()) {
+                parent.mkdirs();
+            } else if (parent.isFile()) {
+                throw new IOException("create file error : file exists instend of the directory : " + parent.getAbsolutePath());
+            }
+        }
+        try (FileOutputStream fos = new FileOutputStream(file); InputStream is = inputStream) {
+            Streams.link(is, fos);
+        }
+        return file;
+    }
+
+    /**
+     *
+     * @param file
+     * @param overwrite
+     * @param value
+     * @param charset
+     * @throws Exception
+     */
+    public static File createFile(File file, boolean overwrite, String value, String charset) throws Exception {
+        return createFile(file, overwrite, new ByteArrayInputStream(value.getBytes(charset)));
+    }
 
     /**
      *
