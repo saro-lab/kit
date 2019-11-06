@@ -1,12 +1,10 @@
 package me.saro.kit;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import me.saro.commons.__old.bytes.DateFormat;
-import me.saro.commons.__old.bytes.Utils;
-import me.saro.commons.__old.bytes.fd.FixedData;
-import me.saro.commons.__old.bytes.fd.annotations.*;
+import me.saro.kit.bytes.Bytes;
+import me.saro.kit.bytes.fixed.FixedData;
+import me.saro.kit.bytes.fixed.annotations.*;
+import me.saro.kit.dates.DateFormat;
+import me.saro.kit.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -86,7 +84,7 @@ public class FixedDataTest {
     
     @Test
     public void mutipleThreadStored() {
-        Utils.executeAllThreads(5, IntStream.range(0, 10).boxed().collect(Collectors.toList()), i -> {
+        Threads.executeAllThreads(5, IntStream.range(0, 10).boxed().collect(Collectors.toList()), i -> {
            System.out.println("exec : " + i);
            array();
            return i;
@@ -171,163 +169,6 @@ public class FixedDataTest {
         
         System.out.println(ms);
         System.out.println(fd.<ParentStruct>toClass(bytes, 0));
-    }
-    
-    
-    
-    @Data
-    @FixedDataClass(size=30, fill=0)
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class BinaryStruct {
-        
-        @BinaryData(offset=0)
-        byte byteData;
-        
-        @BinaryData(offset=1)
-        short shortData;
-        
-        @BinaryData(offset=3)
-        int intData;
-        
-        @BinaryData(offset=7)
-        Long longData; // test long -> Long
-        
-        @BinaryData(offset=15)
-        float floatData;
-        
-        @BinaryData(offset=19)
-        double doubleData;
-        
-        @BinaryData(offset=27, arrayLength=3)
-        byte[] bytesData;
-    }
-    
-    @Data
-    @FixedDataClass(size=100, fill=0, charset="UTF-8")
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class TextStruct {
-        
-        @TextData(offset=0, length=3, unsigned=true)
-        byte byteData;
-        
-        @TextData(offset=3, length=7)
-        Short shortData;
-        
-        @TextData(offset=10, length=10, radix=16, fill='0', align=TextDataAlign.right)
-        int intData;
-        
-        @TextData(offset=20, length=20)
-        long longData;
-        
-        @TextData(offset=40, length=20)
-        float floatData;
-        
-        @TextData(offset=60, length=20)
-        double doubleData;
-        
-        @TextData(offset=80, length=10)
-        String leftText;
-        
-        @TextData(offset=90, length=10, align=TextDataAlign.right)
-        String rightText;
-    }
-    
-    @Data
-    @FixedDataClass(size=34, charset="UTF-8")
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class MixedStruct {
-        
-        @TextData(offset=0, length=15)
-        String firstName;
-        
-        @TextData(offset=15, length=15)
-        String lastName;
-        
-        @BinaryData(offset=30)
-        int memberId;
-    }
-    
-    @Data
-    @FixedDataClass(size=40)
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class ArrayStruct {
-        
-        @BinaryData(offset=0)
-        int member1;
-        
-        @BinaryData(offset=4, arrayLength=4)
-        int[] member2;
-        
-        @BinaryData(offset=20, arrayLength=2)
-        List<Long> member3;
-        
-        @BinaryData(offset=36, arrayLength=2)
-        Short[] member4;
-    }
-    
-    @Data
-    @FixedDataClass(size=74)
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class ParentStruct {
-        
-        @BinaryData(offset=0)
-        ChildStruct ch;
-        
-        @BinaryData(offset=14, arrayLength=2)
-        List<ChildStruct> chArr;
-        
-        @BinaryData(offset=42, arrayLength=2)
-        ChildStruct[] chList;
-        
-        @BinaryData(offset=70)
-        int main;
-    }
-    
-    @Data
-    @FixedDataClass(size=14)
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class ChildStruct {
-        
-        @BinaryData(offset=0)
-        int no;
-        
-        @TextData(offset=4, length=10)
-        String text;
-    }
-    
-    @Data
-    @FixedDataClass(size=14, bigEndian=false, fill = 0)
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class LittleStruct {
-        
-        @BinaryData(offset=0)
-        int no;
-        
-        @TextData(offset=4, length=10)
-        String text;
-    }
-    
-    @Data
-    @FixedDataClass(size=20)
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class DateStruct {
-        
-        @DateData(offset=0, type=DateDataType.unix4)
-        Date date;
-        
-        @DateData(offset=4, type=DateDataType.unix8)
-        Calendar calendar;
-        
-        @DateData(offset=12, type=DateDataType.millis8)
-        DateFormat dateFormat;
     }
 }
 

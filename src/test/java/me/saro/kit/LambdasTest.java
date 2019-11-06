@@ -1,6 +1,7 @@
 package me.saro.kit;
 
-import me.saro.commons.function.*;
+
+import me.saro.kit.functions.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Function;

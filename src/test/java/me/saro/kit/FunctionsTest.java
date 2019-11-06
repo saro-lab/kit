@@ -7,14 +7,14 @@ import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
 
-import me.saro.kit.function.ThrowableBiConsumer;
-import me.saro.kit.function.ThrowableBiFunction;
-import me.saro.kit.function.ThrowableConsumer;
-import me.saro.kit.function.ThrowableFunction;
-import me.saro.kit.function.ThrowableRunnable;
-import me.saro.kit.function.ThrowableSupplier;
-import me.saro.kit.function.ThrowableTriConsumer;
-import me.saro.kit.function.ThrowableTriFunction;
+import me.saro.kit.functions.ThrowableBiConsumer;
+import me.saro.kit.functions.ThrowableBiFunction;
+import me.saro.kit.functions.ThrowableConsumer;
+import me.saro.kit.functions.ThrowableFunction;
+import me.saro.kit.functions.ThrowableRunnable;
+import me.saro.kit.functions.ThrowableSupplier;
+import me.saro.kit.functions.ThrowableTriConsumer;
+import me.saro.kit.functions.ThrowableTriFunction;
 
 public class FunctionsTest {
 
