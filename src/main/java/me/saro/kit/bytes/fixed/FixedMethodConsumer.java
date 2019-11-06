@@ -1,4 +1,4 @@
-package me.saro.kit.bytes.fd;
+package me.saro.kit.bytes.fixed;
 
 import java.lang.reflect.InvocationTargetException;
 

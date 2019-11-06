@@ -1,7 +1,7 @@
-package me.saro.kit.bytes.fd;
+package me.saro.kit.bytes.fixed;
 
 
-import me.saro.kit.bytes.fd.annotations.FixedDataClass;
+import me.saro.kit.bytes.fixed.annotations.FixedDataClass;
 import me.saro.kit.functions.ThrowableConsumer;
 
 import java.lang.reflect.Constructor;

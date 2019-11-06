@@ -1,10 +1,10 @@
-package me.saro.kit.bytes.fd;
+package me.saro.kit.bytes.fixed;
 
 
-import me.saro.kit.bytes.fd.annotations.BinaryData;
-import me.saro.kit.bytes.fd.annotations.DateData;
-import me.saro.kit.bytes.fd.annotations.FixedDataClass;
-import me.saro.kit.bytes.fd.annotations.TextData;
+import me.saro.kit.bytes.fixed.annotations.BinaryData;
+import me.saro.kit.bytes.fixed.annotations.DateData;
+import me.saro.kit.bytes.fixed.annotations.FixedDataClass;
+import me.saro.kit.bytes.fixed.annotations.TextData;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
