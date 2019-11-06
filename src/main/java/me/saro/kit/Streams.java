@@ -1,6 +1,6 @@
 package me.saro.kit;
 
-import me.saro.kit.function.ThrowableFunction;
+import me.saro.kit.functions.ThrowableFunction;
 
 import java.io.*;
 import java.util.Enumeration;

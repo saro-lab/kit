@@ -1,5 +1,6 @@
 package me.saro.kit;
 
+import me.saro.kit.bytes.Bytes;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
