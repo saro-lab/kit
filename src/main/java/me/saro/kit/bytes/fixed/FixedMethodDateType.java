@@ -5,9 +5,9 @@ import me.saro.kit.bytes.Bytes;
 import me.saro.kit.bytes.fixed.annotations.DateData;
 import me.saro.kit.bytes.fixed.annotations.DateDataType;
 import me.saro.kit.bytes.fixed.annotations.FixedDataClass;
+import me.saro.kit.dates.DateFormat;
 
 import java.lang.reflect.Method;
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 

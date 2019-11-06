@@ -1,6 +1,5 @@
 package me.saro.kit;
 
-import me.saro.commons.__old.bytes.crypt.Crypt;
 import me.saro.kit.crypts.Crypt;
 import org.junit.jupiter.api.Test;
 
