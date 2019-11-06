@@ -1,7 +1,7 @@
 package me.saro.kit.model;
 
-import me.saro.kit.ByteData;
-import me.saro.kit.ClassSerializer;
+import me.saro.kit.bytes.ByteData;
+import me.saro.kit.bytes.ClassSerializer;
 
 public class SerialTextData extends ClassSerializer<SerialTextData> {
 
