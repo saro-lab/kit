@@ -9,8 +9,8 @@ import java.util.*;
 
 /**
  * date util
- * @author		PARK Yong Seo
- * @since		1.0.0
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public class Dates {
 

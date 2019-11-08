@@ -1,6 +1,5 @@
 package me.saro.kit.crypts;
 
-
 import me.saro.kit.Streams;
 
 import javax.crypto.BadPaddingException;
@@ -11,9 +10,8 @@ import java.io.*;
 
 /**
  * Crypt
- * thread-safe
- * @author      PARK Yong Seo
- * @since       3.0
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 class SimpleCrypt implements Crypt {
     

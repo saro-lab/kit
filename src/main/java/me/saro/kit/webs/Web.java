@@ -1,17 +1,17 @@
 package me.saro.kit.webs;
 
 import me.saro.kit.Files;
+import me.saro.kit.Texts;
 import me.saro.kit.functions.ThrowableConsumer;
 import me.saro.kit.functions.ThrowableFunction;
 
 import java.io.File;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 
 /**
  * Web Client
- * @author      PARK Yong Seo
- * @since       0.1
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public interface Web {
     /**
@@ -19,7 +19,7 @@ public interface Web {
      * @param url
      * @return
      */
-    public static Web get(String url) {
+    static Web get(String url) {
         return new BasicWeb(url, "GET");
     }
 
@@ -28,7 +28,7 @@ public interface Web {
      * @param url
      * @return
      */
-    public static Web post(String url) {
+    static Web post(String url) {
         return new BasicWeb(url, "POST");
     }
 
@@ -37,7 +37,7 @@ public interface Web {
      * @param url
      * @return
      */
-    public static Web put(String url) {
+    static Web put(String url) {
         return new BasicWeb(url, "PUT");
     }
 
@@ -46,7 +46,7 @@ public interface Web {
      * @param url
      * @return
      */
-    public static Web patch(String url) {
+    static Web patch(String url) {
         return new BasicWeb(url, "PATCH");
     }
 
@@ -55,7 +55,7 @@ public interface Web {
      * @param url
      * @return
      */
-    public static Web delete(String url) {
+    static Web delete(String url) {
         return new BasicWeb(url, "DELETE");
     }
     
@@ -63,20 +63,20 @@ public interface Web {
      * request charset
      * @return
      */
-    public String getRequestCharset();
+    String getRequestCharset();
     
     /**
      * response charset
      * @return
      */
-    public String getResponseCharset();
+    String getResponseCharset();
 
     /**
      * create custom method Web
      * @param url
      * @return
      */
-    public static Web custom(String url, String method) {
+    static Web custom(String url, String method) {
         return new BasicWeb(url, method);
     }
     
@@ -85,28 +85,28 @@ public interface Web {
      * @param connectTimeout
      * @return
      */
-    public Web setConnectTimeout(int connectTimeout);
+    Web setConnectTimeout(int connectTimeout);
     
     /**
      * Read Timeout
      * @param readTimeout
      * @return
      */
-    public Web setReadTimeout(int readTimeout);
+    Web setReadTimeout(int readTimeout);
     
     /**
      * set request Charset
      * @param charset
      * @return
      */
-    public Web setRequestCharset(String charset);
+    Web setRequestCharset(String charset);
     
     /**
      * set response charset
      * @param charset
      * @return
      */
-    public Web setResponseCharset(String charset);
+    Web setResponseCharset(String charset);
     
     /**
      * ignore https certificate
@@ -117,7 +117,7 @@ public interface Web {
      * @param ignoreCertificate
      * @return
      */
-    public Web setIgnoreCertificate(boolean ignoreCertificate);
+    Web setIgnoreCertificate(boolean ignoreCertificate);
     
     /**
      * add url parameter
@@ -129,7 +129,7 @@ public interface Web {
      * @param value
      * @return
      */
-    public Web addUrlParameter(String name, String value);
+    Web addUrlParameter(String name, String value);
     
     /**
      * set header
@@ -137,14 +137,14 @@ public interface Web {
      * @param value
      * @return
      */
-    public Web setHeader(String name, String value);
+    Web setHeader(String name, String value);
     
     /**
      * write body binary
      * @param bytes
      * @return
      */
-    public Web writeBody(byte[] bytes);
+    Web writeBody(byte[] bytes);
     
     /**
      * writeBodyParameter
@@ -165,7 +165,7 @@ public interface Web {
      * @param value
      * @return
      */
-    public Web writeBodyParameter(String name, String value);
+    Web writeBodyParameter(String name, String value);
     
     /**
      * to Custom result
@@ -173,14 +173,14 @@ public interface Web {
      * @param function
      * @return
      */
-    public <R> WebResult<R> toCustom(WebResult<R> result, ThrowableFunction<InputStream, R> function);
+    <R> WebResult<R> toCustom(WebResult<R> result, ThrowableFunction<InputStream, R> function);
     
     /**
      * to Custom result
      * @param function
      * @return
      */
-    default public <R> WebResult<R> toCustom(ThrowableFunction<InputStream, R> function) {
+    default <R> WebResult<R> toCustom(ThrowableFunction<InputStream, R> function) {
         return toCustom(new WebResult<R>(), function);
     }
 
@@ -188,7 +188,7 @@ public interface Web {
      * save file and return WebResult
      * @return WebResult[WebResult]
      */
-    default public WebResult<File> saveFile(File file, boolean overwrite) {
+    default WebResult<File> saveFile(File file, boolean overwrite) {
         return toCustom(is -> Files.createFile(file, overwrite, is));
     }
 
@@ -197,7 +197,7 @@ public interface Web {
      * @param reader
      * @return it has Body
      */
-    default public WebResult<String> readRawResultStream(ThrowableConsumer<InputStream> reader) {
+    default WebResult<String> readRawResultStream(ThrowableConsumer<InputStream> reader) {
         return toCustom(is -> {
             reader.accept(is);
             return "OK";
@@ -209,7 +209,7 @@ public interface Web {
      * @param value
      * @return
      */
-    default public Web setContentType(String value) {
+    default Web setContentType(String value) {
         return setHeader("Content-Type", value);
     }
     
@@ -217,7 +217,7 @@ public interface Web {
      * ContentType application/json
      * @return
      */
-    default public Web setContentTypeApplicationJson() {
+    default Web setContentTypeApplicationJson() {
         return setHeader("Content-Type", "application/json");
     }
     
@@ -226,11 +226,7 @@ public interface Web {
      * @param text
      * @return
      */
-    default public Web writeBody(String text) {
-        try {
-            return writeBody(text.getBytes(getRequestCharset()));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+    default Web writeBody(String text) {
+        return writeBody(Texts.getBytes(text, getRequestCharset()));
     }
 }

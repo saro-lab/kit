@@ -19,9 +19,8 @@ import java.util.Base64;
 
 /**
  * Crypt
- * thread-safe
- * @author      PARK Yong Seo
- * @since       3.0
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public interface Crypt {
     
@@ -36,7 +35,7 @@ public interface Crypt {
      * @throws NoSuchAlgorithmException
      * @throws NoSuchPaddingException
      */
-    public static Crypt encrypt(String transformation, byte[] key, byte[] iv) throws InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchPaddingException {
+    static Crypt encrypt(String transformation, byte[] key, byte[] iv) throws InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchPaddingException {
         Cipher cipher = Cipher.getInstance(transformation);
         cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, cipher.getAlgorithm().split("\\/")[0]), new IvParameterSpec(iv));
         return new SimpleCrypt(cipher);
@@ -53,7 +52,7 @@ public interface Crypt {
      * @throws NoSuchAlgorithmException
      * @throws NoSuchPaddingException
      */
-    public static Crypt decrypt(String transformation, byte[] key, byte[] iv) throws InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchPaddingException {
+    static Crypt decrypt(String transformation, byte[] key, byte[] iv) throws InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchPaddingException {
         Cipher cipher = Cipher.getInstance(transformation);
         cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, cipher.getAlgorithm().split("\\/")[0]), new IvParameterSpec(iv));
         return new SimpleCrypt(cipher);
@@ -65,7 +64,7 @@ public interface Crypt {
      * @param os
      * @throws IOException
      */
-    public void to(InputStream is, OutputStream os) throws IOException;
+    void to(InputStream is, OutputStream os) throws IOException;
     
     /**
      * input file -> (en/de)crypt -> output file
@@ -74,7 +73,7 @@ public interface Crypt {
      * @param overwrite the exist file
      * @throws IOException
      */
-    public void to(File in, File out, boolean overwrite) throws IOException;
+    void to(File in, File out, boolean overwrite) throws IOException;
     
     /**
      * to byte<br>
@@ -86,7 +85,7 @@ public interface Crypt {
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
      */
-    public byte[] toBytes(byte[] data, int offset, int length) throws IllegalBlockSizeException, BadPaddingException;
+    byte[] toBytes(byte[] data, int offset, int length) throws IllegalBlockSizeException, BadPaddingException;
     
     /**
      * to byte<br>
@@ -96,7 +95,7 @@ public interface Crypt {
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
      */
-    public byte[] toBytes(byte[] data) throws IllegalBlockSizeException, BadPaddingException;
+    byte[] toBytes(byte[] data) throws IllegalBlockSizeException, BadPaddingException;
     
     /**
      * to byte<br>
@@ -106,7 +105,7 @@ public interface Crypt {
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
      */
-    default public byte[] toBytesByHex(String hex) throws IllegalBlockSizeException, BadPaddingException {
+    default byte[] toBytesByHex(String hex) throws IllegalBlockSizeException, BadPaddingException {
         return toBytes(Bytes.toBytesByHex(hex));
     }
     
@@ -118,7 +117,7 @@ public interface Crypt {
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
      */
-    default public byte[] toBytesByBase64(String base64) throws IllegalBlockSizeException, BadPaddingException {
+    default byte[] toBytesByBase64(String base64) throws IllegalBlockSizeException, BadPaddingException {
         return toBytes(Base64.getDecoder().decode(base64));
     }
     
@@ -132,7 +131,7 @@ public interface Crypt {
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
      */
-    default public String toHex(byte[] data, int offset, int length) throws IllegalBlockSizeException, BadPaddingException {
+    default String toHex(byte[] data, int offset, int length) throws IllegalBlockSizeException, BadPaddingException {
         return Bytes.toHex(toBytes(data, offset, length));
     }
     
@@ -144,7 +143,7 @@ public interface Crypt {
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
      */
-    default public String toHex(byte[] data) throws IllegalBlockSizeException, BadPaddingException {
+    default String toHex(byte[] data) throws IllegalBlockSizeException, BadPaddingException {
         return Bytes.toHex(toBytes(data));
     }
     
@@ -156,7 +155,7 @@ public interface Crypt {
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
      */
-    default public String toHexByHex(String hex) throws IllegalBlockSizeException, BadPaddingException {
+    default String toHexByHex(String hex) throws IllegalBlockSizeException, BadPaddingException {
         return Bytes.toHex(Bytes.toBytesByHex(hex));
     }
     
@@ -168,7 +167,7 @@ public interface Crypt {
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
      */
-    default public String toHexByBase64(String base64) throws IllegalBlockSizeException, BadPaddingException {
+    default String toHexByBase64(String base64) throws IllegalBlockSizeException, BadPaddingException {
         return Bytes.toHex(Base64.getDecoder().decode(base64));
     }
     
@@ -182,7 +181,7 @@ public interface Crypt {
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
      */
-    default public String toBase64(byte[] data, int offset, int length) throws IllegalBlockSizeException, BadPaddingException {
+    default String toBase64(byte[] data, int offset, int length) throws IllegalBlockSizeException, BadPaddingException {
         return Base64.getEncoder().encodeToString(toBytes(data, offset, length));
     }
     
@@ -194,7 +193,7 @@ public interface Crypt {
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
      */
-    default public String toBase64(byte[] data) throws IllegalBlockSizeException, BadPaddingException {
+    default String toBase64(byte[] data) throws IllegalBlockSizeException, BadPaddingException {
         return Base64.getEncoder().encodeToString(toBytes(data));
     }
     
@@ -206,7 +205,7 @@ public interface Crypt {
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
      */
-    default public String toBase64ByHex(String hex) throws IllegalBlockSizeException, BadPaddingException {
+    default String toBase64ByHex(String hex) throws IllegalBlockSizeException, BadPaddingException {
         return Base64.getEncoder().encodeToString(Bytes.toBytesByHex(hex));
     }
     
@@ -218,7 +217,7 @@ public interface Crypt {
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
      */
-    default public String toBase64ByBase64(String base64) throws IllegalBlockSizeException, BadPaddingException {
+    default String toBase64ByBase64(String base64) throws IllegalBlockSizeException, BadPaddingException {
         return Base64.getEncoder().encodeToString(Base64.getDecoder().decode(base64));
     }
 }
