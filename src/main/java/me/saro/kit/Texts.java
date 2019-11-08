@@ -1,28 +1,29 @@
 package me.saro.kit;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * text util
- * @author		PARK Yong Seo
- * @since		1.0.0
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public class Texts {
 
     /**
-     *
-     * @param text
-     * @param token
+     * text split<br>
+     * ex) "abc,abc,,,"<br>
+     * String.split : {"abc", "abc"}<br>
+     * Texts.split : {"abc", "abc", "", "", ""}
+     * @param text source
+     * @param token token
      * @return
      */
     public static List<String> split(String text, char token) {
         var ca = text.toCharArray();
-        var len = ca.length;
-        var i = 0;
-        var p = 0;
+        int len = ca.length;
+        int i = 0, p = 0;
         var rv = new ArrayList<String>();
         for (; i < len ; i++) {
             if (ca[i] == token) {
@@ -35,9 +36,10 @@ public class Texts {
     }
 
     /**
-     *
-     * @param text
-     * @param charset
+     * get bytes without UnsupportedEncodingException<br>
+     * UnsupportedEncodingException to RuntimeException
+     * @param text text
+     * @param charset charset
      * @return
      */
     public static byte[] getBytes(String text, String charset) {
@@ -49,9 +51,9 @@ public class Texts {
     }
 
     /**
-     *
-     * @param text
-     * @param token
+     * return next token
+     * @param text source
+     * @param token token
      * @return
      */
     public static String next(String text, String token) {
@@ -59,9 +61,9 @@ public class Texts {
     }
 
     /**
-     *
-     * @param text
-     * @param token
+     * return next last token
+     * @param text source
+     * @param token token
      * @return
      */
     public static String lastNext(String text, String token) {
@@ -69,9 +71,9 @@ public class Texts {
     }
 
     /**
-     *
-     * @param text
-     * @param token
+     * return prev token
+     * @param text source
+     * @param token token
      * @return
      */
     public static String prev(String text, String token) {
@@ -79,9 +81,9 @@ public class Texts {
     }
 
     /**
-     *
-     * @param text
-     * @param token
+     * return last prev token
+     * @param text source
+     * @param token token
      * @return
      */
     public static String lastPrev(String text, String token) {
@@ -89,7 +91,7 @@ public class Texts {
     }
 
     /**
-     *
+     * left trim text
      * @param text
      * @param spaceCharacter
      * @return
@@ -105,7 +107,7 @@ public class Texts {
     }
 
     /**
-     *
+     * left trim text
      * @param text
      * @param spaceCharacter
      * @return
@@ -122,14 +124,9 @@ public class Texts {
     }
 
     /**
-     * Null Value Logic
-     *
-     * @param datas
-     * nullable data
+     * null value logic
+     * @param datas datas
      * @return
-     *  - first not null data
-     *  <br>
-     *  - if has not null data return null
      */
     @SafeVarargs
     public static String nvl(String... datas) {
@@ -142,14 +139,9 @@ public class Texts {
     }
 
     /**
-     * Empty Value Logic
-     *
-     * @param datas
-     * nullable String
+     * empty value logic
+     * @param datas datas
      * @return
-     *  - first not null and not empty string
-     *  <br>
-     *  - if not found return null
      */
     public static String evl(String... datas) {
         for (String val : datas) {
@@ -161,14 +153,9 @@ public class Texts {
     }
 
     /**
-     * Blank Value Logic
-     *
-     * @param datas
-     * nullable String
+     * blank value logic
+     * @param datas datas
      * @return
-     *  - first not null and not blank string
-     *  <br>
-     *  - if not found return null
      */
     public static String bvl(String... datas) {
         for (String val : datas) {
