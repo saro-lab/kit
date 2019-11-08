@@ -12,8 +12,8 @@ import java.util.Map;
 
 /**
  * Web Client Builder
- * @author      PARK Yong Seo
- * @since       2.3
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public class BasicWeb implements Web {
 
