@@ -2,13 +2,17 @@ package me.saro.kit;
 
 import me.saro.kit.functions.ThrowableFunction;
 
-import java.io.Closeable;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
+/**
+ * thread util
+ * @author PARK Yong Seo
+ * @since 1.0.0
+ */
 public class Threads {
     /**
      * execute all threads
@@ -18,7 +22,6 @@ public class Threads {
      * @param map
      * @return
      * map result list
-     * @since 0.3
      */
     public static <T, R> List<R> executeAllThreads(ExecutorService executorService, List<T> list, ThrowableFunction<T, R> map) {
         try {
@@ -39,7 +42,6 @@ public class Threads {
      * @param map
      * @return
      * map result list
-     * @since 0.3
      */
     public static <T, R> List<R> executeAllThreads(int nThreads, List<T> list, ThrowableFunction<T, R> map) {
         ExecutorService executorService = Executors.newFixedThreadPool(nThreads);
