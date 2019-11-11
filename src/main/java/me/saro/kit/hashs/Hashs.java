@@ -2,7 +2,6 @@ package me.saro.kit.hashs;
 
 import me.saro.kit.bytes.Bytes;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -59,11 +58,7 @@ public class Hashs {
      * @since 1.0.0
      */
     public static String toHashHex(HashAlgorithm hashAlgorithm, String text, String charset) {
-        try {
-            return Bytes.toHex(toHash(hashAlgorithm, text.getBytes(charset)));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        return Bytes.toHex(toHash(hashAlgorithm, text.getBytes(Charset.forName("UTF-8"))));
     }
 
     /**
@@ -84,11 +79,7 @@ public class Hashs {
      * @since 1.0.0
      */
     public static String toHashBase64(HashAlgorithm hashAlgorithm, String text, String charset) {
-        try {
-            return Bytes.encodeBase64String(toHash(hashAlgorithm, text.getBytes(charset)));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        return Bytes.encodeBase64String(toHash(hashAlgorithm, text.getBytes(Charset.forName("UTF-8"))));
     }
 
     /**

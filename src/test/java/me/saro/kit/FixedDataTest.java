@@ -2,16 +2,13 @@ package me.saro.kit;
 
 import me.saro.kit.bytes.Bytes;
 import me.saro.kit.bytes.fixed.FixedData;
-import me.saro.kit.bytes.fixed.annotations.*;
 import me.saro.kit.dates.DateFormat;
 import me.saro.kit.model.*;
 import org.junit.jupiter.api.Test;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -46,7 +43,7 @@ public class FixedDataTest {
     
     
     @Test
-    public void text() throws UnsupportedEncodingException {
+    public void text() {
         FixedData fd = FixedData.getInstance(TextStruct.class);
         
         TextStruct ts = new TextStruct((byte)-1/* -1 == 255 */, (short)-321, 32123, -21L, 12.3F, -342.5D, "가나다", "abc");
@@ -54,11 +51,11 @@ public class FixedDataTest {
         byte[] bytes = fd.toBytes(ts);
         assertEquals(bytes.length, 100);
         
-        String text = new String(bytes, "UTF-8");
+        String text = Bytes.toString(bytes, "UTF-8");
         System.out.println(text);
         assertEquals(text, "255-321   0000007d7b-21                 12.3                -342.5              가나다        abc");
         
-        TextStruct ts2 = fd.toClass(text.getBytes("UTF-8"));
+        TextStruct ts2 = fd.toClass(Texts.getBytes(text,"UTF-8"));
         System.out.println(ts2);
         assertEquals(ts, ts2);
     }

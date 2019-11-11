@@ -7,6 +7,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -129,14 +130,10 @@ public class BasicWeb implements Web {
      * @return
      */
     public Web addUrlParameter(String name, String value) {
-        try {
-            if (urlParameter.length() > 1) {
-                urlParameter.append('&');
-            }
-            urlParameter.append(name).append('=').append(URLEncoder.encode(value, requestCharset));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+        if (urlParameter.length() > 1) {
+            urlParameter.append('&');
         }
+        urlParameter.append(name).append('=').append(URLEncoder.encode(value, Charset.forName(requestCharset)));
         return this;
     }
 
