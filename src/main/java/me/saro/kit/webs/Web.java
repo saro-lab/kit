@@ -20,7 +20,7 @@ public interface Web {
      * @return
      */
     static Web get(String url) {
-        return new BasicWeb(url, "GET");
+        return new WebImpl(url, "GET");
     }
 
     /**
@@ -29,7 +29,7 @@ public interface Web {
      * @return
      */
     static Web post(String url) {
-        return new BasicWeb(url, "POST");
+        return new WebImpl(url, "POST");
     }
 
     /**
@@ -38,7 +38,7 @@ public interface Web {
      * @return
      */
     static Web put(String url) {
-        return new BasicWeb(url, "PUT");
+        return new WebImpl(url, "PUT");
     }
 
     /**
@@ -47,7 +47,7 @@ public interface Web {
      * @return
      */
     static Web patch(String url) {
-        return new BasicWeb(url, "PATCH");
+        return new WebImpl(url, "PATCH");
     }
 
     /**
@@ -56,7 +56,7 @@ public interface Web {
      * @return
      */
     static Web delete(String url) {
-        return new BasicWeb(url, "DELETE");
+        return new WebImpl(url, "DELETE");
     }
     
     /**
@@ -77,7 +77,7 @@ public interface Web {
      * @return
      */
     static Web custom(String url, String method) {
-        return new BasicWeb(url, method);
+        return new WebImpl(url, method);
     }
     
     /**
