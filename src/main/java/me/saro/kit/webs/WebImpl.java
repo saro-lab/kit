@@ -15,7 +15,7 @@ import java.util.Map;
  * @author PARK Yong Seo
  * @since 1.0.0
  */
-public class BasicWeb implements Web {
+public class WebImpl implements Web {
 
     // url
     final String url;
@@ -50,7 +50,7 @@ public class BasicWeb implements Web {
      * @param url
      * @param method
      */
-    protected BasicWeb(String url, String method) {
+    protected WebImpl(String url, String method) {
         int point;
         if ((point = url.indexOf('?')) > -1) {
             if ((point) < url.length()) {

@@ -1,25 +1,61 @@
 package me.saro.kit.crypts;
 
-import me.saro.kit.Streams;
+import me.saro.kit.bytes.Bytes;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.CipherOutputStream;
 import javax.crypto.IllegalBlockSizeException;
-import java.io.*;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 /**
  * Crypt
  * @author PARK Yong Seo
  * @since 1.0.0
  */
-class SimpleCrypt implements Crypt {
+public interface SimpleCrypt {
     
-    final private Integer LOCK = 1;
-    final private Cipher cipher;
+    /**
+     * encrypt
+     * @param transformation ex) AES/CBC/PKCS5Padding
+     * @param key key
+     * @param iv iv
+     * @return
+     * @throws InvalidKeyException
+     * @throws InvalidAlgorithmParameterException
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchPaddingException
+     */
+    static SimpleCrypt encrypt(String transformation, byte[] key, byte[] iv) throws InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchPaddingException {
+        Cipher cipher = Cipher.getInstance(transformation);
+        cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, cipher.getAlgorithm().split("\\/")[0]), new IvParameterSpec(iv));
+        return new SimpleCryptImpl(cipher);
+    }
     
-    SimpleCrypt(Cipher cipher) {
-        this.cipher = cipher;
+    /**
+     * decrypt
+     * @param transformation ex) AES/CBC/PKCS5Padding
+     * @param key key
+     * @param iv iv
+     * @return
+     * @throws InvalidKeyException
+     * @throws InvalidAlgorithmParameterException
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchPaddingException
+     */
+    static SimpleCrypt decrypt(String transformation, byte[] key, byte[] iv) throws InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchPaddingException {
+        Cipher cipher = Cipher.getInstance(transformation);
+        cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, cipher.getAlgorithm().split("\\/")[0]), new IvParameterSpec(iv));
+        return new SimpleCryptImpl(cipher);
     }
     
     /**
@@ -28,13 +64,7 @@ class SimpleCrypt implements Crypt {
      * @param os
      * @throws IOException
      */
-    public void to(InputStream is, OutputStream os) throws IOException {
-        synchronized (LOCK) {
-            try (CipherOutputStream cos = new CipherOutputStream(os, cipher)) {
-                Streams.link(is, cos);
-            }
-        }
-    }
+    void to(InputStream is, OutputStream os) throws IOException;
     
     /**
      * input file -> (en/de)crypt -> output file
@@ -43,24 +73,7 @@ class SimpleCrypt implements Crypt {
      * @param overwrite the exist file
      * @throws IOException
      */
-    public void to(File in, File out, boolean overwrite) throws IOException {
-        synchronized (LOCK) {
-            if (!in.exists()) {
-                throw new IOException(in.getAbsolutePath() + " does not exist");
-            }
-            if (out.exists()) {
-                if (overwrite) {
-                    out.delete();
-                } else {
-                    throw new IOException(in.getAbsolutePath() + " is already exist");
-                }
-            }
-            out.getParentFile().mkdirs();
-            try (FileInputStream fis = new FileInputStream(in); FileOutputStream fos = new FileOutputStream(out); CipherOutputStream cos = new CipherOutputStream(fos, cipher)) {
-                Streams.link(fis, cos);
-            }
-        }
-    }
+    void to(File in, File out, boolean overwrite) throws IOException;
     
     /**
      * to byte<br>
@@ -72,13 +85,7 @@ class SimpleCrypt implements Crypt {
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
      */
-    public byte[] toBytes(byte[] data, int offset, int length) throws IllegalBlockSizeException, BadPaddingException {
-        byte[] rv;
-        synchronized (LOCK) {
-            rv = cipher.doFinal(data, offset, length);
-        }
-        return rv;
-    }
+    byte[] toBytes(byte[] data, int offset, int length) throws IllegalBlockSizeException, BadPaddingException;
     
     /**
      * to byte<br>
@@ -88,12 +95,129 @@ class SimpleCrypt implements Crypt {
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
      */
-    public byte[] toBytes(byte[] data) throws IllegalBlockSizeException, BadPaddingException {
-        byte[] rv;
-        synchronized (LOCK) {
-            rv = cipher.doFinal(data);
-        }
-        return rv;
+    byte[] toBytes(byte[] data) throws IllegalBlockSizeException, BadPaddingException;
+    
+    /**
+     * to byte<br>
+     * input hex string -> (en/de)crypt -> output bytes
+     * @param hex
+     * @return
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
+    default byte[] toBytesByHex(String hex) throws IllegalBlockSizeException, BadPaddingException {
+        return toBytes(Bytes.toBytesByHex(hex));
     }
     
+    /**
+     * to byte<br>
+     * input base64 string -> (en/de)crypt -> output bytes
+     * @param base64
+     * @return
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
+    default byte[] toBytesByBase64(String base64) throws IllegalBlockSizeException, BadPaddingException {
+        return toBytes(Base64.getDecoder().decode(base64));
+    }
+    
+    /**
+     * to hex string<br>
+     * input bytes -> (en/de)crypt -> output hex string
+     * @param data
+     * @param offset
+     * @param length
+     * @return
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
+    default String toHex(byte[] data, int offset, int length) throws IllegalBlockSizeException, BadPaddingException {
+        return Bytes.toHex(toBytes(data, offset, length));
+    }
+    
+    /**
+     * to hex string<br>
+     * input bytes -> (en/de)crypt -> output hex string
+     * @param data
+     * @return
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
+    default String toHex(byte[] data) throws IllegalBlockSizeException, BadPaddingException {
+        return Bytes.toHex(toBytes(data));
+    }
+    
+    /**
+     * to hex string<br>
+     * input hex string -> (en/de)crypt -> output hex string
+     * @param hex
+     * @return
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
+    default String toHexByHex(String hex) throws IllegalBlockSizeException, BadPaddingException {
+        return Bytes.toHex(Bytes.toBytesByHex(hex));
+    }
+    
+    /**
+     * to hex string<br>
+     * input base64 string -> (en/de)crypt -> output hex string
+     * @param base64
+     * @return
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
+    default String toHexByBase64(String base64) throws IllegalBlockSizeException, BadPaddingException {
+        return Bytes.toHex(Base64.getDecoder().decode(base64));
+    }
+    
+    /**
+     * to base64 string<br>
+     * input bytes -> (en/de)crypt -> output base64 string
+     * @param data
+     * @param offset
+     * @param length
+     * @return
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
+    default String toBase64(byte[] data, int offset, int length) throws IllegalBlockSizeException, BadPaddingException {
+        return Base64.getEncoder().encodeToString(toBytes(data, offset, length));
+    }
+    
+    /**
+     * to base64 string<br>
+     * input bytes -> (en/de)crypt -> output base64 string
+     * @param data
+     * @return
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
+    default String toBase64(byte[] data) throws IllegalBlockSizeException, BadPaddingException {
+        return Base64.getEncoder().encodeToString(toBytes(data));
+    }
+    
+    /**
+     * to base64 string<br>
+     * input hex string -> (en/de)crypt -> output base64 string
+     * @param hex
+     * @return
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
+    default String toBase64ByHex(String hex) throws IllegalBlockSizeException, BadPaddingException {
+        return Base64.getEncoder().encodeToString(Bytes.toBytesByHex(hex));
+    }
+    
+    /**
+     * to base64 string<br>
+     * input base64 string -> (en/de)crypt -> output base64 string
+     * @param base64
+     * @return
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
+    default String toBase64ByBase64(String base64) throws IllegalBlockSizeException, BadPaddingException {
+        return Base64.getEncoder().encodeToString(Base64.getDecoder().decode(base64));
+    }
 }
