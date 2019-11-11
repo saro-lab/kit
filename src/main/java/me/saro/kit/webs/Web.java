@@ -1,12 +1,12 @@
 package me.saro.kit.webs;
 
 import me.saro.kit.Files;
+import me.saro.kit.Texts;
 import me.saro.kit.functions.ThrowableConsumer;
 import me.saro.kit.functions.ThrowableFunction;
 
 import java.io.File;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 
 /**
  * Web Client
@@ -227,10 +227,6 @@ public interface Web {
      * @return
      */
     default public Web writeBody(String text) {
-        try {
-            return writeBody(text.getBytes(getRequestCharset()));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        return writeBody(Texts.getBytes(text, getRequestCharset()));
     }
 }

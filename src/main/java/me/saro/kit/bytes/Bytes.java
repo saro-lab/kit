@@ -1,6 +1,7 @@
 package me.saro.kit.bytes;
 
-import java.io.UnsupportedEncodingException;
+import me.saro.kit.Texts;
+
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -70,11 +71,7 @@ public class Bytes {
      * @return
      */
     public static String encodeBase64String(String text, String charset) {
-        try {
-            return EN_BASE64.encodeToString(text.getBytes(charset));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e.getLocalizedMessage(), e);
-        }
+        return EN_BASE64.encodeToString(Texts.getBytes(text, charset));
     }
     
     /**
@@ -93,11 +90,7 @@ public class Bytes {
      * @return
      */
     public static String decodeBase64(String base64, String charset) {
-        try {
-            return new String(DE_BASE64.decode(base64), charset);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e.getLocalizedMessage(), e);
-        }
+        return Bytes.toString(DE_BASE64.decode(base64), charset);
     }
     
     /**
@@ -629,11 +622,7 @@ public class Bytes {
      * @return
      */
     public static String toString(byte[] b, String charset) {
-        try {
-            return new String(b, charset);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("this system does not support encoding for the `"+charset+"`");
-        }
+        return Bytes.toString(b, charset);
     }
 
     /**
@@ -645,10 +634,6 @@ public class Bytes {
      * @return
      */
     public static String toString(byte[] b, int offset, int length,  String charset) {
-        try {
-            return new String(b, offset, length, charset);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("this system does not support encoding for the `"+charset+"`");
-        }
+        return Bytes.toString(b, offset, length, charset);
     }
 }
