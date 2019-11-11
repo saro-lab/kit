@@ -4,8 +4,10 @@ import me.saro.kit.bytes.ByteData;
 import me.saro.kit.bytes.Bytes;
 
 /**
- *
+ * ClassSerializer
  * @param <T>
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public abstract class ClassSerializer<T> {
 

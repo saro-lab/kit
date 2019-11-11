@@ -7,8 +7,8 @@ import java.util.function.Supplier;
 
 /**
  * byte data
- * @author		PARK Yong Seo
- * @since		1.0.0
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public class ByteData {
 

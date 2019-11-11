@@ -2,6 +2,11 @@ package me.saro.kit;
 
 import java.util.Arrays;
 
+/**
+ * number util
+ * @author PARK Yong Seo
+ * @since 1.0.0
+ */
 public class Numbers {
 
     /**

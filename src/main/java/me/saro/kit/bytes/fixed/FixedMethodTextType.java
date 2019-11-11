@@ -1,8 +1,8 @@
 package me.saro.kit.bytes.fixed;
 
 
-import me.saro.kit.bytes.Bytes;
 import me.saro.kit.Texts;
+import me.saro.kit.bytes.Bytes;
 import me.saro.kit.bytes.fixed.annotations.FixedDataClass;
 import me.saro.kit.bytes.fixed.annotations.TextData;
 import me.saro.kit.bytes.fixed.annotations.TextDataAlign;
@@ -12,8 +12,8 @@ import java.util.Arrays;
 
 /**
  * FixedMethodTextType
- * @author      PARK Yong Seo
- * @since       4.0.0
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public class FixedMethodTextType implements FixedMethod {
     

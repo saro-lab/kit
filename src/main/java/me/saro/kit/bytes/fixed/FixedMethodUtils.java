@@ -17,8 +17,8 @@ import java.util.stream.Stream;
 
 /**
  * FixedMethodExtractor
- * @author      PARK Yong Seo
- * @since       4.0.0
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public class FixedMethodUtils {
     

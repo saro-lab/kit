@@ -10,8 +10,8 @@ import java.util.List;
 
 /**
  * Fixed Data Mapper Impl
- * @author      PARK Yong Seo
- * @since       3.1.0
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 class FixedDataImpl implements FixedData {
 
