@@ -1,6 +1,6 @@
 package me.saro.kit;
 
-import me.saro.kit.crypts.Crypt;
+import me.saro.kit.crypts.SimpleCrypt;
 import org.junit.jupiter.api.Test;
 
 import javax.crypto.BadPaddingException;
@@ -13,7 +13,7 @@ import java.security.NoSuchAlgorithmException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CryptTest {
+public class SimpleCryptTest {
     
     final static String CHARSET = "UTF-8";
     final static byte[] key = "d92liw93%1!9df0z".getBytes();
@@ -22,8 +22,8 @@ public class CryptTest {
     @Test
     public void cryptText() throws InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
         
-        Crypt en = Crypt.encrypt("AES/CBC/PKCS5Padding", key, iv);
-        Crypt de = Crypt.decrypt("AES/CBC/PKCS5Padding", key, iv);
+        SimpleCrypt en = SimpleCrypt.encrypt("AES/CBC/PKCS5Padding", key, iv);
+        SimpleCrypt de = SimpleCrypt.decrypt("AES/CBC/PKCS5Padding", key, iv);
         
         String text = "data";
         String encrypt = en.toHex(text.getBytes(CHARSET));

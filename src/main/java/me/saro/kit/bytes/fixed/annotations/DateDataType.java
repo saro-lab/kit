@@ -1,9 +1,9 @@
 package me.saro.kit.bytes.fixed.annotations;
 
 /**
- *  Date Type
- * @author      PARK Yong Seo
- * @since       1.4
+ * Date Type
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public enum DateDataType {
     
