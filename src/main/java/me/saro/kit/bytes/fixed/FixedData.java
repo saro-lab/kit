@@ -12,8 +12,8 @@ import java.util.Map;
 
 /**
  * Fixed Data Mapper
- * @author      PARK Yong Seo
- * @since       3.1.0
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public interface FixedData {
     

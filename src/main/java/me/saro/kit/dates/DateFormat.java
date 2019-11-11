@@ -9,8 +9,8 @@ import java.util.Date;
  * this class use SimpleDateFormat(thread-not-safe)
  * <br>
  * but this class <b>thread-safe</b> because every use clone by SimpleDateFormat
- * @author		PARK Yong Seo
- * @since		0.1
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public class DateFormat {
 

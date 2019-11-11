@@ -12,8 +12,8 @@ import java.util.stream.IntStream;
 
 /**
  * bytes
- * @author      PARK Yong Seo
- * @since       1.0.0
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public class Bytes {
     

@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *  binary data in FixedDataFormat
- * @author      PARK Yong Seo
- * @since       1.4
+ * binary data in FixedDataFormat
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

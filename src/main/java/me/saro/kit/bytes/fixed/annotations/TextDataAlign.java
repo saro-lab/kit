@@ -1,9 +1,9 @@
 package me.saro.kit.bytes.fixed.annotations;
 
 /**
- *  Text Align
- * @author      PARK Yong Seo
- * @since       1.4
+ * Text Align
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public enum TextDataAlign {
     /**
