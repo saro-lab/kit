@@ -1,21 +1,23 @@
 package me.saro.kit.hashs;
 
+import me.saro.kit.Texts;
 import me.saro.kit.bytes.Bytes;
 
-import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
  *
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public class Hashs {
+
     /**
      * to Hash
-     * @param hashAlgorithm
-     * @param data
+     * @param hashAlgorithm hashAlgorithm
+     * @param data data
      * @return
-     * @since 1.0.0
      */
     public static byte[] toHash(HashAlgorithm hashAlgorithm, byte[] data) {
         try {
@@ -27,68 +29,64 @@ public class Hashs {
 
     /**
      * to Hash
-     * @param hashAlgorithm
-     * @param text
-     * @param charset
+     * @param hashAlgorithm hashAlgorithm
+     * @param text text
+     * @param charset charset
      * @return
-     * @since 1.0.0
      */
     public static byte[] toHash(HashAlgorithm hashAlgorithm, String text, String charset) {
-        return toHash(hashAlgorithm, text.getBytes(Charset.forName(charset)));
+        return toHash(hashAlgorithm, Texts.getBytes(text, charset));
     }
 
     /**
-     * to Hash
-     * <br>
+     * to Hash<br>
      * charset is UTF-8
-     * @param hashAlgorithm
-     * @param text
+     * @param hashAlgorithm hashAlgorithm
+     * @param text text
      * @return
-     * @since 1.0.0
      */
     public static byte[] toHash(HashAlgorithm hashAlgorithm, String text) {
-        return toHash(hashAlgorithm, text.getBytes(Charset.forName("UTF-8")));
+        return toHash(hashAlgorithm, Texts.getBytes(text, "UTF-8"));
     }
 
     /**
-     *
-     * @param hashAlgorithm
-     * @param text
+     * toHashHex
+     * @param hashAlgorithm hashAlgorithm
+     * @param text text
      * @return
-     * @since 1.0.0
      */
     public static String toHashHex(HashAlgorithm hashAlgorithm, String text, String charset) {
-        return Bytes.toHex(toHash(hashAlgorithm, text.getBytes(Charset.forName("UTF-8"))));
+        return Bytes.toHex(toHash(hashAlgorithm, Texts.getBytes(text, charset)));
     }
 
     /**
-     * @since 1.0.0
-     * @param hashAlgorithm
-     * @param text
+     * toHashHex
+     * @param hashAlgorithm hashAlgorithm
+     * @param text text
      * @return
      */
     public static String toHashHex(HashAlgorithm hashAlgorithm, String text) {
-        return Bytes.toHex(toHash(hashAlgorithm, text.getBytes(Charset.forName("UTF-8"))));
+        return Bytes.toHex(toHash(hashAlgorithm, Texts.getBytes(text, "UTF-8")));
     }
 
     /**
-     *
-     * @param hashAlgorithm
-     * @param text
+     * toHashBase64
+     * @param hashAlgorithm hashAlgorithm
+     * @param text text
      * @return
      * @since 1.0.0
      */
     public static String toHashBase64(HashAlgorithm hashAlgorithm, String text, String charset) {
-        return Bytes.encodeBase64String(toHash(hashAlgorithm, text.getBytes(Charset.forName("UTF-8"))));
+        return Bytes.encodeBase64String(toHash(hashAlgorithm, Texts.getBytes(text, charset)));
     }
 
     /**
-     * @since 1.0.0
-     * @param hashAlgorithm
-     * @param text
+     * toHashBase64
+     * @param hashAlgorithm hashAlgorithm
+     * @param text text
      * @return
      */
     public static String toHashBase64(HashAlgorithm hashAlgorithm, String text) {
-        return Bytes.encodeBase64String(toHash(hashAlgorithm, text.getBytes(Charset.forName("UTF-8"))));
+        return Bytes.encodeBase64String(toHash(hashAlgorithm, Texts.getBytes(text, "UTF-8")));
     }
 }

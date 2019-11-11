@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *  FixedData
- * @author      PARK Yong Seo
- * @since       1.0
+ * FixedData
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

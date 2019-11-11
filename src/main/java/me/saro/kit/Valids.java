@@ -3,9 +3,9 @@ package me.saro.kit;
 import me.saro.kit.dates.Dates;
 
 /**
- * Valids
- * @author		PARK Yong Seo
- * @since		0.1
+ * valid util
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public class Valids {
 
@@ -13,37 +13,24 @@ public class Valids {
     }
 
     /**
-     * mail check
-     * <br>
-     * - not allow Top-Level Domain
-     * <br>
+     * mail check<br>
+     * - not allow Top-Level Domain<br>
      * - not support unicode
      */
     final public static String IS_MAIL = "[_a-z0-9\\-]+(\\.[_a-z0-9\\-])*@([_a-z0-9\\-]+\\.)+[a-z]{2,}";
 
     /**
-     * mail check
-     * <br>
-     * - not allow Top-Level Domain
-     * <br>
+     * mail check<br>
+     * - not allow Top-Level Domain<br>
      * - not support unicode
-     * <p>
-     * <b>cautious:</b>
-     * <br>
-     * this function not requirements rfc spec
-     * <br>
-     * - https://tools.ietf.org/html/rfc5321
-     * <br>
+     * <b>cautious:</b><br>
+     * this function not requirements rfc spec<br>
+     * - https://tools.ietf.org/html/rfc5321<br>
      * - https://tools.ietf.org/html/rfc5322
-     * <p>
-     * <b>For example</b>
-     * <br>
-     * rfc valid : abc@abc
-     * <br>
+     * <b>For example</b><br>
+     * rfc valid : abc@abc<br>
      * isMail not valid : abc@abc (Top-Level Domain)
-     * <p>
-     * rfc5 valid : abc@saro.me
-     * <br>
+     * rfc5 valid : abc@saro.me<br>
      * isMail valid : abc@saro.me
      * 
      * @param mail address

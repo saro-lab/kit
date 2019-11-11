@@ -11,13 +11,13 @@ import java.util.stream.Stream;
 
 /**
  * file util
- * @author		PARK Yong Seo
- * @since		1.0.0
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public class Files {
 
     /**
-     *
+     * create file
      * @param file
      * @param overwrite
      * @param inputStream
@@ -45,7 +45,7 @@ public class Files {
     }
 
     /**
-     *
+     * create file
      * @param file
      * @param overwrite
      * @param value
@@ -57,21 +57,23 @@ public class Files {
     }
 
     /**
-     *
-     * @param file
-     * @param charset
-     * @param process
-     * @param <R>
+     * text file to lines in the process function
+     * @param file file
+     * @param charset charset
+     * @param process (Stream&lt;String&gt; line): R
+     * @param <R> return type
      * @return
      * @throws Exception
      */
     public static <R> R lines(File file, String charset, ThrowableFunction<Stream<String>, R> process) throws Exception {
-        return Streams.lines(new FileInputStream(file), charset, process);
+        try (var fis = new FileInputStream(file)) {
+            return Streams.lines(fis, charset, process);
+        }
     }
 
     /**
-     *
-     * @param directory
+     * list in the directory
+     * @param directory directory file
      * @return
      */
     public static List<File> list(File directory) {
@@ -83,19 +85,19 @@ public class Files {
 
     /**
      * to file name extension
-     * @param filename
+     * @param file filename
      * @return
      *  ex) "gif", "png", "jpg", "zip", "exe", ""
      */
-    public static String toFilenameExtension(File filename) {
-        String name = filename.getName();
+    public static String toFilenameExtension(File file) {
+        String name = file.getName();
         int pos;
         return (pos = name.lastIndexOf('.')) != -1 ? name.substring(pos + 1) : "";
     }
 
     /**
      * to file name extension
-     * @param filename
+     * @param filename filename
      * @return
      *  ex) "gif", "png", "jpg", "zip", "exe", ""
      */
@@ -104,14 +106,14 @@ public class Files {
     }
 
     /**
-     *
-     * @param filename
-     * @param ignoreCase
-     * @param filenameExtensions
+     * valid filename extension
+     * @param file file
+     * @param ignoreCase is ignore case
+     * @param filenameExtensions filename extensions
      * @return
      */
-    public static boolean validFilenameExtension(File filename, boolean ignoreCase, String... filenameExtensions) {
-        final var extension = ignoreCase ? toFilenameExtension(filename).toLowerCase() : toFilenameExtension(filename);
+    public static boolean validFilenameExtension(File file, boolean ignoreCase, String... filenameExtensions) {
+        final var extension = ignoreCase ? toFilenameExtension(file).toLowerCase() : toFilenameExtension(file);
 
         for (String filenameExtension : filenameExtensions) {
             if (extension.equals(ignoreCase ? filenameExtension.toLowerCase() : filenameExtension)) {
@@ -124,7 +126,7 @@ public class Files {
 
     /**
      * get file infomation
-     * @param file
+     * @param file file
      * @return
      * @throws IOException
      */
@@ -133,14 +135,13 @@ public class Files {
     }
 
     /**
-     * convert BasicFileAttributes to FileFilter
-     * <br><br>
+     * convert BasicFileAttributes to FileFilter<br><br>
      * ex) // delete created before 24 hour file in /testpath <br>
      * long before24hour = DateFormat.now().addHours(-24).getTimeInMillis(); <br>
      * Files.list("/testpath").stream()<br>
      *   .filter(Files.attributesFilter(attr -> attr.creationTime().toMillis() < before24hour))<br>
      *   .forEach(File::delete);
-     * @param filter
+     * @param filter filter
      * @return
      */
     public static Predicate<File> attributesFilter(ThrowablePredicate<BasicFileAttributes> filter) {

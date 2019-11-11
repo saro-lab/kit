@@ -4,8 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * FixedMethodConsumer
- * @author      PARK Yong Seo
- * @since       4.0.0
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 @FunctionalInterface
 public interface FixedMethodConsumer {

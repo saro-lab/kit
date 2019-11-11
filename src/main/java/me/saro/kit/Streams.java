@@ -10,14 +10,19 @@ import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+/**
+ * stream util
+ * @author PARK Yong Seo
+ * @since 1.0.0
+ */
 public class Streams {
 
     private static int BUFSIZE = 8192;
 
     /**
-     *
-     * @param is
-     * @param charset
+     * input stream to string
+     * @param is input stream
+     * @param charset charset
      * @return
      * @throws IOException
      */
@@ -34,10 +39,10 @@ public class Streams {
     }
 
     /**
-     *
-     * @param src
-     * @param descBytes
-     * @param descBytesOffset
+     * input stream bind to byte array
+     * @param src input stream
+     * @param descBytes byte array will bind
+     * @param descBytesOffset bind offset
      * @throws IOException
      */
     public static void bind(InputStream src, byte[] descBytes, int descBytesOffset) throws IOException {
@@ -53,28 +58,28 @@ public class Streams {
     }
 
     /**
-     *
-     * @param is
-     * @param out
+     * link input stream to output stream
+     * @param is input stream
+     * @param os output stream
      * @throws IOException
      */
-    public static void link(InputStream is, OutputStream out) throws IOException {
-        try (is ; out) {
+    public static void link(InputStream is, OutputStream os) throws IOException {
+        try (is ; os) {
             int len;
             var buf = new byte[BUFSIZE];
             while ((len = is.read(buf, 0, BUFSIZE)) > -1) {
-                out.write(buf, 0, len);
+                os.write(buf, 0, len);
             }
-            out.flush();
+            os.flush();
         }
     }
 
     /**
-     *
-     * @param is
-     * @param charset
-     * @param process
-     * @param <R>
+     * input stream to lines in the process function
+     * @param is source input stream
+     * @param charset charset
+     * @param process (Stream&lt;String&gt; line): R
+     * @param <R> return type
      * @return
      * @throws Exception
      */
@@ -85,10 +90,10 @@ public class Streams {
     }
 
     /**
-     *
-     * @param iterable
-     * @param parallel
-     * @param <T>
+     * iterable to stream
+     * @param iterable source
+     * @param parallel isParallel
+     * @param <T> template
      * @return
      */
     public static <T> Stream<T> toStream(Iterable<T> iterable, boolean parallel) {
@@ -96,10 +101,10 @@ public class Streams {
     }
 
     /**
-     *
-     * @param enumeration
-     * @param parallel
-     * @param <T>
+     * enumeration to stream
+     * @param enumeration source
+     * @param parallel isParallel
+     * @param <T> template
      * @return
      */
     public static <T> Stream<T> toStream(Enumeration<T> enumeration, boolean parallel) {

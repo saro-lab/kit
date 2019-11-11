@@ -4,8 +4,8 @@ import java.lang.reflect.Method;
 
 /**
  * FixedField
- * @author      PARK Yong Seo
- * @since       4.0.0
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public interface FixedMethod {
     FixedMethodConsumer toBytes(Method method);

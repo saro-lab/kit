@@ -13,8 +13,8 @@ import java.util.Date;
 
 /**
  * FixedMethodDateType
- * @author      PARK Yong Seo
- * @since       4.0.0
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public class FixedMethodDateType implements FixedMethod {
     

@@ -7,8 +7,8 @@ import java.util.function.Supplier;
 
 /**
  * web result
- * @author		PARK Yong Seo
- * @since		0.1
+ * @author PARK Yong Seo
+ * @since 1.0.0
  */
 public class WebResult<T> {
 

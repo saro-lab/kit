@@ -1,33 +1,15 @@
 package me.saro.kit;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * primitive object util
+ * @author PARK Yong Seo
+ * @since 1.0.0
+ */
 public class Primitive {
     /**
-     * asList
-     * <br>
-     * this asList different Arrays.asList
-     * <br>
-     * this method List is ArrayList
-     * <br>
-     * can editable list
-     * @param args
-     * @return
-     */
-    @SafeVarargs
-    public static <T> List<T> asList(T... args) {
-        List<T> list = new ArrayList<>();
-        if (args != null) {
-            for (T t : args) {
-                list.add(t);
-            }
-        }
-        return list;
-    }
-
-    /**
-     * toArray
+     * List&lt;Short&gt; to short[]
      * @param list
      * @return
      */
@@ -40,7 +22,7 @@ public class Primitive {
     }
 
     /**
-     * toArray
+     * List&lt;Integer&gt; to int[]
      * @param list
      * @return
      */
@@ -53,7 +35,7 @@ public class Primitive {
     }
 
     /**
-     * toArray
+     * List&lt;Long&gt; to long[]
      * @param list
      * @return
      */
@@ -66,7 +48,7 @@ public class Primitive {
     }
 
     /**
-     * toArray
+     * List&lt;Float&gt; to float[]
      * @param list
      * @return
      */
@@ -79,7 +61,7 @@ public class Primitive {
     }
 
     /**
-     * toArray
+     * List&lt;Double&gt; to double[]
      * @param list
      * @return
      */
@@ -92,7 +74,7 @@ public class Primitive {
     }
 
     /**
-     * toPrimitive
+     * List&lt;Byte&gt; to byte[]
      * @param array
      * @return
      */
@@ -105,7 +87,7 @@ public class Primitive {
     }
 
     /**
-     * toPrimitive
+     * Short[] to short[]
      * @param array
      * @return
      */
@@ -118,7 +100,7 @@ public class Primitive {
     }
 
     /**
-     * toPrimitive
+     * Integer[] to int[]
      * @param array
      * @return
      */
@@ -131,7 +113,7 @@ public class Primitive {
     }
 
     /**
-     * toPrimitive
+     * Long[] to long[]
      * @param array
      * @return
      */
@@ -144,7 +126,7 @@ public class Primitive {
     }
 
     /**
-     * toPrimitive
+     * Float[] to float[]
      * @param array
      * @return
      */
@@ -157,7 +139,7 @@ public class Primitive {
     }
 
     /**
-     * toPrimitive
+     * Double[] to double[]
      * @param array
      * @return
      */
@@ -170,7 +152,7 @@ public class Primitive {
     }
 
     /**
-     * toPrimitive
+     * byte[] to Byte[]
      * @param array
      * @return
      */
@@ -183,7 +165,7 @@ public class Primitive {
     }
 
     /**
-     * toPrimitive
+     * short[] to Short[]
      * @param array
      * @return
      */
@@ -196,7 +178,7 @@ public class Primitive {
     }
 
     /**
-     * toPrimitive
+     * int[] to Integer[]
      * @param array
      * @return
      */
@@ -209,7 +191,7 @@ public class Primitive {
     }
 
     /**
-     * toPrimitive
+     * long[] to Long[]
      * @param array
      * @return
      */
@@ -222,7 +204,7 @@ public class Primitive {
     }
 
     /**
-     * toPrimitive
+     * float[] to Float[]
      * @param array
      * @return
      */
@@ -235,7 +217,7 @@ public class Primitive {
     }
 
     /**
-     * toPrimitive
+     * double[] to Double[]
      * @param array
      * @return
      */
