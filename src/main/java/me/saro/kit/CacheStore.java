@@ -10,7 +10,7 @@ import java.util.function.Function;
  * @author PARK Yong Seo
  * @since 1.0.0
  */
-public class CacheStore<T, ID> {
+public class CacheStore<ID, T> {
 
     private Map<ID, CacheWrapper<T>> store = new HashMap<>();
 
