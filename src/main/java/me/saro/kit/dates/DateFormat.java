@@ -331,6 +331,24 @@ public class DateFormat {
     }
 
     /**
+     * get DayOfIntWeek
+     * 0:sun - 1:mon ... 6:sat
+     * @return
+     */
+    public int getDayOfIntWeek() {
+        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
+            case Calendar.SUNDAY: return 0;
+            case Calendar.MONDAY: return 1;
+            case Calendar.TUESDAY: return 2;
+            case Calendar.WEDNESDAY: return 3;
+            case Calendar.THURSDAY: return 4;
+            case Calendar.FRIDAY: return 5;
+            case Calendar.SATURDAY: return 6;
+        }
+        throw new RuntimeException();
+    }
+
+    /**
      * get WeekOfMonth
      * @return
      */
