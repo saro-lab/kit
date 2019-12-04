@@ -22,6 +22,8 @@ public enum HashAlgorithm {
     SHA_512_224 ("SHA-512/224"),
     /** SHA 2 : 512/256 */
     SHA_512_256 ("SHA-512/256"),
+    /** SHA 2 : 512 */
+    SHA_512 ("SHA-512"),
 
     /** SHA 3 : 224 */
     SHA3_224 ("SHA3-224"),
