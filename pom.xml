@@ -4,7 +4,7 @@
     <groupId>me.saro</groupId>
     <artifactId>kit</artifactId>
     <description>SARO KIT for java</description>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>SARO KIT</name>

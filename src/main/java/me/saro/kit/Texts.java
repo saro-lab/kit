@@ -1,6 +1,5 @@
 package me.saro.kit;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +10,8 @@ import java.util.List;
  * @since 1.0.0
  */
 public class Texts {
+
+    final private static char[] BASE62_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
 
     /**
      * text split<br>
@@ -162,4 +163,72 @@ public class Texts {
         return null;
     }
 
+    /**
+     * create random string
+     * @param mold
+     * base mold for create random string
+     * @param len
+     * create langth
+     * @return
+     * random string
+     */
+    public static String createRandomString(char[] mold, int len) {
+        char[] rv = new char[len];
+        int charLen = mold.length;
+
+        for (int i = 0 ;i < len ; i++) {
+            rv[i] = mold[(int)(Math.random() * charLen)];
+        }
+
+        return new String(rv);
+    }
+
+    /**
+     * create random string
+     * @param mold
+     * base mold for create random string
+     * @param min
+     * min length
+     * @param max
+     * max length
+     * @return
+     * create random string
+     * min &lt;= return value &lt;= max
+     */
+    public static String createRandomString(char[] mold, int min, int max) {
+        return createRandomString(mold, (int)random(min, max));
+    }
+
+    /**
+     * create random base62 string
+     * <br>
+     * base62 : [ A-Z a-z 0-9 ]
+     * @param min
+     * min length
+     * @param max
+     * max length
+     * @return
+     *
+     */
+    public static String createRandomBase62String(int min, int max) {
+        return createRandomString(BASE62_CHARS, (int)random(min, max));
+    }
+
+    /**
+     * get random
+     * @param min
+     * min length
+     * @param max
+     * max length
+     * @return
+     * min &lt;= return value &lt;= max
+     */
+    public static long random(long min, long max) {
+        if (min == max) {
+            return min;
+        } else if (min > max) {
+            throw new IllegalArgumentException("'lessThen' have to over the value then 'min'");
+        }
+        return min + (int)(Math.random() * ((max + 1) - min));
+    }
 }

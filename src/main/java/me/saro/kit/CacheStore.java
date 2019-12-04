@@ -5,10 +5,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
+
 /**
- *
  * @author PARK Yong Seo
- * @since 1.0.0
+ * @param <T>
+ * @param <ID>
+ * @Since 1.0.0
  */
 public class CacheStore<ID, T> {
 
@@ -22,13 +24,13 @@ public class CacheStore<ID, T> {
 
     public synchronized T get(ID id, Function<ID, T> orElse) {
         return  Optional
-            .ofNullable(store.get(id))
-            .map(CacheWrapper::get)
-            .orElseGet(() -> {
-                var v = orElse.apply(id);
-                store.put(id, new CacheWrapper<>(cacheTimeMillis, v));
-                return v;
-            });
+                .ofNullable(store.get(id))
+                .map(CacheWrapper::get)
+                .orElseGet(() -> {
+                    var v = orElse.apply(id);
+                    store.put(id, new CacheWrapper<>(cacheTimeMillis, v));
+                    return v;
+                });
     }
 
     public static class CacheWrapper<T> {
