@@ -89,7 +89,7 @@ public class ConstDateTime {
      * @param milliseconds
      * @return
      */
-    public ConstDateTime addMilliseconds(int milliseconds) {
+    public ConstDateTime plusMilliseconds(int milliseconds) {
         var rv = clone();
         rv.calendar.add(Calendar.MILLISECOND, milliseconds);
         return rv;
@@ -100,7 +100,7 @@ public class ConstDateTime {
      * @param minutes
      * @return
      */
-    public ConstDateTime addMinutes(int minutes) {
+    public ConstDateTime plusMinutes(int minutes) {
         var rv = clone();
         rv.calendar.add(Calendar.MINUTE, minutes);
         return rv;
@@ -111,7 +111,7 @@ public class ConstDateTime {
      * @param hours
      * @return
      */
-    public ConstDateTime addHours(int hours) {
+    public ConstDateTime plusHours(int hours) {
         var rv = clone();
         rv.calendar.add(Calendar.HOUR, hours);
         return rv;
@@ -122,7 +122,7 @@ public class ConstDateTime {
      * @param date
      * @return
      */
-    public ConstDateTime addDates(int date) {
+    public ConstDateTime plusDates(int date) {
         var rv = clone();
         rv.calendar.add(Calendar.DATE, date);
         return rv;
@@ -130,14 +130,10 @@ public class ConstDateTime {
 
     /**
      * add Month
-     * <br>
-     * <b>logic</b> : 
-     * <br>
-     * same calendar .add(Calendar.MONTH, month);
      * @param month
      * @return
      */
-    public ConstDateTime addMonth(int month) {
+    public ConstDateTime plusMonth(int month) {
         var rv = clone();
         rv.calendar.add(Calendar.MONTH, month);
         return rv;
@@ -145,14 +141,10 @@ public class ConstDateTime {
 
     /**
      * add Year
-     * <br>
-     * <b>logic</b> : 
-     * <br>
-     * same calendar .add(Calendar.YEAR, year);
      * @param year
      * @return
      */
-    public ConstDateTime addYear(int year) {
+    public ConstDateTime plusYear(int year) {
         var rv = clone();
         rv.calendar.add(Calendar.YEAR, year);
         return rv;
@@ -164,7 +156,7 @@ public class ConstDateTime {
      * @param timeInMillis
      * @return
      */
-    public ConstDateTime setTimeInMillis(long timeInMillis) {
+    public ConstDateTime withTimeInMillis(long timeInMillis) {
         var rv = clone();
         rv.calendar.setTimeInMillis(timeInMillis);
         return rv;
@@ -177,7 +169,7 @@ public class ConstDateTime {
      * @param milliseconds
      * @return
      */
-    public ConstDateTime setMilliseconds(int milliseconds) {
+    public ConstDateTime withMilliseconds(int milliseconds) {
         var rv = clone();
         rv.calendar.set(Calendar.MILLISECOND, milliseconds);
         return rv;
@@ -188,7 +180,7 @@ public class ConstDateTime {
      * @param seconds
      * @return
      */
-    public ConstDateTime setSeconds(int seconds) {
+    public ConstDateTime withSeconds(int seconds) {
         var rv = clone();
         rv.calendar.set(Calendar.SECOND, seconds);
         return rv;
@@ -199,7 +191,7 @@ public class ConstDateTime {
      * @param minutes
      * @return
      */
-    public ConstDateTime setMinutes(int minutes) {
+    public ConstDateTime withMinutes(int minutes) {
         var rv = clone();
         rv.calendar.set(Calendar.MINUTE, minutes);
         return rv;
@@ -210,7 +202,7 @@ public class ConstDateTime {
      * @param hours
      * @return
      */
-    public ConstDateTime setHours(int hours) {
+    public ConstDateTime withHours(int hours) {
         var rv = clone();
         rv.calendar.set(Calendar.HOUR, hours);
         return rv;
@@ -221,7 +213,7 @@ public class ConstDateTime {
      * @param day
      * @return
      */
-    public ConstDateTime setDayOfMonth(int day) {
+    public ConstDateTime withDayOfMonth(int day) {
         var rv = clone();
         rv.calendar.set(Calendar.DAY_OF_MONTH, day);
         return rv;
@@ -232,7 +224,7 @@ public class ConstDateTime {
      * @param month
      * @return
      */
-    public ConstDateTime setMonth(int month) {
+    public ConstDateTime withMonth(int month) {
         var rv = clone();
         rv.calendar.set(Calendar.MONTH, month);
         return rv;
@@ -243,7 +235,7 @@ public class ConstDateTime {
      * @param year
      * @return
      */
-    public ConstDateTime setYear(int year) {
+    public ConstDateTime withYear(int year) {
         var rv = clone();
         rv.calendar.set(Calendar.YEAR, year);
         return rv;
@@ -415,7 +407,7 @@ public class ConstDateTime {
      * @return
      */
     public int remainDaysUntilLastDayOfMonth() {
-        return diffDays(setDayOfMonth(getLastDayOfMonth()));
+        return diffDays(withDayOfMonth(getLastDayOfMonth()));
     }
 
     /**
