@@ -85,7 +85,7 @@ public class ConstDateTime {
     }
 
     /**
-     * add Milliseconds
+     * return plus milliseconds
      * @param milliseconds
      * @return
      */
@@ -96,7 +96,7 @@ public class ConstDateTime {
     }
 
     /**
-     * add Minutes
+     * return plus minutes
      * @param minutes
      * @return
      */
@@ -107,7 +107,7 @@ public class ConstDateTime {
     }
 
     /**
-     * add Hours
+     * return plus hours
      * @param hours
      * @return
      */
@@ -118,7 +118,7 @@ public class ConstDateTime {
     }
 
     /**
-     * add Date
+     * return plus dates
      * @param date
      * @return
      */
@@ -129,7 +129,7 @@ public class ConstDateTime {
     }
 
     /**
-     * add Month
+     * return plus month
      * @param month
      * @return
      */
@@ -140,7 +140,7 @@ public class ConstDateTime {
     }
 
     /**
-     * add Year
+     * return plus year
      * @param year
      * @return
      */
@@ -151,8 +151,8 @@ public class ConstDateTime {
     }
 
     /**
-     * set TimeInMillis
-     * <b>WARNING : </b> is not Milliseconds
+     * <b>WARNING : </b> is not Milliseconds<br>
+     * return with timeInMillis
      * @param timeInMillis
      * @return
      */
@@ -163,9 +163,8 @@ public class ConstDateTime {
     }
 
     /**
-     * set milliseconds
-     * <br>
-     * <b>WARNING : </b> is not TimeInMillis
+     * <b>WARNING : </b> is not TimeInMillis<br>
+     * return with milliseconds
      * @param milliseconds
      * @return
      */
@@ -176,7 +175,7 @@ public class ConstDateTime {
     }
 
     /**
-     * set Seconds
+     * return with seconds
      * @param seconds
      * @return
      */
@@ -187,7 +186,7 @@ public class ConstDateTime {
     }
 
     /**
-     * set Minutes
+     * return with minutes
      * @param minutes
      * @return
      */
@@ -198,7 +197,7 @@ public class ConstDateTime {
     }
 
     /**
-     * set Hours
+     * return with hours
      * @param hours
      * @return
      */
@@ -209,7 +208,7 @@ public class ConstDateTime {
     }
 
     /**
-     * set Date
+     * return with dayOfMonth
      * @param day
      * @return
      */
@@ -220,7 +219,7 @@ public class ConstDateTime {
     }
 
     /**
-     * set Month
+     * return with month
      * @param month
      * @return
      */
@@ -231,7 +230,7 @@ public class ConstDateTime {
     }
 
     /**
-     * set Year
+     * return with year
      * @param year
      * @return
      */
