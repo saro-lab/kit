@@ -1,8 +1,8 @@
 package me.saro.kit;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 
@@ -14,7 +14,7 @@ import java.util.function.Function;
  */
 public class CacheStore<ID, T> {
 
-    private Map<ID, CacheWrapper<T>> store = new HashMap<>();
+    private Map<ID, CacheWrapper<T>> store = new ConcurrentHashMap<>();
 
     final private long cacheTimeMillis;
 
@@ -22,15 +22,42 @@ public class CacheStore<ID, T> {
         this.cacheTimeMillis = cacheTimeMillis;
     }
 
+    /**
+     * get
+     * @param id id
+     * @param orElse or else value
+     * @return
+     */
     public synchronized T get(ID id, Function<ID, T> orElse) {
-        return  Optional
+        return Optional
                 .ofNullable(store.get(id))
                 .map(CacheWrapper::get)
-                .orElseGet(() -> {
-                    var v = orElse.apply(id);
-                    store.put(id, new CacheWrapper<>(cacheTimeMillis, v));
-                    return v;
-                });
+                .orElseGet(() -> store.put(id, new CacheWrapper<>(cacheTimeMillis, orElse.apply(id))).data);
+    }
+
+    /**
+     * get after forced update
+     * @param id id
+     * @param value update value
+     * @return
+     */
+    public T getAfterForcedUpdate(ID id, T value) {
+        return store.put(id, new CacheWrapper<>(cacheTimeMillis, value)).data;
+    }
+
+    /**
+     * remove
+     * @param id id
+     */
+    public void remove(ID id) {
+        store.remove(id);
+    }
+
+    /**
+     * clear
+     */
+    public void clear() {
+        store.clear();
     }
 
     public static class CacheWrapper<T> {
