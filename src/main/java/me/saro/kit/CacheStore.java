@@ -32,7 +32,11 @@ public class CacheStore<ID, T> {
         return Optional
                 .ofNullable(store.get(id))
                 .map(CacheWrapper::get)
-                .orElseGet(() -> store.put(id, new CacheWrapper<>(cacheTimeMillis, orElse.apply(id))).data);
+                .orElseGet(() -> {
+                    final var data = orElse.apply(id);
+                    store.put(id, new CacheWrapper<>(cacheTimeMillis, data));
+                    return data;
+                });
     }
 
     /**
@@ -42,7 +46,8 @@ public class CacheStore<ID, T> {
      * @return
      */
     public T getAfterForcedUpdate(ID id, T value) {
-        return store.put(id, new CacheWrapper<>(cacheTimeMillis, value)).data;
+        store.put(id, new CacheWrapper<>(cacheTimeMillis, value));
+        return value;
     }
 
     /**
