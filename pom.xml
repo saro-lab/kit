@@ -4,7 +4,7 @@
     <groupId>me.saro</groupId>
     <artifactId>kit</artifactId>
     <description>SARO KIT for java</description>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.3</version>
     <packaging>jar</packaging>
 
     <name>SARO KIT</name>
@@ -65,7 +65,7 @@
         <connection>scm:git:git://github.com/saro-lab/kit.git</connection>
         <developerConnection>scm:git:git@github.com:saro-lab/kit.git</developerConnection>
         <url>https://github.com/saro-lab/kit</url>
-        <tag>HEAD</tag>
+        <tag>kit-0.0.3</tag>
     </scm>
 
     <profiles>
