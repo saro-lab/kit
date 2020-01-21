@@ -2,6 +2,7 @@ package me.saro.kit.dates;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * const date time
@@ -82,6 +83,12 @@ public class ConstDateTime {
             }
         } catch (Exception e) {}
         return false;
+    }
+
+    public ConstDateTime timezone(TimeZone timeZone) {
+        var rv = clone();
+        rv.calendar.setTimeZone(timeZone);
+        return rv;
     }
 
     /**
