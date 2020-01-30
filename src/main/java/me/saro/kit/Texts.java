@@ -99,8 +99,7 @@ public class Texts {
      * @return
      */
     public static String gap(String text, String prefix, String suffix) {
-        int s = text.indexOf(prefix);
-        int e = text.indexOf(suffix, s + 1);
+        int s = text.indexOf(prefix), e = text.indexOf(suffix, s + prefix.length());
         return s != -1 && e != -1 ? text.substring(s + prefix.length(), e) : "";
     }
 
