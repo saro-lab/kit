@@ -27,10 +27,10 @@ public class Streams {
      * @throws IOException
      */
     public static String toString(InputStream is, String charset) throws IOException {
-        try (is ; var isr = new InputStreamReader(is, charset)) {
+        try (InputStream tis = is ; InputStreamReader isr = new InputStreamReader(tis, charset)) {
             int len;
-            var sb = new StringBuilder(BUFSIZE);
-            var buf = new char[BUFSIZE];
+            StringBuilder sb = new StringBuilder(BUFSIZE);
+            char[] buf = new char[BUFSIZE];
             while ((len = isr.read(buf, 0, BUFSIZE)) > -1) {
                 sb.append(buf, 0, len);
             }
@@ -46,11 +46,11 @@ public class Streams {
      * @throws IOException
      */
     public static void bind(InputStream src, byte[] descBytes, int descBytesOffset) throws IOException {
-        try (src) {
+        try (InputStream tmp = src) {
             int len;
             int idx = descBytesOffset;
-            var buf = new byte[BUFSIZE];
-            while ((len = src.read(buf, 0, BUFSIZE)) > -1) {
+            byte[] buf = new byte[BUFSIZE];
+            while ((len = tmp.read(buf, 0, BUFSIZE)) > -1) {
                 System.arraycopy(buf, 0, descBytes, idx, len);
                 idx += len;
             }
@@ -64,13 +64,13 @@ public class Streams {
      * @throws IOException
      */
     public static void link(InputStream is, OutputStream os) throws IOException {
-        try (is ; os) {
+        try (InputStream tis = is ; OutputStream tos = os) {
             int len;
-            var buf = new byte[BUFSIZE];
-            while ((len = is.read(buf, 0, BUFSIZE)) > -1) {
-                os.write(buf, 0, len);
+            byte[] buf = new byte[BUFSIZE];
+            while ((len = tis.read(buf, 0, BUFSIZE)) > -1) {
+                tos.write(buf, 0, len);
             }
-            os.flush();
+            tos.flush();
         }
     }
 
@@ -84,7 +84,7 @@ public class Streams {
      * @throws Exception
      */
     public static <R> R lines(InputStream is, String charset, ThrowableFunction<Stream<String>, R> process) throws Exception {
-        try (is ; var isr = new InputStreamReader(is, charset) ; var br = new BufferedReader(isr)) {
+        try (InputStream tis = is ; InputStreamReader isr = new InputStreamReader(tis, charset) ; BufferedReader br = new BufferedReader(isr)) {
             return process.apply(br.lines());
         }
     }

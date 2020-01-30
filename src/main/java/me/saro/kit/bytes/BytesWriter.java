@@ -3,6 +3,7 @@ package me.saro.kit.bytes;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
@@ -80,6 +81,10 @@ public class BytesWriter {
 
     @Override
     public String toString() {
-        return body.toString(charset);
+        try {
+            return body.toString(charset.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

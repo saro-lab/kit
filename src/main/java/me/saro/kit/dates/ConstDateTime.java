@@ -86,7 +86,7 @@ public class ConstDateTime {
     }
 
     public ConstDateTime timezone(TimeZone timeZone) {
-        var rv = clone();
+        ConstDateTime rv = clone();
         rv.calendar.setTimeZone(timeZone);
         return rv;
     }
@@ -97,7 +97,7 @@ public class ConstDateTime {
      * @return
      */
     public ConstDateTime plusMilliseconds(int milliseconds) {
-        var rv = clone();
+        ConstDateTime rv = clone();
         rv.calendar.add(Calendar.MILLISECOND, milliseconds);
         return rv;
     }
@@ -108,7 +108,7 @@ public class ConstDateTime {
      * @return
      */
     public ConstDateTime plusMinutes(int minutes) {
-        var rv = clone();
+        ConstDateTime rv = clone();
         rv.calendar.add(Calendar.MINUTE, minutes);
         return rv;
     }
@@ -119,7 +119,7 @@ public class ConstDateTime {
      * @return
      */
     public ConstDateTime plusHours(int hours) {
-        var rv = clone();
+        ConstDateTime rv = clone();
         rv.calendar.add(Calendar.HOUR, hours);
         return rv;
     }
@@ -130,7 +130,7 @@ public class ConstDateTime {
      * @return
      */
     public ConstDateTime plusDates(int date) {
-        var rv = clone();
+        ConstDateTime rv = clone();
         rv.calendar.add(Calendar.DATE, date);
         return rv;
     }
@@ -141,7 +141,7 @@ public class ConstDateTime {
      * @return
      */
     public ConstDateTime plusMonth(int month) {
-        var rv = clone();
+        ConstDateTime rv = clone();
         rv.calendar.add(Calendar.MONTH, month);
         return rv;
     }
@@ -152,7 +152,7 @@ public class ConstDateTime {
      * @return
      */
     public ConstDateTime plusYear(int year) {
-        var rv = clone();
+        ConstDateTime rv = clone();
         rv.calendar.add(Calendar.YEAR, year);
         return rv;
     }
@@ -164,7 +164,7 @@ public class ConstDateTime {
      * @return
      */
     public ConstDateTime withTimeInMillis(long timeInMillis) {
-        var rv = clone();
+        ConstDateTime rv = clone();
         rv.calendar.setTimeInMillis(timeInMillis);
         return rv;
     }
@@ -176,7 +176,7 @@ public class ConstDateTime {
      * @return
      */
     public ConstDateTime withMilliseconds(int milliseconds) {
-        var rv = clone();
+        ConstDateTime rv = clone();
         rv.calendar.set(Calendar.MILLISECOND, milliseconds);
         return rv;
     }
@@ -187,7 +187,7 @@ public class ConstDateTime {
      * @return
      */
     public ConstDateTime withSeconds(int seconds) {
-        var rv = clone();
+        ConstDateTime rv = clone();
         rv.calendar.set(Calendar.SECOND, seconds);
         return rv;
     }
@@ -198,7 +198,7 @@ public class ConstDateTime {
      * @return
      */
     public ConstDateTime withMinutes(int minutes) {
-        var rv = clone();
+        ConstDateTime rv = clone();
         rv.calendar.set(Calendar.MINUTE, minutes);
         return rv;
     }
@@ -209,7 +209,7 @@ public class ConstDateTime {
      * @return
      */
     public ConstDateTime withHours(int hours) {
-        var rv = clone();
+        ConstDateTime rv = clone();
         rv.calendar.set(Calendar.HOUR, hours);
         return rv;
     }
@@ -220,7 +220,7 @@ public class ConstDateTime {
      * @return
      */
     public ConstDateTime withDayOfMonth(int day) {
-        var rv = clone();
+        ConstDateTime rv = clone();
         rv.calendar.set(Calendar.DAY_OF_MONTH, day);
         return rv;
     }
@@ -231,7 +231,7 @@ public class ConstDateTime {
      * @return
      */
     public ConstDateTime withMonth(int month) {
-        var rv = clone();
+        ConstDateTime rv = clone();
         rv.calendar.set(Calendar.MONTH, month);
         return rv;
     }
@@ -242,7 +242,7 @@ public class ConstDateTime {
      * @return
      */
     public ConstDateTime withYear(int year) {
-        var rv = clone();
+        ConstDateTime rv = clone();
         rv.calendar.set(Calendar.YEAR, year);
         return rv;
     }
@@ -389,8 +389,8 @@ public class ConstDateTime {
      * @return
      */
     public int diffDays(ConstDateTime constDateTime) {
-        var sd = onlyDate().calendar;
-        var ed = constDateTime.onlyDate().calendar;
+        Calendar sd = onlyDate().calendar;
+        Calendar ed = constDateTime.onlyDate().calendar;
         int diffDays = (int)((ed.getTimeInMillis() - sd.getTimeInMillis()) / 86400000L);
 
         sd.add(Calendar.DATE, diffDays);
@@ -457,8 +457,8 @@ public class ConstDateTime {
      * remove hh MM ss
      */
     public ConstDateTime onlyDate() {
-        var rv = clone();
-        var cal = rv.calendar;
+        ConstDateTime rv = clone();
+        Calendar cal = rv.calendar;
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
