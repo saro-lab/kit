@@ -33,7 +33,7 @@ public class CacheStore<ID, T> {
                 .ofNullable(store.get(id))
                 .map(CacheWrapper::get)
                 .orElseGet(() -> {
-                    final var data = orElse.apply(id);
+                    final T data = orElse.apply(id);
                     store.put(id, new CacheWrapper<>(cacheTimeMillis, data));
                     return data;
                 });

@@ -23,10 +23,10 @@ public class Texts {
      * @return
      */
     public static List<String> split(String text, char token) {
-        var ca = text.toCharArray();
+        char[] ca = text.toCharArray();
         int len = ca.length;
         int i = 0, p = 0;
-        var rv = new ArrayList<String>();
+        List rv = new ArrayList<String>();
         for (; i < len ; i++) {
             if (ca[i] == token) {
                 rv.add(new String(ca, p, i - p));
@@ -156,7 +156,7 @@ public class Texts {
      */
     public static String bvl(String... datas) {
         for (String val : datas) {
-            if (val != null && !val.isBlank()) {
+            if (val != null && !val.matches("[\\s]*")) {
                 return val;
             }
         }

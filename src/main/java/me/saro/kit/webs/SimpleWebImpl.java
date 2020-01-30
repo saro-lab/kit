@@ -3,10 +3,7 @@ package me.saro.kit.webs;
 import me.saro.kit.Streams;
 import me.saro.kit.functions.ThrowableFunction;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -136,7 +133,11 @@ public class SimpleWebImpl implements SimpleWeb {
         if (urlParameter.length() > 1) {
             urlParameter.append('&');
         }
-        urlParameter.append(name).append('=').append(URLEncoder.encode(value, Charset.forName(requestCharset)));
+        try {
+            urlParameter.append(name).append('=').append(URLEncoder.encode(value, requestCharset));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
         return this;
     }
 

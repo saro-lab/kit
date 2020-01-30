@@ -5,6 +5,7 @@ import me.saro.kit.functions.ThrowablePredicate;
 
 import java.io.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -66,7 +67,7 @@ public class Files {
      * @throws Exception
      */
     public static <R> R lines(File file, String charset, ThrowableFunction<Stream<String>, R> process) throws Exception {
-        try (var fis = new FileInputStream(file)) {
+        try (FileInputStream fis = new FileInputStream(file)) {
             return Streams.lines(fis, charset, process);
         }
     }
@@ -80,7 +81,7 @@ public class Files {
         if (!directory.isDirectory()) {
             throw new RuntimeException(directory.getAbsolutePath() + " is not directory");
         }
-        return List.of(directory.listFiles());
+        return Arrays.asList(directory.listFiles());
     }
 
     /**
@@ -113,7 +114,7 @@ public class Files {
      * @return
      */
     public static boolean validFilenameExtension(File file, boolean ignoreCase, String... filenameExtensions) {
-        final var extension = ignoreCase ? toFilenameExtension(file).toLowerCase() : toFilenameExtension(file);
+        final String extension = ignoreCase ? toFilenameExtension(file).toLowerCase() : toFilenameExtension(file);
 
         for (String filenameExtension : filenameExtensions) {
             if (extension.equals(ignoreCase ? filenameExtension.toLowerCase() : filenameExtension)) {

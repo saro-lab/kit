@@ -1,5 +1,6 @@
 package me.saro.kit.dates;
 
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
@@ -23,7 +24,7 @@ public class Dates {
      * @return
      */
     public static ZonedDateTime toZonedDateTime(Calendar calendar) {
-        var tz = calendar.getTimeZone();
+        TimeZone tz = calendar.getTimeZone();
         return ZonedDateTime.ofInstant(calendar.toInstant(), tz != null ? tz.toZoneId() : ZoneId.systemDefault());
     }
 
@@ -33,7 +34,7 @@ public class Dates {
      * @return
      */
     public static LocalDateTime toLocalDateTime(Calendar calendar) {
-        var tz = calendar.getTimeZone();
+        TimeZone tz = calendar.getTimeZone();
         return LocalDateTime.ofInstant(calendar.toInstant(), tz != null ? tz.toZoneId() : ZoneId.systemDefault());
     }
 
@@ -43,8 +44,8 @@ public class Dates {
      * @return
      */
     public static LocalDate toLocalDate(Calendar calendar) {
-        var tz = calendar.getTimeZone();
-        return LocalDate.ofInstant(calendar.toInstant(), tz != null ? tz.toZoneId() : ZoneId.systemDefault());
+        TimeZone tz = calendar.getTimeZone();
+        return LocalDateTime.ofInstant(calendar.toInstant(), tz != null ? tz.toZoneId() : ZoneId.systemDefault()).toLocalDate();
     }
 
     /**
@@ -53,8 +54,8 @@ public class Dates {
      * @return
      */
     public static LocalTime toLocalTime(Calendar calendar) {
-        var tz = calendar.getTimeZone();
-        return LocalTime.ofInstant(calendar.toInstant(), tz != null ? tz.toZoneId() : ZoneId.systemDefault());
+        TimeZone tz = calendar.getTimeZone();
+        return LocalDateTime.ofInstant(calendar.toInstant(), tz != null ? tz.toZoneId() : ZoneId.systemDefault()).toLocalTime();
     }
 
     /**
@@ -115,7 +116,7 @@ public class Dates {
      * @return
      */
     public static Calendar parseCalendar(String date, String format) {
-        var calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(parseDate(date, format));
         return calendar;
     }
@@ -178,7 +179,7 @@ public class Dates {
      * @return
      */
     public static Calendar toCalendar(Date date) {
-        var calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar;
     }
@@ -189,7 +190,7 @@ public class Dates {
      * @return
      */
     public static Calendar toCalendar(ZonedDateTime zonedDateTime) {
-        var calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.clear();
         calendar.set(
                 zonedDateTime.getYear(), zonedDateTime.getMonthValue() - 1, zonedDateTime.getDayOfMonth(),
@@ -206,7 +207,7 @@ public class Dates {
      * @return
      */
     public static Calendar toCalendar(LocalDateTime localDateTime) {
-        var calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.clear();
         calendar.set(
                 localDateTime.getYear(), localDateTime.getMonthValue() - 1, localDateTime.getDayOfMonth(),
@@ -222,7 +223,7 @@ public class Dates {
      * @return
      */
     public static Calendar toCalendar(LocalDate localDate) {
-        var calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.clear();
         calendar.set(localDate.getYear(), localDate.getMonthValue() - 1, localDate.getDayOfMonth());
         return calendar;
@@ -234,7 +235,7 @@ public class Dates {
      * @return
      */
     public static Calendar toCalendar(LocalTime localTime) {
-        var calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.clear();
         calendar.set(Calendar.HOUR, localTime.getHour());
         calendar.set(Calendar.MINUTE, localTime.getMinute());
