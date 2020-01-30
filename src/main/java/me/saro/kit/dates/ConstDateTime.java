@@ -140,7 +140,7 @@ public class ConstDateTime {
      * @param month
      * @return
      */
-    public ConstDateTime plusMonth(int month) {
+    public ConstDateTime plusMonths(int month) {
         ConstDateTime rv = clone();
         rv.calendar.add(Calendar.MONTH, month);
         return rv;
@@ -151,7 +151,7 @@ public class ConstDateTime {
      * @param year
      * @return
      */
-    public ConstDateTime plusYear(int year) {
+    public ConstDateTime plusYears(int year) {
         ConstDateTime rv = clone();
         rv.calendar.add(Calendar.YEAR, year);
         return rv;
