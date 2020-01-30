@@ -54,7 +54,8 @@ public class Texts {
      * @return
      */
     public static String next(String text, String token) {
-        return text.substring(text.indexOf(token) + token.length());
+        int s = text.indexOf(token);
+        return s != -1 ? text.substring(s + token.length()) : "";
     }
 
     /**
@@ -64,7 +65,8 @@ public class Texts {
      * @return
      */
     public static String lastNext(String text, String token) {
-        return text.substring(text.lastIndexOf(token) + token.length());
+        int s = text.lastIndexOf(token);
+        return s != -1 ? text.substring(s + token.length()) : "";
     }
 
     /**
@@ -74,7 +76,8 @@ public class Texts {
      * @return
      */
     public static String prev(String text, String token) {
-        return text.substring(0, text.indexOf(token));
+        int s = text.indexOf(token);
+        return s != -1 ? text.substring(0, s) : "";
     }
 
     /**
@@ -84,7 +87,21 @@ public class Texts {
      * @return
      */
     public static String lastPrev(String text, String token) {
-        return text.substring(0, text.lastIndexOf(token));
+        int s = text.lastIndexOf(token);
+        return s != -1 ? text.substring(0, s) : "";
+    }
+
+    /**
+     * return gap
+     * @param text
+     * @param prefix
+     * @param suffix
+     * @return
+     */
+    public static String gap(String text, String prefix, String suffix) {
+        int s = text.indexOf(prefix);
+        int e = text.indexOf(suffix, s + 1);
+        return s != -1 && e != -1 ? text.substring(s + prefix.length(), e) : "";
     }
 
     /**
