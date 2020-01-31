@@ -126,12 +126,12 @@ public class ConstDateTime {
 
     /**
      * return plus dates
-     * @param date
+     * @param days
      * @return
      */
-    public ConstDateTime plusDates(int date) {
+    public ConstDateTime plusDays(int days) {
         ConstDateTime rv = clone();
-        rv.calendar.add(Calendar.DATE, date);
+        rv.calendar.add(Calendar.DATE, days);
         return rv;
     }
 
