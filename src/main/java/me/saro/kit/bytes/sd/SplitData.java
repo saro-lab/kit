@@ -1,12 +1,17 @@
 package me.saro.kit.bytes.sd;
 
+import me.saro.kit.Texts;
+import me.saro.kit.functions.ThrowableBiConsumer;
+import me.saro.kit.functions.ThrowableFunction;
+
 import java.lang.reflect.Method;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SplitData {
 
@@ -14,80 +19,52 @@ public class SplitData {
         Class<?> clazz = instance.getClass();
         Splitter splitter = Splitter.store.get(clazz.getName());
         if (splitter == null) {
+            System.out.println("new create");
             Splitter.store.put(clazz.getName(), (splitter = new Splitter(clazz)));
         }
         return splitter;
     }
 
-//    public static <R> R bind(R instance) {
-//
-//
-//
-//        return instance;
-//    }
-//
-//    public static <R> byte[] toBytes(R data) {
-//
-//    }
-//
-//    public static <R> String toString(R data) {
-//
-//    }
-//
-
-
-    public static void main(String[] args) {
-        Splitter s = getSplitter(new Aaa());
+    public static <R> R toClass(R instance, String node) {
+        getSplitter(instance).input(instance, node);
+        return instance;
     }
 
-    @SplitMeta(token = "|", count = 3)
-    public static class Aaa {
-        @SplitIndex(1)
-        public String aa = "1";
-        @SplitIndex(2)
-        public int bb = 32;
-        @SplitIndex(0)
-        public long cc = -123L;
-
-
-        public String getAa() {
-            return aa;
-        }
-
-        public void setAa(String aa) {
-            this.aa = aa;
-        }
-
-        public int getBb() {
-            return bb;
-        }
-
-        public void setBb(int bb) {
-            this.bb = bb;
-        }
-
-        public long getCc() {
-            return cc;
-        }
-
-        public void setCc(long cc) {
-            this.cc = cc;
-        }
+    public static String toString(Object instance) {
+        return getSplitter(instance).output(instance);
     }
-
-
 
     private static class Splitter {
         private static Map<String, Splitter> store = new HashMap<>();
+
         private Class<?> clazz;
         private SplitMeta meta;
 
-        private Charset charset;
-
+        private ThrowableFunction<Object, String>[] output;
+        private ThrowableBiConsumer<Object, String>[] input;
 
         public Splitter(Class<?> clazz) {
             this.clazz = clazz;
             init();
+        }
+
+        public void input(Object object, String data) {
+            List<String> nodes = Texts.split(data, meta.token());
+            if (nodes.size() != meta.count()) {
+                throw new RuntimeException(clazz.getName() + " size is [" + meta.count() + "] but data is [" + nodes.size() + "]: " + data);
+            }
+            for (int i = 0 ; i < nodes.size() ; i++) {
+                try {
+                    input[i].accept(object, nodes.get(i));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        public String output(Object object) {
+            char token = meta.token();
+            return Stream.of(output).map(ThrowableFunction.wrap(e -> e.apply(object))).collect(Collectors.joining(Character.toString(token)));
         }
 
         private void init() {
@@ -95,46 +72,66 @@ public class SplitData {
             if (meta == null) {
                 throw new RuntimeException(clazz.getName() + " does not defined @SplitMeta");
             }
-            if (meta.token().isEmpty()) {
-                throw new RuntimeException(clazz.getName() + " token in the @SplitMeta is empty");
-            }
             if (meta.count() < 1) {
                 throw new RuntimeException(clazz.getName() + " minimum count in the @SplitMeta is 1");
             }
-            charset = Charset.forName(meta.charset());
+            output = new ThrowableFunction[meta.count()];
+            input = new ThrowableBiConsumer[meta.count()];
 
             Map<String, Method> methods = Arrays.asList(clazz.getDeclaredMethods()).parallelStream()
                     .filter(e -> (e.getName().startsWith("get")) || e.getName().startsWith("set"))
                     .collect( Collectors.toMap(Method::getName, Function.identity()));
 
-            System.out.println(methods);
-
             Arrays.asList(clazz.getDeclaredFields()).parallelStream().forEach(field -> {
-                SplitIndex index = field.getDeclaredAnnotation(SplitIndex.class);
-                if (index != null) {
+                SplitIndex splitIndex = field.getDeclaredAnnotation(SplitIndex.class);
+                if (splitIndex != null) {
                     String name = field.getName();
                     name = name.substring(0, 1).toUpperCase() + name.substring(1);
+
                     Method get = methods.get("get" + name);
                     Method set = methods.get("set" + name);
+
+                    final int idx = splitIndex.value();
+
                     if (get == null) {
                         throw new RuntimeException(clazz.getName() + "." + field.getName() + " need to getter");
                     } else if (get.getParameterCount() != 0) {
-                        throw new RuntimeException(clazz.getName() + "." + field.getName() + "' is invalid");
+                        throw new RuntimeException(clazz.getName() + "." + get.getName() + "' is invalid");
                     } else {
-
+                        switch (get.getReturnType().getName()) {
+                            case "java.lang.String": output[idx] = (Object data) -> (String)get.invoke(data); break;
+                            case "long": output[idx] = (Object data) -> Long.toString((long)get.invoke(data)); break;
+                            case "int": output[idx] = (Object data) -> Integer.toString((int)get.invoke(data)); break;
+                            default: throw new RuntimeException(clazz.getName() + "." + get.getName() + "' does not support return type `" + get.getReturnType().getName() + "`");
+                        }
                     }
+
                     if (set == null) {
                         throw new RuntimeException(clazz.getName() + "." + field.getName() + " need to setter");
-                    } else if (get.getParameterCount() != 1) {
-                        throw new RuntimeException(clazz.getName() + "." + field.getName() + "' is invalid");
+                    } else if (set.getParameterCount() != 1) {
+                        throw new RuntimeException(clazz.getName() + "." + set + "' is invalid");
                     } else {
-
+                        switch (set.getParameterTypes()[0].getName()) {
+                            case "java.lang.String": input[idx] = (Object data, String val) -> set.invoke(data, val); break;
+                            case "long": input[idx] = (Object data, String val) -> set.invoke(data, val != "" ? Long.parseLong(val) : 0L); break;
+                            case "int": input[idx] = (Object data, String val) -> set.invoke(data, val != "" ? Integer.parseInt(val) : 0); break;
+                            default: throw new RuntimeException(clazz.getName() + "." + get.getName() + "' does not support return type `" + get.getParameterTypes()[0].getName() + "`");
+                        }
                     }
-
-                    System.out.println(get);
-                    System.out.println(set);
                 }
             });
+
+            for (int i = 0 ; i < output.length ; i++) {
+                if (output[i] == null) {
+                    throw new RuntimeException(clazz.getName() + " @SplitIndex("+i+") getter does not exist");
+                }
+            }
+
+            for (int i = 0 ; i < input.length ; i++) {
+                if (input[i] == null) {
+                    throw new RuntimeException(clazz.getName() + " @SplitIndex("+i+") setter does not exist");
+                }
+            }
         }
     }
 }

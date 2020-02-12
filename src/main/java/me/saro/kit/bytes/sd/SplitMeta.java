@@ -9,9 +9,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SplitMeta {
     /** split token */
-    String token();
+    char token();
     /** field count */
     int count();
-    /** charset */
-    String charset() default "UTF-8";
 }
