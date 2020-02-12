@@ -19,7 +19,6 @@ public class SplitData {
         Class<?> clazz = instance.getClass();
         Splitter splitter = Splitter.store.get(clazz.getName());
         if (splitter == null) {
-            System.out.println("new create");
             Splitter.store.put(clazz.getName(), (splitter = new Splitter(clazz)));
         }
         return splitter;
