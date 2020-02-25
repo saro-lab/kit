@@ -5,10 +5,7 @@ import me.saro.kit.functions.ThrowableBiConsumer;
 import me.saro.kit.functions.ThrowableFunction;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,6 +22,11 @@ public class SplitData {
     }
 
     public static <R> R toClass(R instance, String node) {
+        getSplitter(instance).input(instance, node);
+        return instance;
+    }
+
+    public static <R> R toClass(R instance, List<String> node) {
         getSplitter(instance).input(instance, node);
         return instance;
     }
@@ -48,13 +50,20 @@ public class SplitData {
         }
 
         public void input(Object object, String data) {
-            List<String> nodes = Texts.split(data, meta.token());
-            if (nodes.size() != meta.count()) {
-                throw new RuntimeException(clazz.getName() + " size is [" + meta.count() + "] but data is [" + nodes.size() + "]: " + data);
+            input(object, Texts.split(data, meta.token()));
+        }
+
+        public void input(Object object, List<String> data) {
+            if (data.size() != meta.count()) {
+                throw new RuntimeException(clazz.getName() + " size is [" + meta.count() + "] but data is [" + data.size() + "]: " + data);
             }
-            for (int i = 0 ; i < nodes.size() ; i++) {
+            final boolean trim = meta.trim();
+            final boolean emptyIsNullOrZero = meta.emptyIsNullOrZero();
+            for (int i = 0 ; i < data.size() ; i++) {
                 try {
-                    input[i].accept(object, nodes.get(i));
+                    String v = trim ? data.get(i).trim() : data.get(i);
+                    v = emptyIsNullOrZero && v.isEmpty() ? null : v;
+                    input[i].accept(object, v);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -62,8 +71,10 @@ public class SplitData {
         }
 
         public String output(Object object) {
-            char token = meta.token();
-            return Stream.of(output).map(ThrowableFunction.wrap(e -> e.apply(object))).collect(Collectors.joining(Character.toString(token)));
+            return Stream.of(output).<String>map(meta.trim()
+                    ? ThrowableFunction.wrap(e -> e.apply(object).trim())
+                    : ThrowableFunction.wrap(e -> e.apply(object)))
+                    .collect(Collectors.joining(Character.toString(meta.token())));
         }
 
         private void init() {
@@ -98,7 +109,7 @@ public class SplitData {
                         throw new RuntimeException(clazz.getName() + "." + get.getName() + "' is invalid");
                     } else {
                         switch (get.getReturnType().getName()) {
-                            case "java.lang.String": output[idx] = (Object data) -> (String)get.invoke(data); break;
+                            case "java.lang.String": output[idx] = (Object data) -> Objects.toString(get.invoke(data), ""); break;
                             case "long": output[idx] = (Object data) -> Long.toString((long)get.invoke(data)); break;
                             case "int": output[idx] = (Object data) -> Integer.toString((int)get.invoke(data)); break;
                             default: throw new RuntimeException(clazz.getName() + "." + get.getName() + "' does not support return type `" + get.getReturnType().getName() + "`");
@@ -112,8 +123,8 @@ public class SplitData {
                     } else {
                         switch (set.getParameterTypes()[0].getName()) {
                             case "java.lang.String": input[idx] = (Object data, String val) -> set.invoke(data, val); break;
-                            case "long": input[idx] = (Object data, String val) -> set.invoke(data, val != "" ? Long.parseLong(val) : 0L); break;
-                            case "int": input[idx] = (Object data, String val) -> set.invoke(data, val != "" ? Integer.parseInt(val) : 0); break;
+                            case "long": input[idx] = (Object data, String val) -> set.invoke(data, val != null ? Long.parseLong(val) : 0L); break;
+                            case "int": input[idx] = (Object data, String val) -> set.invoke(data, val != null ? Integer.parseInt(val) : 0); break;
                             default: throw new RuntimeException(clazz.getName() + "." + get.getName() + "' does not support return type `" + get.getParameterTypes()[0].getName() + "`");
                         }
                     }
