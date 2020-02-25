@@ -12,4 +12,8 @@ public @interface SplitMeta {
     char token();
     /** field count */
     int count();
+    /** trim */
+    boolean trim() default false;
+    /** bind empty is null or zero */
+    boolean emptyIsNullOrZero() default false;
 }
