@@ -3,6 +3,7 @@ package me.saro.kit;
 import me.saro.kit.functions.ThrowableFunction;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Spliterator;
@@ -27,6 +28,17 @@ public class Streams {
      * @throws IOException
      */
     public static String toString(InputStream is, String charset) throws IOException {
+        return toString(is, Charset.forName(charset));
+    }
+
+    /**
+     * input stream to string
+     * @param is input stream
+     * @param charset charset
+     * @return
+     * @throws IOException
+     */
+    public static String toString(InputStream is, Charset charset) throws IOException {
         try (InputStream tis = is ; InputStreamReader isr = new InputStreamReader(tis, charset)) {
             int len;
             StringBuilder sb = new StringBuilder(BUFSIZE);
