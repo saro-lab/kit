@@ -3,15 +3,6 @@ package me.saro.kit.webs;
 import me.saro.kit.Streams;
 import me.saro.kit.Texts;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import java.net.HttpURLConnection;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Certificate;
-
 /**
  * Web Client
  * @author PARK Yong Seo

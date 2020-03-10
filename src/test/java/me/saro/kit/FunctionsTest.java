@@ -1,20 +1,12 @@
 package me.saro.kit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import me.saro.kit.functions.*;
+import org.junit.jupiter.api.Test;
 
 import java.util.function.Function;
 
-import org.junit.jupiter.api.Test;
-
-import me.saro.kit.functions.ThrowableBiConsumer;
-import me.saro.kit.functions.ThrowableBiFunction;
-import me.saro.kit.functions.ThrowableConsumer;
-import me.saro.kit.functions.ThrowableFunction;
-import me.saro.kit.functions.ThrowableRunnable;
-import me.saro.kit.functions.ThrowableSupplier;
-import me.saro.kit.functions.ThrowableTriConsumer;
-import me.saro.kit.functions.ThrowableTriFunction;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FunctionsTest {
 
