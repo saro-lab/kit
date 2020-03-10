@@ -1,14 +1,11 @@
 package me.saro.kit.webs;
 
-import me.saro.kit.Streams;
-import me.saro.kit.functions.ThrowableFunction;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,7 +13,7 @@ import java.util.Map;
  * @author PARK Yong Seo
  * @since 1.0.0
  */
-public class SimpleWebImpl implements SimpleWeb {
+public class WebImpl implements Web {
 
     // url
     final String url;
@@ -51,7 +48,7 @@ public class SimpleWebImpl implements SimpleWeb {
      * @param url
      * @param method
      */
-    protected SimpleWebImpl(String url, String method) {
+    protected WebImpl(String url, String method) {
         int point;
         if ((point = url.indexOf('?')) > -1) {
             if ((point) < url.length()) {
@@ -70,7 +67,7 @@ public class SimpleWebImpl implements SimpleWeb {
      * @param connectTimeout
      * @return
      */
-    public SimpleWeb setConnectTimeout(int connectTimeout) {
+    public Web setConnectTimeout(int connectTimeout) {
         this.connectTimeout = connectTimeout;
         return this;
     }
@@ -80,7 +77,7 @@ public class SimpleWebImpl implements SimpleWeb {
      * @param readTimeout
      * @return
      */
-    public SimpleWeb setReadTimeout(int readTimeout) {
+    public Web setReadTimeout(int readTimeout) {
         this.readTimeout = readTimeout;
         return this;
     }
@@ -90,7 +87,7 @@ public class SimpleWebImpl implements SimpleWeb {
      * @param charset
      * @return
      */
-    public SimpleWeb setRequestCharset(String charset) {
+    public Web setRequestCharset(String charset) {
         this.requestCharset = charset;
         return this;
     }
@@ -100,7 +97,7 @@ public class SimpleWebImpl implements SimpleWeb {
      * @param charset
      * @return
      */
-    public SimpleWeb setResponseCharset(String charset) {
+    public Web setResponseCharset(String charset) {
         this.responseCharset = charset;
         return this;
     }
@@ -114,7 +111,7 @@ public class SimpleWebImpl implements SimpleWeb {
      * @param ignoreCertificate
      * @return
      */
-    public SimpleWeb setIgnoreCertificate(boolean ignoreCertificate) {
+    public Web setIgnoreCertificate(boolean ignoreCertificate) {
         this.ignoreCertificate = ignoreCertificate;
         return this;
     }
@@ -129,7 +126,7 @@ public class SimpleWebImpl implements SimpleWeb {
      * @param value
      * @return
      */
-    public SimpleWeb addUrlParameter(String name, String value) {
+    public Web addUrlParameter(String name, String value) {
         if (urlParameter.length() > 1) {
             urlParameter.append('&');
         }
@@ -147,7 +144,7 @@ public class SimpleWebImpl implements SimpleWeb {
      * @param value
      * @return
      */
-    public SimpleWeb setHeader(String name, String value) {
+    public Web setHeader(String name, String value) {
         header.put(name, value);
         return this;
     }
@@ -157,7 +154,7 @@ public class SimpleWebImpl implements SimpleWeb {
      * @param bytes
      * @return
      */
-    public SimpleWeb writeBody(byte[] bytes) {
+    public Web writeBody(byte[] bytes) {
         try {
             body.write(bytes);
         } catch (IOException e) {
@@ -185,7 +182,7 @@ public class SimpleWebImpl implements SimpleWeb {
      * @param value
      * @return
      */
-    public SimpleWeb writeBodyParameter(String name, String value) {
+    public Web writeBodyParameter(String name, String value) {
         if (body.size() > 0) {
             body.write('&');
         }
@@ -199,22 +196,14 @@ public class SimpleWebImpl implements SimpleWeb {
         return this;
     }
 
-    /**
-     * to Custom result
-     * @param result
-     * @param function
-     * @return
-     */
-    public <R> SimpleWebResult<R> toCustom(SimpleWebResult<R> result, ThrowableFunction<InputStream, R> function) {
-        HttpURLConnection connection = null;
-
+    public void result(WebReader reader) throws Exception {
         try {
-            connection = (HttpURLConnection)(new URL(urlParameter.length() > 1 ? (url + urlParameter.toString()) : url )).openConnection();
+            final HttpURLConnection connection = (HttpURLConnection)(new URL(urlParameter.length() > 1 ? (url + urlParameter.toString()) : url )).openConnection();
 
             if (ignoreCertificate) {
-                SimpleWebIgnoreCertificate.ignoreCertificate(connection);
+                WebIgnoreCertificate.ignoreCertificate(connection);
             }
-            
+
             if (connectTimeout > 0) {
                 connection.setConnectTimeout(connectTimeout);
             }
@@ -232,28 +221,26 @@ public class SimpleWebImpl implements SimpleWeb {
                 }
             }
 
-            result.setStatus(connection.getResponseCode());
-            result.setHeaders(connection.getHeaderFields());
-            
-            input : try {
+            final int code = connection.getResponseCode();
+            final Map<String, List<String>> headers = connection.getHeaderFields();
+
+            try {
                 try (InputStream is = connection.getInputStream()) {
                     try {
-                        result.setBody(function.apply(is));
+                        reader.read(code, headers, is);
                     } catch (Exception e) {
-                        result.setException(new Exception("TYPE CAST ERROR : " + e.getMessage(), e));
-                        break input;
+                        throw e;
                     }
                 }
             } catch (IOException ie) {
-                result.setErrorBody(Streams.toString(connection.getErrorStream(), getResponseCharset()));
+                try (InputStream is = connection.getErrorStream()) {
+                    reader.read(code, headers, is);
+                }
             }
 
-            
         } catch (Exception e) {
-            result.setException(e);
+            throw e;
         }
-
-        return result;
     }
 
     @Override
