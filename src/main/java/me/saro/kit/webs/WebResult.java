@@ -3,16 +3,16 @@ package me.saro.kit.webs;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
+import java.util.Optional;
 
 /**
  * web result
  * @author PARK Yong Seo
  * @since 1.0.0
  */
-public class SimpleWebResult<T> {
+public class WebResult {
 
-    SimpleWebResult() {
+    WebResult() {
     }
 
     // http status
@@ -25,9 +25,7 @@ public class SimpleWebResult<T> {
     private Map<String, List<String>> headers = Collections.emptyMap();
 
     // response body data
-    private T body;
-    
-    private String errorBody;
+    private String body;
 
     /**
      * is status 2xx + have not exception
@@ -77,61 +75,12 @@ public class SimpleWebResult<T> {
         return body != null;
     }
 
-    /**
-     * get response body data
-     * @return Optional response body data
-     */
-    public T getBody() {
-        return body;
+    public Optional<String> getBody() {
+        return Optional.ofNullable(body);
     }
-    
-    /**
-     * get response body data
-     * @param orElse
-     * @return
-     */
-    public T getBody(T orElse) {
+
+    public String getBody(String orElse) {
         return body != null ? body : orElse;
-    }
-    
-    /**
-     * get response body data
-     * throw null body
-     * @return Optional response body data
-     * @throws X
-     */
-    public <X extends Throwable> T getBodyWithThrow(Supplier<? extends X> exceptionSupplier) throws X {
-        if (body == null) {
-            throw exceptionSupplier.get();
-        }
-        return body;
-    }
-    
-    /**
-     * get response body data
-     * throw null body
-     * @return Optional response body data
-     * @throws NullPointerException
-     */
-    public T getBodyWithThrow() throws NullPointerException {
-        return getBodyWithThrow(NullPointerException::new);
-    }
-    
-    /**
-     * get response error body data
-     * @return Optional response body data
-     */
-    public String getErrorBody() {
-        return errorBody;
-    }
-    
-    /**
-     * get response error body data
-     * @param orElse
-     * @return
-     */
-    public String getErrorBody(String orElse) {
-        return errorBody != null ? errorBody : orElse;
     }
 
     public int getStatus() {
@@ -158,12 +107,8 @@ public class SimpleWebResult<T> {
         this.headers = headers;
     }
 
-    public void setBody(T body) {
+    public void setBody(String body) {
         this.body = body;
-    }
-
-    public void setErrorBody(String errorBody) {
-        this.errorBody = errorBody;
     }
 
     @Override
@@ -173,7 +118,6 @@ public class SimpleWebResult<T> {
                 ", exception=" + exception +
                 ", headers=" + headers +
                 ", body=" + body +
-                ", errorBody='" + errorBody + '\'' +
                 '}';
     }
 }

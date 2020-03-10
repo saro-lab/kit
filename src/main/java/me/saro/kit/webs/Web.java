@@ -1,24 +1,30 @@
 package me.saro.kit.webs;
 
+import me.saro.kit.Streams;
 import me.saro.kit.Texts;
-import me.saro.kit.functions.ThrowableConsumer;
-import me.saro.kit.functions.ThrowableFunction;
 
-import java.io.InputStream;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.net.HttpURLConnection;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 
 /**
  * Web Client
  * @author PARK Yong Seo
  * @since 1.0.0
  */
-public interface SimpleWeb {
+public interface Web {
     /**
      * create get method Web
      * @param url
      * @return
      */
-    static SimpleWeb get(String url) {
-        return new SimpleWebImpl(url, "GET");
+    static Web get(String url) {
+        return new WebImpl(url, "GET");
     }
 
     /**
@@ -26,8 +32,8 @@ public interface SimpleWeb {
      * @param url
      * @return
      */
-    static SimpleWeb post(String url) {
-        return new SimpleWebImpl(url, "POST");
+    static Web post(String url) {
+        return new WebImpl(url, "POST");
     }
 
     /**
@@ -35,8 +41,8 @@ public interface SimpleWeb {
      * @param url
      * @return
      */
-    static SimpleWeb put(String url) {
-        return new SimpleWebImpl(url, "PUT");
+    static Web put(String url) {
+        return new WebImpl(url, "PUT");
     }
 
     /**
@@ -44,8 +50,8 @@ public interface SimpleWeb {
      * @param url
      * @return
      */
-    static SimpleWeb patch(String url) {
-        return new SimpleWebImpl(url, "PATCH");
+    static Web patch(String url) {
+        return new WebImpl(url, "PATCH");
     }
 
     /**
@@ -53,10 +59,23 @@ public interface SimpleWeb {
      * @param url
      * @return
      */
-    static SimpleWeb delete(String url) {
-        return new SimpleWebImpl(url, "DELETE");
+    static Web delete(String url) {
+        return new WebImpl(url, "DELETE");
     }
-    
+
+    /**
+     * apply global ignore certificate
+     * @return is success
+     */
+    static boolean applyGlobalIgnoreCertificate() {
+        try {
+            WebIgnoreCertificate.applyGlobalIgnoreCertificate();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     /**
      * request charset
      * @return
@@ -74,8 +93,8 @@ public interface SimpleWeb {
      * @param url
      * @return
      */
-    static SimpleWeb custom(String url, String method) {
-        return new SimpleWebImpl(url, method);
+    static Web custom(String url, String method) {
+        return new WebImpl(url, method);
     }
     
     /**
@@ -83,28 +102,28 @@ public interface SimpleWeb {
      * @param connectTimeout
      * @return
      */
-    SimpleWeb setConnectTimeout(int connectTimeout);
+    Web setConnectTimeout(int connectTimeout);
     
     /**
      * Read Timeout
      * @param readTimeout
      * @return
      */
-    SimpleWeb setReadTimeout(int readTimeout);
+    Web setReadTimeout(int readTimeout);
     
     /**
      * set request Charset
      * @param charset
      * @return
      */
-    SimpleWeb setRequestCharset(String charset);
+    Web setRequestCharset(String charset);
     
     /**
      * set response charset
      * @param charset
      * @return
      */
-    SimpleWeb setResponseCharset(String charset);
+    Web setResponseCharset(String charset);
     
     /**
      * ignore https certificate
@@ -115,7 +134,7 @@ public interface SimpleWeb {
      * @param ignoreCertificate
      * @return
      */
-    SimpleWeb setIgnoreCertificate(boolean ignoreCertificate);
+    Web setIgnoreCertificate(boolean ignoreCertificate);
     
     /**
      * add url parameter
@@ -127,7 +146,7 @@ public interface SimpleWeb {
      * @param value
      * @return
      */
-    SimpleWeb addUrlParameter(String name, String value);
+    Web addUrlParameter(String name, String value);
     
     /**
      * set header
@@ -135,14 +154,14 @@ public interface SimpleWeb {
      * @param value
      * @return
      */
-    SimpleWeb setHeader(String name, String value);
+    Web setHeader(String name, String value);
     
     /**
      * write body binary
      * @param bytes
      * @return
      */
-    SimpleWeb writeBody(byte[] bytes);
+    Web writeBody(byte[] bytes);
     
     /**
      * writeBodyParameter
@@ -163,35 +182,32 @@ public interface SimpleWeb {
      * @param value
      * @return
      */
-    SimpleWeb writeBodyParameter(String name, String value);
-    
-    /**
-     * to Custom result
-     * @param result
-     * @param function
-     * @return
-     */
-    <R> SimpleWebResult<R> toCustom(SimpleWebResult<R> result, ThrowableFunction<InputStream, R> function);
-    
-    /**
-     * to Custom result
-     * @param function
-     * @return
-     */
-    default <R> SimpleWebResult<R> toCustom(ThrowableFunction<InputStream, R> function) {
-        return toCustom(new SimpleWebResult<R>(), function);
-    }
+    Web writeBodyParameter(String name, String value);
 
     /**
-     * readRawResultStream
+     * bind result
      * @param reader
-     * @return it has Body
      */
-    default SimpleWebResult<String> readRawResultStream(ThrowableConsumer<InputStream> reader) {
-        return toCustom(is -> {
-            reader.accept(is);
-            return "OK";
-        });
+    void result(WebReader reader) throws Exception;
+
+    /**
+     * get result
+     * @return
+     */
+    default WebResult result() {
+        final WebResult result = new WebResult();
+
+        try {
+            result((status, headers, is) -> {
+                result.setStatus(status);
+                result.setHeaders(headers);
+                result.setBody(Streams.toString(is, getResponseCharset()));
+            });
+        } catch (Exception e) {
+            result.setException(e);
+        }
+
+        return result;
     }
     
     /**
@@ -199,7 +215,7 @@ public interface SimpleWeb {
      * @param value
      * @return
      */
-    default SimpleWeb setContentType(String value) {
+    default Web setContentType(String value) {
         return setHeader("Content-Type", value);
     }
     
@@ -207,7 +223,7 @@ public interface SimpleWeb {
      * ContentType application/json
      * @return
      */
-    default SimpleWeb setContentTypeApplicationJson() {
+    default Web setContentTypeApplicationJson() {
         return setHeader("Content-Type", "application/json");
     }
     
@@ -216,7 +232,7 @@ public interface SimpleWeb {
      * @param text
      * @return
      */
-    default SimpleWeb writeBody(String text) {
+    default Web writeBody(String text) {
         return writeBody(Texts.getBytes(text, getRequestCharset()));
     }
 }
