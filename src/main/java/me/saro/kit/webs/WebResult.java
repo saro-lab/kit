@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 /**
  * web result
@@ -77,6 +78,10 @@ public class WebResult {
 
     public Optional<String> getBody() {
         return Optional.ofNullable(body);
+    }
+
+    public Optional<String> getBody(Predicate<WebResult> filter) {
+        return Optional.ofNullable(filter.test(this) ? body : null);
     }
 
     public String getBody(String orElse) {
