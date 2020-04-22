@@ -148,4 +148,15 @@ public class Files {
     public static Predicate<File> attributesFilter(ThrowablePredicate<BasicFileAttributes> filter) {
         return ThrowablePredicate.wrap(e -> filter.test(toBasicFileAttributes(e)));
     }
+
+    /**
+     * to create times millis
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    public static long toCreationTimeMillis(File file) throws IOException {
+        BasicFileAttributes attr = toBasicFileAttributes(file);
+        return attr != null ? attr.creationTime().toMillis() : 0L;
+    }
 }
