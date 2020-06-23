@@ -3,6 +3,7 @@ package me.saro.kit.bytes;
 import me.saro.kit.Texts;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -70,8 +71,8 @@ public class Bytes {
      * @param charset
      * @return
      */
-    public static String encodeBase64String(String text, String charset) {
-        return EN_BASE64.encodeToString(Texts.getBytes(text, charset));
+    public static String encodeBase64String(String text, Charset charset) {
+        return EN_BASE64.encodeToString(text.getBytes(charset));
     }
     
     /**
@@ -89,7 +90,7 @@ public class Bytes {
      * @param charset
      * @return
      */
-    public static String decodeBase64(String base64, String charset) {
+    public static String decodeBase64(String base64, Charset charset) {
         return Bytes.toString(DE_BASE64.decode(base64), charset);
     }
     
@@ -615,25 +616,11 @@ public class Bytes {
         return data;
     }
 
-    /**
-     *
-     * @param b
-     * @param charset
-     * @return
-     */
-    public static String toString(byte[] b, String charset) {
-        return Bytes.toString(b, charset);
+    public static String toString(byte[] b, Charset charset) {
+        return new String(b, charset);
     }
 
-    /**
-     *
-     * @param b
-     * @param offset
-     * @param length
-     * @param charset
-     * @return
-     */
-    public static String toString(byte[] b, int offset, int length,  String charset) {
-        return Bytes.toString(b, offset, length, charset);
+    public static String toString(byte[] b, int offset, int length, Charset charset) {
+        return new String(b, offset, length, charset);
     }
 }

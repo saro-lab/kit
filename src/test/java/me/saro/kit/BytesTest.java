@@ -3,6 +3,8 @@ package me.saro.kit;
 import me.saro.kit.bytes.Bytes;
 import org.junit.jupiter.api.Test;
 
+import java.nio.charset.Charset;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BytesTest {
@@ -10,8 +12,8 @@ public class BytesTest {
     @Test
     public void base64() {
         String sample = "가나다abcd";
-        String encode = Bytes.encodeBase64String(sample, "UTF-8");
-        String decode = Bytes.decodeBase64(encode, "UTF-8");
+        String encode = Bytes.encodeBase64String(sample, Charset.forName("UTF-8"));
+        String decode = Bytes.decodeBase64(encode, Charset.forName("UTF-8"));
         assertEquals(sample, decode);
     }
     
