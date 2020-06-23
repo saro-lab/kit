@@ -4,6 +4,7 @@ import me.saro.kit.functions.ThrowableFunction;
 import me.saro.kit.functions.ThrowablePredicate;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +25,7 @@ public class Files {
      * @param inputStream
      * @throws Exception
      */
-    public static File createFile(File file, boolean overwrite, InputStream inputStream) throws Exception {
+    public static File create(File file, boolean overwrite, InputStream inputStream) throws Exception {
         if (file.exists()) {
             if (overwrite) {
                 file.delete();
@@ -53,8 +54,8 @@ public class Files {
      * @param charset
      * @throws Exception
      */
-    public static File createFile(File file, boolean overwrite, String value, String charset) throws Exception {
-        return createFile(file, overwrite, new ByteArrayInputStream(value.getBytes(charset)));
+    public static File create(File file, boolean overwrite, String value, Charset charset) throws Exception {
+        return create(file, overwrite, new ByteArrayInputStream(value.getBytes(charset)));
     }
 
     /**
@@ -66,7 +67,7 @@ public class Files {
      * @return
      * @throws Exception
      */
-    public static <R> R lines(File file, String charset, ThrowableFunction<Stream<String>, R> process) throws Exception {
+    public static <R> R readLines(File file, Charset charset, ThrowableFunction<Stream<String>, R> process) throws Exception {
         try (FileInputStream fis = new FileInputStream(file)) {
             return Streams.lines(fis, charset, process);
         }
