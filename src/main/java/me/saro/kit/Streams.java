@@ -95,7 +95,7 @@ public class Streams {
      * @return
      * @throws Exception
      */
-    public static <R> R lines(InputStream is, String charset, ThrowableFunction<Stream<String>, R> process) throws Exception {
+    public static <R> R lines(InputStream is, Charset charset, ThrowableFunction<Stream<String>, R> process) throws Exception {
         try (InputStream tis = is ; InputStreamReader isr = new InputStreamReader(tis, charset) ; BufferedReader br = new BufferedReader(isr)) {
             return process.apply(br.lines());
         }
