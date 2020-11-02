@@ -113,6 +113,17 @@ public class Streams {
     }
 
     /**
+     * iterator to stream
+     * @param iterator
+     * @param parallel
+     * @param <T>
+     * @return
+     */
+    public static <T> Stream<T> toStream(Iterator<T> iterator, boolean parallel) {
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED), parallel);
+    }
+
+    /**
      * enumeration to stream
      * @param enumeration source
      * @param parallel isParallel
