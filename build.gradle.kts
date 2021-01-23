@@ -1,20 +1,46 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
+ * SARO KIT
+ *
+ * + publish
+ * 1. gradle publish
+ * 2. https://oss.sonatype.org/
+ * 3. Staging Repositories
+ * 4. Close -> Release
+ *
+ * + publish setting
+ * 1. create gpg
+ * 2. set gradle.properties
+ *    - ex windows path) C:/Users/<USER_NAME>/.gradle/gradle.properties
+ *    sonatype.username=<username>
+ *    sonatype.password=<password>
+ *    signing.keyId=<last 16 chars in key>
+ *    signing.password=<secret>
+ *    signing.secretKeyRingFile=<path of secring.gpg>
+ *
+ * @See
+ * https://github.com/saro-lab/kit
  * https://docs.gradle.org/current/userguide/publishing_maven.html
  * https://docs.gradle.org/current/userguide/signing_plugin.html#signing_plugin
- *
- * C:/Users/<USER_NAME>/.gradle/gradle.properties
  */
 
 plugins {
 	val kotlinVersion = "1.4.20"
 	kotlin("jvm") version kotlinVersion
 	kotlin("kapt") version kotlinVersion
-	java
+	//id("org.jetbrains.dokka") version kotlinVersion
 	signing
-	`java-library`
 	`maven-publish`
+}
+
+val kitGroupId = "me.saro"
+val kitArtifactId = "kit"
+val kitVersion = "0.1.4"
+
+configure<JavaPluginExtension> {
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 repositories {
@@ -22,7 +48,7 @@ repositories {
 }
 
 java {
-	withJavadocJar()
+	//withJavadocJar()
 	withSourcesJar()
 }
 
@@ -39,17 +65,17 @@ publishing {
 	publications {
 		create<MavenPublication>("maven") {
 
-			groupId = "me.saro"
-			artifactId = "kit"
-			version = "0.1.1"
+			groupId = kitGroupId
+			artifactId = kitArtifactId
+			version = kitVersion
 
 			from(components["java"])
 
 			repositories {
 				maven {
 					credentials {
-						username = project.property("SONATYPE_NEXUS_USERNAME").toString()
-						password = project.property("SONATYPE_NEXUS_PASSWORD").toString()
+						username = project.property("sonatype.username").toString()
+						password = project.property("sonatype.password").toString()
 					}
 					val releasesRepoUrl = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
 					val snapshotsRepoUrl = uri("https://oss.sonatype.org/content/repositories/snapshots/")
@@ -87,17 +113,11 @@ signing {
 	sign(publishing.publications["maven"])
 }
 
-tasks.withType<Javadoc>().configureEach {
-	options {
-		this as StandardJavadocDocletOptions
-		addBooleanOption("Xdoclint:none", true)
-	}
-}
-
-configure<JavaPluginExtension> {
-	sourceCompatibility = JavaVersion.VERSION_1_8
-	targetCompatibility = JavaVersion.VERSION_1_8
-}
+//tasks.register<Jar>("dokkaJar") {
+//	archiveClassifier.set("javadoc")
+//	dependsOn("dokkaJavadoc")
+//	from("$buildDir/dokka/javadoc/")
+//}
 
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
