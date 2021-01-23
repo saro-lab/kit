@@ -48,7 +48,7 @@ repositories {
 }
 
 java {
-	//withJavadocJar()
+	withJavadocJar()
 	withSourcesJar()
 }
 
@@ -119,6 +119,13 @@ signing {
 //	dependsOn("dokkaJavadoc")
 //	from("$buildDir/dokka/javadoc/")
 //}
+
+tasks.withType<Javadoc>().configureEach {
+	options {
+		this as StandardJavadocDocletOptions
+		addBooleanOption("Xdoclint:none", true)
+	}
+}
 
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
