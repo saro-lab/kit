@@ -1,47 +1,48 @@
 package me.saro.kit
 
-import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 /**
+ * cache store
  * @author PARK Yong Seo
- * @param <ID>
- * @param <T>
-</ID></T> */
+ */
 class CacheStore<ID, T>(
     private val cacheTimeMillis: Long
 ) {
-    private val store: MutableMap<ID, CacheWrapper<T>> = HashMap()
+    private val store: MutableMap<ID, CacheWrapper<T>> = ConcurrentHashMap()
 
     /**
-     * get
-     * @param id id
-     * @param orElse or else data
-     * @return
+     * find by id
+     * if does not exist update and return
      */
-    fun get(id: ID, orElse: (ID) -> T): T = synchronized(store) { store[id]?.data ?: put(id, orElse(id)) }
+    fun find(id: ID, orElseUpdateAndGet: (ID) -> T): T = store[id]?.data ?: update(id, orElseUpdateAndGet(id))
 
     /**
-     * get after force update
+     * find by id
      */
-    fun getAfterForcedUpdate(id: ID, data: T): T = synchronized(store) { put(id, data) }
+    fun findOrNull(id: ID): T? = store[id]?.data
+
+    /**
+     * update
+     * this functions ignore cache time
+     */
+    fun update(id: ID, data: T): T = data.apply { store[id] = CacheWrapper(System.currentTimeMillis() + cacheTimeMillis, this) }
 
     /**
      * remove
-     * @param id id
      */
-    fun remove(id: ID): Unit = synchronized(store) { store.remove(id) }
+    fun remove(id: ID): T? = store.remove(id)?.data
 
     /**
      * clear all data
      */
-    fun clear(): Unit = synchronized(store) { store.clear() }
+    fun clear(): Unit = store.clear()
 
-    private fun put(id: ID, data: T) = data.apply { store[id] = CacheWrapper(cacheTimeMillis + System.currentTimeMillis(), this) }
+    private class CacheWrapper<T> (
+        private val expireTimeMillis: Long,
+        private val _data: T
+    ) {
+        val data get(): T? = if (expireTimeMillis >= System.currentTimeMillis()) _data else null
+    }
 }
 
-private class CacheWrapper<T>(
-    private val expireTimeMillis: Long,
-    private val _data: T
-) {
-    val data get(): T? = if (expireTimeMillis >= System.currentTimeMillis()) _data else null
-}
