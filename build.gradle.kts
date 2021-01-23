@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
  * https://docs.gradle.org/current/userguide/publishing_maven.html
+ * https://docs.gradle.org/current/userguide/signing_plugin.html#signing_plugin
  *
  * C:/Users/<USER_NAME>/.gradle/gradle.properties
  */
@@ -10,22 +11,25 @@ plugins {
 	val kotlinVersion = "1.4.20"
 	kotlin("jvm") version kotlinVersion
 	kotlin("kapt") version kotlinVersion
+	java
 	signing
 	`java-library`
 	`maven-publish`
 }
 
-group = "me.saro"
-version = "0.1.0"
-
 repositories {
 	mavenCentral()
 }
 
+java {
+	withJavadocJar()
+	withSourcesJar()
+}
+
 dependencies {
 	// koltin
-	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:+")
-	implementation("org.jetbrains.kotlin:kotlin-reflect:+")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("org.jetbrains.kotlin:kotlin-reflect")
 
 	// test
 	testImplementation("org.junit.jupiter:junit-jupiter-engine:+")
@@ -33,7 +37,26 @@ dependencies {
 
 publishing {
 	publications {
-		create<MavenPublication>("me.saro") {
+		create<MavenPublication>("maven") {
+
+			groupId = "me.saro"
+			artifactId = "kit"
+			version = "0.1.1"
+
+			from(components["java"])
+
+			repositories {
+				maven {
+					credentials {
+						username = project.property("SONATYPE_NEXUS_USERNAME").toString()
+						password = project.property("SONATYPE_NEXUS_PASSWORD").toString()
+					}
+					val releasesRepoUrl = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+					val snapshotsRepoUrl = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+					url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+				}
+			}
+
 			pom {
 				name.set("SARO KIT")
 				url.set("https://saro.me")
@@ -61,11 +84,14 @@ publishing {
 }
 
 signing {
-	sign(publishing.publications["me.saro"])
+	sign(publishing.publications["maven"])
 }
 
-java {
-	withSourcesJar()
+tasks.withType<Javadoc>().configureEach {
+	options {
+		this as StandardJavadocDocletOptions
+		addBooleanOption("Xdoclint:none", true)
+	}
 }
 
 configure<JavaPluginExtension> {
