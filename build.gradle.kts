@@ -36,7 +36,7 @@ plugins {
 
 val kitGroupId = "me.saro"
 val kitArtifactId = "kit"
-val kitVersion = "0.1.4"
+val kitVersion = "0.1.5"
 
 configure<JavaPluginExtension> {
 	sourceCompatibility = JavaVersion.VERSION_1_8
@@ -85,6 +85,7 @@ publishing {
 
 			pom {
 				name.set("SARO KIT")
+				description.set("SARO KIT")
 				url.set("https://saro.me")
 
 				licenses {
