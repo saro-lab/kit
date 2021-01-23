@@ -1,4 +1,4 @@
-package me.saro.kit;
+package me.saro.test.old;
 
 import me.saro.kit.crypts.SimpleCrypt;
 import org.junit.jupiter.api.Test;

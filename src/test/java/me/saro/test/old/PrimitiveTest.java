@@ -1,4 +1,4 @@
-package me.saro.kit;
+package me.saro.test.old;
 
 public class PrimitiveTest {
 

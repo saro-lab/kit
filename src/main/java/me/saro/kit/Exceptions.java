@@ -1,8 +1,5 @@
 package me.saro.kit;
 
-import me.saro.kit.functions.ThrowableRunnable;
-import me.saro.kit.functions.ThrowableSupplier;
-
 /**
  * Exception util
  * @author PARK Yong Seo

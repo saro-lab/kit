@@ -1,5 +1,7 @@
-package me.saro.kit;
+package me.saro.test.old;
 
+import me.saro.kit.Valids;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -9,7 +11,7 @@ public class ValidsTest {
 
     @Test
     public void isMail() throws Exception {
-        assertTrue(Valids.isMail("abc@saro.me", 64));
+        Assertions.assertTrue(Valids.isMail("abc@saro.me", 64));
         assertTrue(Valids.isMail("abc@localhost.com", 64));
         assertTrue(Valids.isMail("a_-b@abc.com", 64));
         assertTrue(Valids.isMail("1a_-b@abc.com", 64));

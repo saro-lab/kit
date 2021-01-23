@@ -1,8 +1,5 @@
 package me.saro.kit;
 
-import me.saro.kit.functions.ThrowableFunction;
-import me.saro.kit.functions.ThrowablePredicate;
-
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.attribute.BasicFileAttributes;

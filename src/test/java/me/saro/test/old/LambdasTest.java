@@ -1,6 +1,7 @@
-package me.saro.kit;
+package me.saro.test.old;
 
-import me.saro.kit.functions.*;
+
+import me.saro.kit.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Function;
@@ -8,7 +9,7 @@ import java.util.function.Function;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FunctionsTest {
+public class LambdasTest {
 
     @Test
     public void testLambdas() throws Exception {

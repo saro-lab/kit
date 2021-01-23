@@ -1,8 +1,8 @@
-package me.saro.kit;
+package me.saro.test.old;
 
 import org.junit.jupiter.api.Test;
 
-public class HashsTest {
+public class DatesTest {
 
     @Test
     public void testLambdas() throws Exception {
@@ -11,5 +11,5 @@ public class HashsTest {
 
     }
 
-    
+
 }
