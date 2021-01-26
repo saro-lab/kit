@@ -1,4 +1,6 @@
-package me.saro.kit.dates;
+package me.saro.kit.legacy;
+
+import me.saro.kit.dates.Dates;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -6,10 +8,11 @@ import java.util.TimeZone;
 
 /**
  * const date time
- * <br>
+ * <br/>
+ * it is for old java - Instead, "joda-time" is recommended.
+ * <br/>
  * this class <b>thread-safe</b> because all compute use clone
  * @author PARK Yong Seo
- * @since 1.0.0
  */
 public class ConstDateTime {
 

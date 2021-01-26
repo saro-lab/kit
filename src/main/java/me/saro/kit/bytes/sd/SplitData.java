@@ -1,8 +1,8 @@
 package me.saro.kit.bytes.sd;
 
 import me.saro.kit.Texts;
-import me.saro.kit.ThrowableBiConsumer;
-import me.saro.kit.ThrowableFunction;
+import me.saro.kit.legacy.ThrowableBiConsumer;
+import me.saro.kit.legacy.ThrowableFunction;
 
 import java.lang.reflect.Method;
 import java.util.*;

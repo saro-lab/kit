@@ -1,5 +1,7 @@
 package me.saro.kit;
 
+import me.saro.kit.legacy.ThrowableFunction;
+
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;

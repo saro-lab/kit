@@ -1,6 +1,6 @@
-package me.saro.test;
+package me.saro.test.legacy;
 
-import me.saro.kit.*;
+import me.saro.kit.legacy.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Function;

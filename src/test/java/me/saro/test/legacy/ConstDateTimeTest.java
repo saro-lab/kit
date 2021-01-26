@@ -1,6 +1,6 @@
-package me.saro.test.old;
+package me.saro.test.legacy;
 
-import me.saro.kit.dates.ConstDateTime;
+import me.saro.kit.legacy.ConstDateTime;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,8 +48,6 @@ public class ConstDateTimeTest {
         System.out.println(
                 ConstDateTime.parse("2019-12-02 21:53:00", ymdhms).diffDays(ConstDateTime.parse("2019-12-01 01:22:10", ymdhms))
         );
-
-
     }
 
 }

@@ -1,5 +1,7 @@
 package me.saro.kit;
 
+import me.saro.kit.legacy.ThrowableFunction;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.Enumeration;

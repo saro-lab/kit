@@ -1,12 +1,11 @@
-package me.saro.kit
+package me.saro.kit.legacy
 
-import java.util.function.BiConsumer
-import java.util.function.BiFunction
-import java.util.function.Consumer
+import java.util.function.*
 import java.util.function.Function
-import java.util.function.Predicate
-import java.util.function.Supplier
 
+/**
+ * java function util
+ */
 fun interface ThrowableFunction<T, R> {
     @Throws(Exception::class) fun apply(t: T): R
 
