@@ -44,6 +44,16 @@ class CacheStore<ID, T>(
      */
     fun forEach(action: BiConsumer<ID, T>) = store.forEach { (k, v) -> v.data?.also { action.accept(k, it) } }
 
+    /**
+     * all data
+     */
+    fun all(): Map<ID, T> = HashMap<ID, T>().also { forEach { k, v -> it[k] = v } }
+
+    /**
+     * all keys
+     */
+    fun keys() = ArrayList<ID>(store.size).also { forEach { k, _ -> it.add(k) } }
+
     private class CacheWrapper<T> (
         private val expireTimeMillis: Long,
         private val _data: T
