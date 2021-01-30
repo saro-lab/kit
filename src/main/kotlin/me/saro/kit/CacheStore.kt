@@ -1,6 +1,7 @@
 package me.saro.kit
 
 import java.util.concurrent.ConcurrentHashMap
+import java.util.function.BiConsumer
 
 /**
  * cache store
@@ -37,6 +38,11 @@ class CacheStore<ID, T>(
      * clear all data
      */
     fun clear(): Unit = store.clear()
+
+    /**
+     * foreach key-data
+     */
+    fun forEach(action: BiConsumer<ID, T>) = store.forEach { (k, v) -> v.data?.also { action.accept(k, it) } }
 
     private class CacheWrapper<T> (
         private val expireTimeMillis: Long,
