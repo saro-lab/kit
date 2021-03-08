@@ -17,7 +17,7 @@ public class Valids {
      * - not allow Top-Level Domain<br>
      * - not support unicode
      */
-    final public static String IS_MAIL = "[_a-z0-9\\-]+(\\.[_a-z0-9\\-])*@([_a-z0-9\\-]+\\.)+[a-z]{2,}";
+    final public static String IS_MAIL = "[_a-z0-9\\-]+(\\.[_a-z0-9\\-]+)*@([_a-z0-9\\-]+\\.)+[a-z]{2,}";
 
     /**
      * mail check<br>
