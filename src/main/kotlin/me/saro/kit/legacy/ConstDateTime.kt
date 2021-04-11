@@ -1,422 +1,259 @@
-package me.saro.kit.legacy;
+package me.saro.kit.legacy
 
-import me.saro.kit.dates.Dates;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+import me.saro.kit.dates.Dates
+import java.util.*
 
 /**
  * const date time
- * <br/>
+ * <br></br>
  * it is for old java - Instead, "joda-time" is recommended.
- * <br/>
- * this class <b>thread-safe</b> because all compute use clone
+ * <br></br>
+ * this class **thread-safe** because all compute use clone
  * @author PARK Yong Seo
  */
-public class ConstDateTime {
+class ConstDateTime constructor(private val calendar: Calendar = Calendar.getInstance()): Cloneable {
 
-    // inner object
-    final private Calendar calendar;
+    constructor(timeInMillis: Long) : this(Calendar.getInstance().apply { this.timeInMillis = timeInMillis })
 
-    /**
-     * private Constructor
-     * @param timeInMillis
-     * java timeInMillis 
-     */
-    private ConstDateTime(long timeInMillis) {
-        calendar = Calendar.getInstance();
-        this.calendar.setTimeInMillis(timeInMillis);
-    }
-
-    /**
-     * new instant DateFormat with Calendar.getInstance()
-     * @return
-     */
-    public static ConstDateTime now() {
-        return new ConstDateTime(Calendar.getInstance().getTimeInMillis());
-    }
-
-    /**
-     * timeInMillis to DateFormat
-     * @param timeInMillis
-     * @return
-     */
-    public static ConstDateTime parse(long timeInMillis) {
-        return new ConstDateTime(timeInMillis);
-    }
-
-    /**
-     * String date to DateFormat
-     * @param date
-     * @param format
-     * @return
-     */
-    public static ConstDateTime parse(String date, String format) {
-        return new ConstDateTime(Dates.parseCalendar(date, format).getTimeInMillis());
-    }
-
-    /**
-     * convert string date format
-     * @param date
-     * @param oldFormat
-     * @param newFormat
-     * @return
-     */
-    public static String format(String date, String oldFormat, String newFormat) {
-        try {
-            if (date != null && !date.isEmpty()) {
-                return ConstDateTime.parse(date, oldFormat).toString(newFormat);
-            }
-        } catch (Exception e) {}
-        return null;
-    }
-
-    /**
-     * date validator 
-     * @param date
-     * @param format
-     * @return
-     */
-    public static boolean valid(String date, String format) {
-        try {
-            if (date != null && format != null) {
-                ConstDateTime df = ConstDateTime.parse(date, format);
-                return df.toString(format).equals(date);
-            }
-        } catch (Exception e) {}
-        return false;
-    }
-
-    public ConstDateTime timezone(TimeZone timeZone) {
-        ConstDateTime rv = clone();
-        rv.calendar.setTimeZone(timeZone);
-        return rv;
-    }
+    fun timezone(timeZone: TimeZone?): ConstDateTime = clone().apply { calendar.timeZone = timeZone }
 
     /**
      * return plus milliseconds
      * @param milliseconds
      * @return
      */
-    public ConstDateTime plusMilliseconds(int milliseconds) {
-        ConstDateTime rv = clone();
-        rv.calendar.add(Calendar.MILLISECOND, milliseconds);
-        return rv;
-    }
+    fun plusMilliseconds(milliseconds: Int): ConstDateTime = clone().apply { calendar.add(Calendar.MILLISECOND, milliseconds) }
 
     /**
      * return plus minutes
      * @param minutes
      * @return
      */
-    public ConstDateTime plusMinutes(int minutes) {
-        ConstDateTime rv = clone();
-        rv.calendar.add(Calendar.MINUTE, minutes);
-        return rv;
-    }
+    fun plusMinutes(minutes: Int): ConstDateTime = clone().apply { calendar.add(Calendar.MINUTE, minutes) }
 
     /**
      * return plus hours
      * @param hours
      * @return
      */
-    public ConstDateTime plusHours(int hours) {
-        ConstDateTime rv = clone();
-        rv.calendar.add(Calendar.HOUR, hours);
-        return rv;
-    }
+    fun plusHours(hours: Int): ConstDateTime = clone().apply { calendar.add(Calendar.HOUR, hours) }
 
     /**
      * return plus dates
      * @param days
      * @return
      */
-    public ConstDateTime plusDays(int days) {
-        ConstDateTime rv = clone();
-        rv.calendar.add(Calendar.DATE, days);
-        return rv;
-    }
+    fun plusDays(days: Int): ConstDateTime = clone().apply { calendar.add(Calendar.DATE, days) }
 
     /**
      * return plus month
      * @param month
      * @return
      */
-    public ConstDateTime plusMonths(int month) {
-        ConstDateTime rv = clone();
-        rv.calendar.add(Calendar.MONTH, month);
-        return rv;
-    }
+    fun plusMonths(month: Int): ConstDateTime = clone().apply { calendar.add(Calendar.MONTH, month) }
 
     /**
      * return plus year
      * @param year
      * @return
      */
-    public ConstDateTime plusYears(int year) {
-        ConstDateTime rv = clone();
-        rv.calendar.add(Calendar.YEAR, year);
-        return rv;
-    }
+    fun plusYears(year: Int): ConstDateTime = clone().apply { calendar.add(Calendar.YEAR, year) }
 
     /**
-     * <b>WARNING : </b> is not Milliseconds<br>
+     * **WARNING : ** is not Milliseconds<br></br>
      * return with timeInMillis
      * @param timeInMillis
      * @return
      */
-    public ConstDateTime withTimeInMillis(long timeInMillis) {
-        ConstDateTime rv = clone();
-        rv.calendar.setTimeInMillis(timeInMillis);
-        return rv;
-    }
+    fun withTimeInMillis(timeInMillis: Long): ConstDateTime = clone().apply { calendar.timeInMillis = timeInMillis }
 
     /**
-     * <b>WARNING : </b> is not TimeInMillis<br>
+     * **WARNING : ** is not TimeInMillis<br></br>
      * return with milliseconds
      * @param milliseconds
      * @return
      */
-    public ConstDateTime withMilliseconds(int milliseconds) {
-        ConstDateTime rv = clone();
-        rv.calendar.set(Calendar.MILLISECOND, milliseconds);
-        return rv;
-    }
+    fun withMilliseconds(milliseconds: Int): ConstDateTime = clone().apply { calendar[Calendar.MILLISECOND] = milliseconds }
 
     /**
      * return with seconds
      * @param seconds
      * @return
      */
-    public ConstDateTime withSeconds(int seconds) {
-        ConstDateTime rv = clone();
-        rv.calendar.set(Calendar.SECOND, seconds);
-        return rv;
-    }
+    fun withSeconds(seconds: Int): ConstDateTime = clone().apply { calendar[Calendar.SECOND] = seconds }
 
     /**
      * return with minutes
      * @param minutes
      * @return
      */
-    public ConstDateTime withMinutes(int minutes) {
-        ConstDateTime rv = clone();
-        rv.calendar.set(Calendar.MINUTE, minutes);
-        return rv;
-    }
+    fun withMinutes(minutes: Int): ConstDateTime = clone().apply { calendar[Calendar.MINUTE] = minutes }
 
     /**
      * return with hours
      * @param hours
      * @return
      */
-    public ConstDateTime withHours(int hours) {
-        ConstDateTime rv = clone();
-        rv.calendar.set(Calendar.HOUR, hours);
-        return rv;
-    }
+    fun withHours(hours: Int): ConstDateTime = clone().apply { calendar[Calendar.HOUR] = hours }
 
     /**
      * return with dayOfMonth
      * @param day
      * @return
      */
-    public ConstDateTime withDayOfMonth(int day) {
-        ConstDateTime rv = clone();
-        rv.calendar.set(Calendar.DAY_OF_MONTH, day);
-        return rv;
-    }
+    fun withDayOfMonth(day: Int): ConstDateTime = clone().apply { calendar[Calendar.DAY_OF_MONTH] = day }
 
     /**
      * return with month
      * @param month
      * @return
      */
-    public ConstDateTime withMonth(int month) {
-        ConstDateTime rv = clone();
-        rv.calendar.set(Calendar.MONTH, month);
-        return rv;
-    }
+    fun withMonth(month: Int): ConstDateTime = clone().apply { calendar[Calendar.MONTH] = month }
 
     /**
      * return with year
      * @param year
      * @return
      */
-    public ConstDateTime withYear(int year) {
-        ConstDateTime rv = clone();
-        rv.calendar.set(Calendar.YEAR, year);
-        return rv;
-    }
+    fun withYear(year: Int): ConstDateTime = clone().apply { calendar[Calendar.YEAR] = year }
 
     /**
      * get TimeInMillis
-     * <br>
-     * <b>WARNING : </b> is not Milliseconds
+     * <br></br>
+     * **WARNING : ** is not Milliseconds
      * @return
      */
-    public long getTimeInMillis() {
-        return calendar.getTimeInMillis();
-    }
+    val timeInMillis: Long get() = calendar.timeInMillis
 
     /**
      * get Milliseconds
-     * <br>
-     * <b>WARNING : </b> is not TimeInMillis
+     * <br></br>
+     * **WARNING : ** is not TimeInMillis
      * @return
      */
-    public int getMilliseconds() {
-        return calendar.get(Calendar.MILLISECOND);
-    }
+    val milliseconds: Int get() = calendar[Calendar.MILLISECOND]
 
     /**
      * get Seconds
      * @return
      */
-    public int getSeconds() {
-        return calendar.get(Calendar.SECOND);
-    }
+    val seconds: Int get() = calendar[Calendar.SECOND]
 
     /**
      * get Minute
      * @return
      */
-    public int getMinute() {
-        return calendar.get(Calendar.MINUTE);
-    }
+    val minute: Int get() = calendar[Calendar.MINUTE]
 
     /**
      * get Hours
      * @return
      */
-    public int getHours() {
-        return calendar.get(Calendar.HOUR);
-    }
+    val hours: Int get() = calendar[Calendar.HOUR]
 
     /**
      * get Date
      * @return
      */
-    public int getDate() {
-        return calendar.get(Calendar.DATE);
-    }
+    val date: Int get() = calendar[Calendar.DATE]
 
     /**
      * get Month
      * @return
      */
-    public int getMonth() {
-        return calendar.get(Calendar.MONTH);
-    }
+    val month: Int get() = calendar[Calendar.MONTH]
 
     /**
      * get Year
      * @return
      */
-    public int getYear() {
-        return calendar.get(Calendar.YEAR);
-    }
+    val year: Int get() = calendar[Calendar.YEAR]
 
     /**
      * get DayOfWeek
      * @return
      */
-    public int getDayOfWeek() {
-        return calendar.get(Calendar.DAY_OF_WEEK);
-    }
+    val dayOfWeek: Int get() = calendar[Calendar.DAY_OF_WEEK]
 
     /**
      * get DayOfIntWeek
      * 0:sun - 1:mon ... 6:sat
      * @return
      */
-    public int getDayOfIntWeek() {
-        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
-            case Calendar.SUNDAY: return 0;
-            case Calendar.MONDAY: return 1;
-            case Calendar.TUESDAY: return 2;
-            case Calendar.WEDNESDAY: return 3;
-            case Calendar.THURSDAY: return 4;
-            case Calendar.FRIDAY: return 5;
-            case Calendar.SATURDAY: return 6;
+    val dayOfIntWeek: Int get() {
+            when (calendar[Calendar.DAY_OF_WEEK]) {
+                Calendar.SUNDAY -> return 0
+                Calendar.MONDAY -> return 1
+                Calendar.TUESDAY -> return 2
+                Calendar.WEDNESDAY -> return 3
+                Calendar.THURSDAY -> return 4
+                Calendar.FRIDAY -> return 5
+                Calendar.SATURDAY -> return 6
+            }
+            throw RuntimeException()
         }
-        throw new RuntimeException();
-    }
 
     /**
      * get WeekOfMonth
      * @return
      */
-    public int getWeekOfMonth() {
-        return calendar.get(Calendar.WEEK_OF_MONTH);
-    }
+    val weekOfMonth: Int get() = calendar[Calendar.WEEK_OF_MONTH]
 
     /**
      * get WeekOfYear
      * @return
      */
-    public int getWeekOfYear() {
-        return calendar.get(Calendar.WEEK_OF_YEAR);
-    }
+    val weekOfYear: Int get() = calendar[Calendar.WEEK_OF_YEAR]
 
     /**
      * Last Day Of Month
      * @return
      */
-    public int getLastDayOfMonth() {
-        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-    }
+    val lastDayOfMonth: Int get() = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
     /**
      * diff year
      * @param constDateTime
      * @return
      */
-    public int diffYears(ConstDateTime constDateTime) {
-        return Math.abs(getYear() - constDateTime.getYear());
-    }
+    fun diffYears(constDateTime: ConstDateTime): Int = Math.abs(year - constDateTime.year)
 
     /**
      * diff month
      * @param constDateTime
      * @return
      */
-    public int diffMonths(ConstDateTime constDateTime) {
-        return Math.abs(((getYear() * 12) + getMonth()) - ((constDateTime.getYear() * 12) + constDateTime.getMonth()));
-    }
+    fun diffMonths(constDateTime: ConstDateTime): Int = Math.abs(year * 12 + month - (constDateTime.year * 12 + constDateTime.month))
 
     /**
      * diff day
      * @param constDateTime
      * @return
      */
-    public int diffDays(ConstDateTime constDateTime) {
-        Calendar sd = onlyDate().calendar;
-        Calendar ed = constDateTime.onlyDate().calendar;
-        int diffDays = (int)((ed.getTimeInMillis() - sd.getTimeInMillis()) / 86400000L);
-
-        sd.add(Calendar.DATE, diffDays);
-
+    fun diffDays(constDateTime: ConstDateTime): Int {
+        val sd = onlyDate().calendar
+        val ed = constDateTime.onlyDate().calendar
+        var diffDays = ((ed.timeInMillis - sd.timeInMillis) / 86400000L).toInt()
+        sd.add(Calendar.DATE, diffDays)
         while (sd.before(ed)) {
-            sd.add(Calendar.DATE, 1);
-            diffDays++;
+            sd.add(Calendar.DATE, 1)
+            diffDays++
         }
         while (sd.after(ed)) {
-            sd.add(Calendar.DATE, -1);
-            diffDays--;
+            sd.add(Calendar.DATE, -1)
+            diffDays--
         }
-        return Math.abs(diffDays);
+        return Math.abs(diffDays)
     }
 
     /**
-     * Days remaining until last day of month<br>
-     * ex) 2019-12-30 -&gt; 1<br>
+     * Days remaining until last day of month<br></br>
+     * ex) 2019-12-30 -&gt; 1<br></br>
      * ex) 2019-12-31 -&gt; 0
      * @return
      */
-    public int remainDaysUntilLastDayOfMonth() {
-        return diffDays(withDayOfMonth(getLastDayOfMonth()));
+    fun remainDaysUntilLastDayOfMonth(): Int {
+        return diffDays(withDayOfMonth(lastDayOfMonth))
     }
 
     /**
@@ -424,49 +261,49 @@ public class ConstDateTime {
      * @param format
      * @return
      */
-    public String format(String format) {
-        return Dates.format(calendar.getTime(), format);
+    fun format(format: String?): String {
+        return Dates.format(calendar.time, format)
     }
 
     /**
      * DateFormat to String
-     * <br>
+     * <br></br>
      * same format(String format)
      * @param format
      * @return
      */
-    public String toString(String format) {
-        return format(format);
+    fun toString(format: String?): String {
+        return format(format)
     }
 
     /**
      * to ISO8601
      * yyyy-MM-dd'T'HH:mm:ssZ[+HH:mm]
      */
-    public String toString() {
-        return toISO8601();
+    override fun toString(): String {
+        return toISO8601()
     }
 
     /**
      * to ISO8601
      * @return
      */
-    public String toISO8601() {
-        String format = this.format("yyyy-MM-dd'T'HH:mm:ssZ");
-        return format.lastIndexOf('+') != format.length() - 5 ? format.replaceFirst("([\\d]{2})$", ":$1") : format;
+    fun toISO8601(): String {
+        val format = this.format("yyyy-MM-dd'T'HH:mm:ssZ")
+        return if (format.lastIndexOf('+') != format.length - 5) format.replaceFirst("([\\d]{2})$".toRegex(), ":$1") else format
     }
 
     /**
      * remove hh MM ss
      */
-    public ConstDateTime onlyDate() {
-        ConstDateTime rv = clone();
-        Calendar cal = rv.calendar;
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        return rv;
+    fun onlyDate(): ConstDateTime {
+        val rv = clone()
+        val cal = rv.calendar
+        cal[Calendar.HOUR_OF_DAY] = 0
+        cal[Calendar.MINUTE] = 0
+        cal[Calendar.SECOND] = 0
+        cal[Calendar.MILLISECOND] = 0
+        return rv
     }
 
     /**
@@ -474,8 +311,8 @@ public class ConstDateTime {
      * @param constDateTime
      * @return
      */
-    public boolean equalsYear(ConstDateTime constDateTime) {
-        return getYear() == constDateTime.getYear();
+    fun equalsYear(constDateTime: ConstDateTime): Boolean {
+        return year == constDateTime.year
     }
 
     /**
@@ -483,8 +320,8 @@ public class ConstDateTime {
      * @param constDateTime
      * @return
      */
-    public boolean equalsYearMonth(ConstDateTime constDateTime) {
-        return equalsYear(constDateTime) && getMonth() == constDateTime.getMonth();
+    fun equalsYearMonth(constDateTime: ConstDateTime): Boolean {
+        return equalsYear(constDateTime) && month == constDateTime.month
     }
 
     /**
@@ -492,40 +329,99 @@ public class ConstDateTime {
      * @param constDateTime
      * @return
      */
-    public boolean equalsYearMonthDate(ConstDateTime constDateTime) {
-        return equalsYearMonth(constDateTime) && getDate() == constDateTime.getDate();
+    fun equalsYearMonthDate(constDateTime: ConstDateTime): Boolean {
+        return equalsYearMonth(constDateTime) && date == constDateTime.date
     }
 
     /**
      * to Date
      * @return
      */
-    public Date toDate() {
-        return this.calendar.getTime();
+    fun toDate(): Date {
+        return calendar.time
     }
 
     /**
      * clone
      */
-    public ConstDateTime clone() {
-        return new ConstDateTime(((Calendar)this.calendar.clone()).getTimeInMillis());
-    }
+    override fun clone(): ConstDateTime = ConstDateTime((calendar.clone() as Calendar).timeInMillis)
 
     /**
      * toCalendar
      */
-    public Calendar toCalendar() {
-        return (Calendar)this.calendar.clone();
-    }
+    fun toCalendar(): Calendar = calendar.clone() as Calendar
 
     /**
      * equals
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (obj != null && this.getClass().getName().equals(obj.getClass().getName())) {
-            return this.getTimeInMillis() == ((ConstDateTime)obj).getTimeInMillis();
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override fun equals(obj: Any?): Boolean {
+        return if (obj != null && this.javaClass.name == obj.javaClass.name) {
+            timeInMillis == (obj as ConstDateTime).timeInMillis
+        } else false
+    }
+
+    companion object {
+        /**
+         * new instant DateFormat with Calendar.getInstance()
+         * @return
+         */
+        fun now(): ConstDateTime {
+            return ConstDateTime(Calendar.getInstance().timeInMillis)
         }
-        return false;
+
+        /**
+         * timeInMillis to DateFormat
+         * @param timeInMillis
+         * @return
+         */
+        fun parse(timeInMillis: Long): ConstDateTime {
+            return ConstDateTime(timeInMillis)
+        }
+
+        /**
+         * String date to DateFormat
+         * @param date
+         * @param format
+         * @return
+         */
+        @JvmStatic
+        fun parse(date: String?, format: String?): ConstDateTime {
+            return ConstDateTime(Dates.parseCalendar(date, format).timeInMillis)
+        }
+
+        /**
+         * convert string date format
+         * @param date
+         * @param oldFormat
+         * @param newFormat
+         * @return
+         */
+        fun format(date: String?, oldFormat: String?, newFormat: String?): String? {
+            try {
+                if (date != null && !date.isEmpty()) {
+                    return parse(date, oldFormat).toString(newFormat)
+                }
+            } catch (e: Exception) {
+            }
+            return null
+        }
+
+        /**
+         * date validator
+         * @param date
+         * @param format
+         * @return
+         */
+        fun valid(date: String?, format: String?): Boolean {
+            try {
+                if (date != null && format != null) {
+                    val df = parse(date, format)
+                    return df.toString(format) == date
+                }
+            } catch (e: Exception) {
+            }
+            return false
+        }
     }
 }
