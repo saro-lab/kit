@@ -11,6 +11,7 @@ import java.util.*
  * this class **thread-safe** because all compute use clone
  * @author PARK Yong Seo
  */
+@Deprecated(message = "use joda or java time")
 class ConstDateTime constructor(private val calendar: Calendar = Calendar.getInstance()): Cloneable {
 
     constructor(timeInMillis: Long) : this(Calendar.getInstance().apply { this.timeInMillis = timeInMillis })
