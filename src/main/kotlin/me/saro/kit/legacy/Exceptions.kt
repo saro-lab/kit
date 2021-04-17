@@ -4,7 +4,7 @@ package me.saro.kit.legacy
  * java exception util
  * @author PARK Yong Seo
  */
-class Exceptions {
+open class Exceptions {
     companion object {
         /**
          * to String the exception with stackTrace
