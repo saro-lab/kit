@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ValidsTest {
 
     @Test
-    public void isMail() throws Exception {
+    public void isMail() {
         Assertions.assertTrue(Valids.isMail("abc@saro.me", 64));
         assertTrue(Valids.isMail("abc@localhost.com", 64));
         assertTrue(Valids.isMail("a_-b@abc.com", 64));
