@@ -1,6 +1,6 @@
 package me.saro.kit.legacy
 
-import me.saro.kit.dates.Dates
+import me.saro.kit.Dates
 import java.util.*
 
 /**
