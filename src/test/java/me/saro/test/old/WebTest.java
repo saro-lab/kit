@@ -1,6 +1,6 @@
 package me.saro.test.old;
 
-import me.saro.kit.webs.Web;
+import me.saro.test.legacy.webs.Web;
 
 class WebTest {
 
