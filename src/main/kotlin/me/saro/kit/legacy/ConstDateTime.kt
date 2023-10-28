@@ -262,7 +262,7 @@ class ConstDateTime constructor(private val calendar: Calendar = Calendar.getIns
      * @param format
      * @return
      */
-    fun format(format: String?): String {
+    fun format(format: String): String {
         return Dates.format(calendar.time, format)
     }
 
@@ -273,7 +273,7 @@ class ConstDateTime constructor(private val calendar: Calendar = Calendar.getIns
      * @param format
      * @return
      */
-    fun toString(format: String?): String {
+    fun toString(format: String): String {
         return format(format)
     }
 
@@ -387,7 +387,7 @@ class ConstDateTime constructor(private val calendar: Calendar = Calendar.getIns
          * @return
          */
         @JvmStatic
-        fun parse(date: String?, format: String?): ConstDateTime {
+        fun parse(date: String?, format: String): ConstDateTime {
             return ConstDateTime(Dates.parseCalendar(date, format).timeInMillis)
         }
 
@@ -398,10 +398,10 @@ class ConstDateTime constructor(private val calendar: Calendar = Calendar.getIns
          * @param newFormat
          * @return
          */
-        fun format(date: String?, oldFormat: String?, newFormat: String?): String? {
+        fun format(date: String?, oldFormat: String, newFormat: String?): String? {
             try {
                 if (date != null && !date.isEmpty()) {
-                    return parse(date, oldFormat).toString(newFormat)
+                    return parse(date, oldFormat).toString(newFormat!!)
                 }
             } catch (e: Exception) {
             }

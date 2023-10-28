@@ -83,7 +83,7 @@ open class Valids {
         @kotlin.jvm.JvmStatic
         fun isDate(date: String, format: String?): Boolean {
             return try {
-                Dates.format(Dates.parseDate(date, format), format) == date
+                Dates.format(Dates.parseDate(date, format!!), format) == date
             } catch (e: Exception) {
                 false
             }
