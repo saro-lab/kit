@@ -1,7 +1,6 @@
-package me.saro.kit
+package me.saro.kit.legacy
 
-import me.saro.kit.legacy.ThrowableFunction
-import me.saro.kit.legacy.ThrowablePredicate
+import me.saro.kit.Streams
 import me.saro.kit.legacy.ThrowablePredicate.Companion.wrap
 import java.io.*
 import java.nio.charset.Charset

@@ -4,7 +4,7 @@ package me.saro.kit.lang
 /**
  * @author PARK Yong Seo
  */
-class Koreans {
+class KoreanKit {
     companion object {
         // korean -> ja/mo initial
         private val KO_INIT_S = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ".toCharArray() // 19
@@ -21,7 +21,7 @@ class Koreans {
 
         /**
          * korean to chosung<br/>
-         * ex) 박용서 = ㅂㅇㅅ
+         * ex) 사로 = ㅅㄹ
          */
         @JvmStatic
         fun toChosung(text: String?): String = text?.run {

@@ -1,4 +1,4 @@
-package me.saro.kit
+package me.saro.kit.legacy
 
 import java.text.ParseException
 import java.text.SimpleDateFormat

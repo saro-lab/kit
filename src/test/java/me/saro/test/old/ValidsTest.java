@@ -1,6 +1,6 @@
 package me.saro.test.old;
 
-import me.saro.kit.Valids;
+import me.saro.kit.legacy.Valids;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
