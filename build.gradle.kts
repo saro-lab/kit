@@ -31,7 +31,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
  */
 
 plugins {
-	val kotlinVersion = "1.9.20-RC2"
+	val kotlinVersion = "2.0.0"
 	id("org.jetbrains.kotlin.jvm") version kotlinVersion
 	id("org.jetbrains.kotlin.kapt") version kotlinVersion
 	signing
@@ -40,13 +40,7 @@ plugins {
 
 val kitGroupId = "me.saro"
 val kitArtifactId = "kit"
-val kitVersion = "0.1.6"
-
-
-configure<JavaPluginExtension> {
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
-}
+val kitVersion = "0.2.0"
 
 repositories {
 	mavenCentral()
@@ -58,10 +52,6 @@ java {
 }
 
 dependencies {
-
-	// jackson
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.3")
-
 	// test
 	testImplementation("org.junit.jupiter:junit-jupiter-api:+")
 	testImplementation("org.junit.jupiter:junit-jupiter-engine:+")
@@ -135,13 +125,11 @@ tasks.withType<Javadoc>().configureEach {
 	}
 }
 
-tasks.withType<KotlinCompile> {
-	kotlinOptions {
-		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "21"
-	}
+configure<JavaPluginExtension> {
+	sourceCompatibility = JavaVersion.VERSION_11
+	targetCompatibility = JavaVersion.VERSION_11
 }
 
-
-
-
+tasks.withType<Test> {
+	useJUnitPlatform()
+}

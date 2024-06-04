@@ -5,12 +5,9 @@ import java.net.URI
 import java.nio.file.FileSystems
 import java.nio.file.Files.walk
 import java.nio.file.Path
-import kotlin.io.path.isDirectory
 
-class FileUtils {
+class FileKit {
     companion object {
-
-
         @JvmStatic
         fun openInJar(clazz: Class<*>, directoryPath: String, action: (Path) -> Unit) {
             val jarPath = clazz.protectionDomain.codeSource.location.toURI().path
@@ -23,12 +20,4 @@ class FileUtils {
             }
         }
     }
-}
-
-fun main() {
-    FileUtils.openInJar(FileUtils::class.java, "/me/saro/kit") {
-        println(it)
-    }
-
-
 }

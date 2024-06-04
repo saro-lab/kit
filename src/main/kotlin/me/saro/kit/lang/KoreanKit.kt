@@ -1,9 +1,5 @@
 package me.saro.kit.lang
 
-
-/**
- * @author PARK Yong Seo
- */
 class KoreanKit {
     companion object {
         // korean -> ja/mo initial

@@ -1,6 +1,6 @@
 package me.saro.test;
 
-import me.saro.kit.legacy.CacheStore;
+import me.saro.kit.service.CacheStore;
 import org.junit.jupiter.api.Test;
 
 public class CacheStoreTest {
