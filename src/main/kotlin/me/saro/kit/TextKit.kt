@@ -1,5 +1,8 @@
 package me.saro.kit
 
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 class TextKit {
     companion object {
         @JvmStatic
@@ -26,6 +29,17 @@ class TextKit {
         @JvmStatic
         fun generateBase62(length: Int): String =
             generate(BASE62, length)
+
+        @JvmStatic
+        fun replace(text: String, pattern: Pattern, replace: (String) -> String): String {
+            val matcher = pattern.matcher(text)
+            val sb = StringBuffer()
+            while (matcher.find()) {
+                matcher.appendReplacement(sb, Matcher.quoteReplacement(replace(matcher.group())))
+            }
+            matcher.appendTail(sb)
+            return sb.toString()
+        }
 
         @JvmStatic
         fun toString(e: Exception?): String =
