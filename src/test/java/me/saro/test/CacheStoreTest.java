@@ -1,8 +1,10 @@
 package me.saro.test;
 
 import me.saro.kit.service.CacheStore;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("CacheStore Test")
 public class CacheStoreTest {
 
     @Test
