@@ -33,7 +33,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	val kotlinVersion = "2.0.0"
 	id("org.jetbrains.kotlin.jvm") version kotlinVersion
-	id("org.jetbrains.kotlin.kapt") version kotlinVersion
 	signing
 	`maven-publish`
 }
@@ -53,8 +52,8 @@ java {
 
 dependencies {
 	// test
-	testImplementation("org.junit.jupiter:junit-jupiter-api:+")
-	testImplementation("org.junit.jupiter:junit-jupiter-engine:+")
+	testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<Test> {
