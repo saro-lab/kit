@@ -6,7 +6,7 @@ import java.util.regex.Pattern
 class TextKit {
     companion object {
         @JvmStatic
-        val BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray()
+        private val BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray()
 
         @JvmStatic
         fun generate(mold: CharArray, length: Int): String {
