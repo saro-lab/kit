@@ -1,7 +1,10 @@
 package me.saro.kit
 
+import java.io.InputStream
+import java.io.OutputStream
 import java.security.MessageDigest
 import java.util.*
+import javax.crypto.Cipher
 
 
 class SecurityKit {
@@ -77,5 +80,15 @@ class SecurityKit {
         fun enBase64Url(data: ByteArray): String = EN_BASE64_URL.encodeToString(data)
         @JvmStatic
         fun deBase64Url(data: String): ByteArray = DE_BASE64_URL.decode(data)
+
+        @JvmStatic
+        fun link(cipher: Cipher, inputStream: InputStream, outputStream: OutputStream) {
+            val buffer = ByteArray(8192)
+            var len: Int
+            while (inputStream.read(buffer).also { len = it } > 0) {
+                outputStream.write(cipher.update(buffer, 0, len))
+            }
+            outputStream.write(cipher.doFinal())
+        }
     }
 }
