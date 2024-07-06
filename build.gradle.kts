@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 /**
  * + publish
  * 1. gradle publish
@@ -39,7 +37,7 @@ plugins {
 
 val kitGroupId = "me.saro"
 val kitArtifactId = "kit"
-val kitVersion = "0.3.0"
+val kitVersion = "0.2.0"
 
 repositories {
 	mavenCentral()
