@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 @DisplayName("CacheStore Test")
 public class CacheStoreTest {
-
     @Test
     public void test() throws Exception {
         CacheStore<String, String> cs = new CacheStore<>(100);

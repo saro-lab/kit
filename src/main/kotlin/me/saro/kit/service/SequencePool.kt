@@ -1,6 +1,7 @@
 package me.saro.kit.service
 
 class SequencePool<T> private constructor(
+    private val name: String,
     private val minPoolSize: Int,
     private val maxPoolSize: Int,
     private val increaseTimeMillis: Long,
@@ -37,7 +38,12 @@ class SequencePool<T> private constructor(
         return lastIssuedSize
     }
 
+    override fun toString(): String {
+        return "name: $name / maxPoolSize: $maxPoolSize / nowPool: $nowPoolSize / nowStore: $nowStoreSize"
+    }
+
     class Builder() {
+        private var name: String = ""
         private var minPoolSize: Int = 1
         private var maxPoolSize: Int = 100
         private var increaseMinutes: Int = 1
@@ -65,7 +71,7 @@ class SequencePool<T> private constructor(
                 throw IllegalArgumentException("multiple < 2")
             }
 
-            return SequencePool(minPoolSize, maxPoolSize, increaseMinutes * 60L, decreaseMinutes * 60L, multiple)
+            return SequencePool(name, minPoolSize, maxPoolSize, increaseMinutes * 60L, decreaseMinutes * 60L, multiple)
         }
     }
 }

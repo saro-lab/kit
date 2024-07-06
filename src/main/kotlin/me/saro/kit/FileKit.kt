@@ -21,6 +21,10 @@ class FileKit {
                 File(clazz.getResource(directoryPath)!!.toURI()).listFiles()?.forEach { file -> action(file.toPath()) }
             }
         }
+        
+        @JvmStatic
+        fun unzip(zipFile: File, destDir: File) =
+            unzip(zipFile) { File(destDir, it.name) }
 
         @JvmStatic
         fun unzip(zipFile: File, zipRootDepth: Int, destDir: File) =
@@ -28,14 +32,8 @@ class FileKit {
                 val paths = it.name.split("/")
                 if (paths.size > zipRootDepth) {
                     File(destDir, paths.drop(zipRootDepth).joinToString("/"))
-                } else {
-                    null
-                }
+                } else null
             }
-
-        @JvmStatic
-        fun unzip(zipFile: File, destDir: File) =
-            unzip(zipFile) { File(destDir, it.name) }
 
         @JvmStatic
         fun unzip(zipFile: File, eachSavePath: (ZipEntry) -> File?) =
