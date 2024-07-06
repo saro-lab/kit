@@ -1,6 +1,7 @@
 package me.saro.test;
 
 import me.saro.kit.service.CacheStore;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,10 +11,10 @@ public class CacheStoreTest {
     public void test() throws Exception {
         CacheStore<String, String> cs = new CacheStore<>(100);
 
-        assert cs.find("aa", (id) -> "bb").equals("bb");
+        Assertions.assertEquals(cs.find("aa", (id) -> "bb"), "bb");
 
-        assert cs.find("aa", (id) -> "cc").equals("bb");
+        Assertions.assertEquals(cs.find("aa", (id) -> "cc"), "bb");
 
-        assert cs.find("dd", (id) -> "cc").equals("cc");
+        Assertions.assertEquals(cs.find("dd", (id) -> "cc"), "cc");
     }
 }
