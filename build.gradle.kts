@@ -22,7 +22,7 @@
  * https://github.com/saro-lab/jwt
  * https://docs.gradle.org/current/userguide/publishing_maven.html
  * https://docs.gradle.org/current/userguide/signing_plugin.html#signing_plugin
- * windows -> pgp4win
+ * windows -> gpg4win
  * gpg --gen-key
  * gpg --list-keys --keyid-format short
  * gpg --export-secret-keys -o secring.gpg
