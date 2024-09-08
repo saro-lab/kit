@@ -15,8 +15,7 @@
  *    signing.password=<secret>
  *    signing.secretKeyRingFile=<path of secring.gpg>
  *
- * + you can use "User Token" instead of id & password.
- *     - https://oss.sonatype.org -> profile -> User Token
+
  *
  * @See
  * https://github.com/saro-lab/jwt
@@ -26,6 +25,10 @@
  * gpg --gen-key
  * gpg --list-keys --keyid-format short
  * gpg --export-secret-keys -o secring.gpg
+ * gpg --keyserver keys.gnupg.net --send-keys <keyid 8>
+ *
+ * you must use "User Token" instead of id & password.
+ *     - https://oss.sonatype.org -> profile -> User Token
  */
 
 plugins {
