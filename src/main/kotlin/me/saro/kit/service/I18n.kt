@@ -1,21 +1,30 @@
 package me.saro.kit.service
 
 import java.io.File
+import java.util.Locale
 import java.util.logging.Logger
 import java.util.stream.Stream
 
 class I18n private constructor(
     private val map: Map<String, Map<String, String>>
 ) {
-    operator fun get(lang: String, code: String): String {
-        val loLang = lang.lowercase().split(';')
+    private val matches = Regex("^[a-z\\d_]+$", RegexOption.IGNORE_CASE)
 
+    fun byLocales(code: String, locales: List<Locale>): String =
+        get(code, locales.map { it.language })
+
+    fun byLocale(code: String, locale: Locale): String =
+        get(code, listOf(locale.language))
+
+    operator fun get(code: String, acceptLanguage: String): String =
+        get(code, acceptLanguage.split(';').map { it.trim() }.filter { it.matches(matches) })
+
+    operator fun get(code: String, lang: List<String>): String {
         val node = map[code]
             ?: return code
-
-        return loLang.asSequence()
+        return lang.asSequence()
             .filter { it.isNotBlank() }
-            .map { node[it.trim()] }
+            .map { node[it] }
             .firstOrNull { it != null }
             ?: return node.firstNotNullOfOrNull { it.value } ?: code
     }

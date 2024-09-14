@@ -40,7 +40,7 @@ plugins {
 
 val kitGroupId = "me.saro"
 val kitArtifactId = "kit"
-val kitVersion = "0.2.1"
+val kitVersion = "0.2.2"
 
 repositories {
 	mavenCentral()
