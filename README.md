@@ -13,14 +13,14 @@ test version
 <dependency>
   <groupId>me.saro</groupId>
   <artifactId>kit</artifactId>
-  <version>0.2.0</version>
+  <version>0.2.1</version>
 </dependency>
 ```
 
 ## gradle
 
 ```
-compile 'me.saro:kit:0.2.0'
+compile 'me.saro:kit:0.2.1'
 ```
 
 ## repository

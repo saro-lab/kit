@@ -1,4 +1,4 @@
-package me.saro.test;
+package me.saro.jtest;
 
 import org.junit.jupiter.api.DisplayName;
 

@@ -40,16 +40,12 @@ plugins {
 
 val kitGroupId = "me.saro"
 val kitArtifactId = "kit"
-val kitVersion = "0.2.0"
+val kitVersion = "0.2.1"
 
 repositories {
 	mavenCentral()
 }
 
-java {
-	withJavadocJar()
-	withSourcesJar()
-}
 
 dependencies {
 	// test
@@ -124,6 +120,15 @@ tasks.withType<Javadoc>().configureEach {
 		addBooleanOption("Xdoclint:none", true)
 	}
 }
+
+java {
+	withJavadocJar()
+	withSourcesJar()
+	toolchain {
+		languageVersion.set(JavaLanguageVersion.of(11))
+	}
+}
+
 
 configure<JavaPluginExtension> {
 	sourceCompatibility = JavaVersion.VERSION_11
