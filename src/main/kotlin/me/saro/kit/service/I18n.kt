@@ -1,36 +1,35 @@
 package me.saro.kit.service
 
 import java.io.File
-import java.util.Locale
-import java.util.logging.Logger
+import java.util.*
 import java.util.stream.Stream
+import kotlin.collections.LinkedHashMap
 
 class I18n private constructor(
-    private val map: Map<String, Map<String, String>>
+    private val map: Map<String, Map<String, String>>,
+    private val support: Set<String>,
+    private val locales: List<String>
 ) {
-    private val matches = Regex("^[a-z\\d_]+$", RegexOption.IGNORE_CASE)
+    fun locale(locale: String): I18n = locales(listOf(locale))
 
-    fun byLocales(code: String, locales: List<Locale>): String =
-        get(code, locales.map { it.language })
+    fun locale(locale: Locale): I18n = locales(listOf(locale.language))
 
-    fun byLocale(code: String, locale: Locale): String =
-        get(code, listOf(locale.language))
+    fun acceptLanguage(acceptLanguage: String): I18n = locales(acceptLanguage.split(';').map { it.trim() })
 
-    operator fun get(code: String, acceptLanguage: String): String =
-        get(code, acceptLanguage.split(';').map { it.trim() }.filter { it.matches(matches) })
+    fun locales(locales: List<Locale>): I18n = locales(locales.map { it.language })
 
-    operator fun get(code: String, lang: List<String>): String {
+    fun locales(locales: List<String>): I18n {
+        return I18n(map, support, locales.filter { support.contains(it) }.ifEmpty { support.toList() })
+    }
+
+    operator fun get(code: String): String {
         val node = map[code]
             ?: return code
-        return lang.asSequence()
-            .filter { it.isNotBlank() }
-            .map { node[it] }
-            .firstOrNull { it != null }
-            ?: return node.firstNotNullOfOrNull { it.value } ?: code
+        return locales.asSequence().map { node[it] }.firstOrNull { it != null } ?: node.values.firstOrNull() ?: code
     }
 
     companion object {
-        private val log = Logger.getLogger(I18n::class.qualifiedName)
+        private val matches = Regex("^[a-z\\d_]+$", RegexOption.IGNORE_CASE)
 
         @JvmStatic
         fun load(fileOrDirectory: File): I18n {
@@ -67,9 +66,16 @@ class I18n private constructor(
 
         @JvmStatic
         fun load(messagesLine: Stream<String>): I18n {
+            return load(messagesLine, emptyList())
+        }
+
+        @JvmStatic
+        fun load(messagesLine: Stream<String>, supportLocale: List<String>): I18n {
 
             val map: LinkedHashMap<String, LinkedHashMap<String, String>> = linkedMapOf()
             var node: LinkedHashMap<String, String>? = null
+
+            val locales = mutableMapOf<String, Int>()
 
             messagesLine
                 .filter { it.isNotBlank() }
@@ -99,7 +105,7 @@ class I18n private constructor(
                         throw IllegalArgumentException("I18n message must have langCode ex) en: hello : $line")
                     }
 
-                    val langCode = line.substring(0, iof).trim()
+                    val langCode = line.substring(0, iof).trim().lowercase()
                     val langValue = line.substring(iof + 1).trim()
 
                     if (langCode.isBlank() || langValue.isBlank()) {
@@ -107,9 +113,13 @@ class I18n private constructor(
                     }
 
                     node!![langCode] = langValue
+                    locales[langCode] = locales.getOrDefault(langCode, 0) + 1
                 }
 
-            return I18n(map.filter { it.value.isNotEmpty() })
+            val support = locales.toSortedMap { o1, o2 -> o2.length - o1.length }.map { it.key }
+            val defaultLocales = supportLocale.filter { support.contains(it) }.ifEmpty { support }
+
+            return I18n(map.filter { it.value.isNotEmpty() }, support.toSet(), defaultLocales)
         }
     }
 }
