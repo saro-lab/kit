@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import java.io.File
-import java.util.Locale
 
 @DisplayName("I18n Test")
 class I18nTest {
@@ -14,21 +13,16 @@ class I18nTest {
         val dir = File(I18nTest::class.java.classLoader.getResource("lang")?.file ?: "")
         val i18n = load(dir)
 
-        Assertions.assertEquals(i18n["success", "en"], "Success")
-        Assertions.assertEquals(i18n["success", "ko"], "성공")
-        Assertions.assertEquals(i18n["success.abc", "ko"], "success.abc")
-        Assertions.assertEquals(i18n["success.abc", ""], "success.abc")
-        Assertions.assertEquals(i18n["success", "du"], "Success")
+        val en = i18n.locale("en")
+        val ko = i18n.locale(listOf("ko", "en"))
+        val du = i18n.locale("du")
+        val duKo = i18n.locale(listOf("du", "ko"))
 
-        Assertions.assertEquals(i18n["exception", "du;ko"], "예외")
+        Assertions.assertEquals(en["success"], "Success")
+        Assertions.assertEquals(ko["success"], "성공")
+        Assertions.assertEquals(ko["success.abc"], "success.abc")
+        Assertions.assertEquals(du["success"], "Success")
 
-        Assertions.assertEquals(i18n["success", "du"], "Success")
-
-        Assertions.assertEquals(i18n["success", listOf<String>()], "Success")
-        Assertions.assertEquals(i18n.byLocales("success", listOf<Locale>()), "Success")
-        Assertions.assertEquals(i18n["success", listOf<String>("_3")], "Success")
-        Assertions.assertEquals(i18n["success", listOf<String>("ko")], "성공")
-        Assertions.assertEquals(i18n.byLocales("success", listOf<Locale>(Locale.KOREAN)), "성공")
-        Assertions.assertEquals(i18n.byLocale("success", Locale.KOREAN), "성공")
+        Assertions.assertEquals(duKo["exception"], "예외")
     }
 }

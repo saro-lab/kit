@@ -10,17 +10,15 @@ class I18n private constructor(
     private val support: Set<String>,
     private val locales: List<String>
 ) {
-    fun locale(locale: String): I18n = locales(listOf(locale))
+    fun locale(locales: List<String>): I18n = I18n(map, support, locales.filter { support.contains(it) }.ifEmpty { support.toList() })
 
-    fun locale(locale: Locale): I18n = locales(listOf(locale.language))
+    fun locale(locale: String): I18n = locale(listOf(locale))
 
-    fun acceptLanguage(acceptLanguage: String): I18n = locales(acceptLanguage.split(';').map { it.trim() })
+    fun locale(locale: Locale): I18n = locale(listOf(locale.language))
 
-    fun locales(locales: List<Locale>): I18n = locales(locales.map { it.language })
+    fun locales(locales: List<Locale>): I18n = locale(locales.map { it.language })
 
-    fun locales(locales: List<String>): I18n {
-        return I18n(map, support, locales.filter { support.contains(it) }.ifEmpty { support.toList() })
-    }
+    fun acceptLanguage(acceptLanguage: String): I18n = locale(acceptLanguage.split(';').map { it.trim() })
 
     operator fun get(code: String): String {
         val node = map[code]
@@ -116,7 +114,7 @@ class I18n private constructor(
                     locales[langCode] = locales.getOrDefault(langCode, 0) + 1
                 }
 
-            val support = locales.toSortedMap { o1, o2 -> o2.length - o1.length }.map { it.key }
+            val support = locales.entries.sortedByDescending { it.value }.map { it.key }
             val defaultLocales = supportLocale.filter { support.contains(it) }.ifEmpty { support }
 
             return I18n(map.filter { it.value.isNotEmpty() }, support.toSet(), defaultLocales)

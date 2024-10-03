@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.List;
 
 @DisplayName("I18n Test")
 public class I18nTest {
@@ -15,12 +16,17 @@ public class I18nTest {
         var dir = new File(me.saro.ktest.I18nTest.class.getClassLoader().getResource("lang").getFile());
         var i18n = I18n.load(dir);
 
-        Assertions.assertEquals(i18n.get("en", "success"), "Success");
-        Assertions.assertEquals(i18n.get("ko", "success"), "성공");
-        Assertions.assertEquals(i18n.get("ko", "success.abc"), "success.abc");
-        Assertions.assertEquals(i18n.get("du", "success"), "Success");
+        var en = i18n.locale("en");
+        var ko = i18n.locale(List.of("ko", "en"));
+        var du = i18n.locale("du");
+        var duKo = i18n.locale(List.of("du", "ko"));
 
-        Assertions.assertEquals(i18n.get("du;ko", "exception"), "예외");
+        Assertions.assertEquals(en.get("success"), "Success");
+        Assertions.assertEquals(ko.get("success"), "성공");
+        Assertions.assertEquals(ko.get("success.abc"), "success.abc");
+        Assertions.assertEquals(du.get("success"), "Success");
+
+        Assertions.assertEquals(duKo.get("exception"), "예외");
 
     }
 }
