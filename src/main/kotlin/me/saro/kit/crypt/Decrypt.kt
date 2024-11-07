@@ -1,6 +1,6 @@
-package me.saro.kit.service
+package me.saro.kit.crypt
 
-import me.saro.kit.SecurityKit
+import me.saro.kit.fn.SecurityKit
 import java.io.InputStream
 import java.io.OutputStream
 import javax.crypto.Cipher

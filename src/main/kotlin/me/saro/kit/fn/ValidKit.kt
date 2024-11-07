@@ -1,6 +1,4 @@
-package me.saro.kit
-
-import me.saro.kit.enums.ValidEmail
+package me.saro.kit.fn
 
 
 /**

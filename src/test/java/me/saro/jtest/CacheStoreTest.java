@@ -1,6 +1,6 @@
 package me.saro.jtest;
 
-import me.saro.kit.service.CacheStore;
+import me.saro.kit.cache.CacheStore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

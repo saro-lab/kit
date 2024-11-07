@@ -1,4 +1,4 @@
-package me.saro.kit
+package me.saro.kit.fn
 
 import java.net.Inet4Address
 import java.net.Inet6Address

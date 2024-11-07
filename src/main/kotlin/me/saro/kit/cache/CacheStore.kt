@@ -1,4 +1,4 @@
-package me.saro.kit.service
+package me.saro.kit.cache
 
 import java.util.concurrent.ConcurrentHashMap
 import java.util.function.BiConsumer

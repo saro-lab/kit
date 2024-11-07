@@ -1,6 +1,6 @@
 package me.saro.ktest
 
-import me.saro.kit.service.I18n.Companion.load
+import me.saro.kit.i18n.I18n.Companion.load
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

@@ -1,4 +1,4 @@
-package me.saro.kit
+package me.saro.kit.fn
 
 import java.io.InputStream
 import java.io.OutputStream

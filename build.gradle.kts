@@ -40,7 +40,7 @@ plugins {
 
 val kitGroupId = "me.saro"
 val kitArtifactId = "kit"
-val kitVersion = "0.2.2"
+val kitVersion = "0.2.3"
 
 repositories {
 	mavenCentral()
@@ -49,7 +49,7 @@ repositories {
 
 dependencies {
 	// test
-	testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+	testImplementation("org.junit.jupiter:junit-jupiter:5.11.1")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

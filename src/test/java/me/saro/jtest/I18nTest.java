@@ -1,6 +1,6 @@
 package me.saro.jtest;
 
-import me.saro.kit.service.I18n;
+import me.saro.kit.i18n.I18n;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

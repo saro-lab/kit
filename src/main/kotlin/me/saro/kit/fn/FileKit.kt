@@ -1,4 +1,4 @@
-package me.saro.kit
+package me.saro.kit.fn
 
 import java.io.File
 import java.net.URI

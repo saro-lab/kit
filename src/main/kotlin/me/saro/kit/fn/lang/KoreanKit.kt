@@ -1,4 +1,4 @@
-package me.saro.kit.lang
+package me.saro.kit.fn.lang
 
 class KoreanKit {
     companion object {

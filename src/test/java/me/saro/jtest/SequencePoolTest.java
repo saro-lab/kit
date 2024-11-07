@@ -1,6 +1,6 @@
 package me.saro.jtest;
 
-import me.saro.kit.service.SequencePool;
+import me.saro.kit.db.SequencePool;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;

@@ -1,4 +1,4 @@
-package me.saro.kit.service
+package me.saro.kit.db
 
 class SequencePool<T> private constructor(
     private val name: String,

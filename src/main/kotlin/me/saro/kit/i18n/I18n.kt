@@ -1,4 +1,4 @@
-package me.saro.kit.service
+package me.saro.kit.i18n
 
 import java.io.File
 import java.util.*

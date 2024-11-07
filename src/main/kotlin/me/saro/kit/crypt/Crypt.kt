@@ -1,4 +1,4 @@
-package me.saro.kit.service
+package me.saro.kit.crypt
 
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec

@@ -1,4 +1,4 @@
-package me.saro.kit
+package me.saro.kit.fn
 
 import java.util.regex.Matcher
 import java.util.regex.Pattern
