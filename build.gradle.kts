@@ -33,10 +33,16 @@ gpg --keyserver pgp.mit.edu --send-keys <keyid 8>
 
 you must use "User Token" instead of id & password.
     - https://oss.sonatype.org -> profile -> User Token
+
+
++ gradle wrapper version up
+chmod +x ./gradlew
+./gradlew wrapper --gradle-version latest
+
  */
 
 plugins {
-	val kotlinVersion = "2.0.0"
+	val kotlinVersion = "2.1.0"
 	id("org.jetbrains.kotlin.jvm") version kotlinVersion
 	signing
 	`maven-publish`
@@ -129,14 +135,14 @@ java {
 	withJavadocJar()
 	withSourcesJar()
 	toolchain {
-		languageVersion.set(JavaLanguageVersion.of(11))
+		languageVersion.set(JavaLanguageVersion.of(21))
 	}
 }
 
 
 configure<JavaPluginExtension> {
-	sourceCompatibility = JavaVersion.VERSION_11
-	targetCompatibility = JavaVersion.VERSION_11
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 }
 
 tasks.withType<Test> {
