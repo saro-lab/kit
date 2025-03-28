@@ -1,5 +1,5 @@
 plugins {
-	val kotlinVersion = "2.1.0"
+	val kotlinVersion = "2.1.20"
 	id("org.jetbrains.kotlin.jvm") version kotlinVersion
 	signing
 	`maven-publish`
@@ -7,16 +7,14 @@ plugins {
 
 val kitGroupId = "me.saro"
 val kitArtifactId = "kit"
-val kitVersion = "0.2.3"
+val kitVersion = "0.2.4"
 
 repositories {
 	mavenCentral()
 }
 
-
 dependencies {
-	// test
-	testImplementation("org.junit.jupiter:junit-jupiter:5.11.1")
+	testImplementation("org.junit.jupiter:junit-jupiter:5.12.1")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
