@@ -1,5 +1,5 @@
 plugins {
-	val kotlinVersion = "2.1.20"
+	val kotlinVersion = "2.1.21"
 	id("org.jetbrains.kotlin.jvm") version kotlinVersion
 	signing
 	`maven-publish`
@@ -7,14 +7,14 @@ plugins {
 
 val kitGroupId = "me.saro"
 val kitArtifactId = "kit"
-val kitVersion = "0.2.4"
+val kitVersion = "0.2.5"
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	testImplementation("org.junit.jupiter:junit-jupiter:5.12.1")
+	testImplementation("org.junit.jupiter:junit-jupiter:5.13.1")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
@@ -90,14 +90,14 @@ java {
 	withJavadocJar()
 	withSourcesJar()
 	toolchain {
-		languageVersion.set(JavaLanguageVersion.of(21))
+		languageVersion.set(JavaLanguageVersion.of(23))
 	}
 }
 
 
 configure<JavaPluginExtension> {
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_23
+	targetCompatibility = JavaVersion.VERSION_23
 }
 
 tasks.withType<Test> {

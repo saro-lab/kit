@@ -6,7 +6,10 @@ import java.util.regex.Pattern
 class TextKit {
     companion object {
         @JvmStatic
-        private val BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray()
+        val BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray()
+
+        @JvmStatic
+        val BASE52 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray()
 
         @JvmStatic
         fun generate(mold: CharArray, length: Int): String {
@@ -21,14 +24,6 @@ class TextKit {
         fun generate(mold: CharArray, minLength: Int, maxLength: Int): String =
             if (minLength == maxLength) generate(mold, minLength)
             else generate(mold, ((Math.random() * (maxLength - minLength)) + minLength).toInt())
-
-        @JvmStatic
-        fun generateBase62(minLength: Int, maxLength: Int): String =
-            generate(BASE62, minLength, maxLength)
-
-        @JvmStatic
-        fun generateBase62(length: Int): String =
-            generate(BASE62, length)
 
         @JvmStatic
         fun replace(text: String, pattern: Pattern, replace: (String) -> String): String {
